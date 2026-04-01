@@ -14,12 +14,12 @@ Klickbarer, vollständiger 7-Screen Incident-Response-Wizard als Next.js 15 App 
 - SIAG-Farbpalette als CSS-Custom-Properties konfiguriert
 - Git + GitHub Setup mit korrekter Email (Vercel Hobby)
 
-**Plans:**
-- 01: Next.js 15 Projekt initialisieren (`create-next-app`, TypeScript, App Router, Tailwind v4, ESLint)
-- 02: `next.config.ts` konfigurieren (`output: 'export'`, `images.unoptimized: true`)
-- 03: SIAG Design-Tokens in `globals.css` (`@theme {}`: navy #1a2e4a, white, lightgray, amber #f59e0b)
-- 04: Base Layout — Header (SIAG-Logo Placeholder, Titel), Footer, Page-Shell
-- 05: GitHub Repo erstellen + Vercel verbinden, erste Deploy-Pipeline verifizieren
+**Plans:** 3 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Next.js 15 + Tailwind v4 Setup + SIAG Design-Tokens + Static Export
+- [ ] 01-02-PLAN.md — Base Layout: Header (SIAG-Branding), Footer, Page-Shell
+- [ ] 01-03-PLAN.md — GitHub Repo + Vercel Deploy-Pipeline
 
 ---
 
