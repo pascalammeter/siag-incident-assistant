@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useReducer, type Dispatch, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useReducer, useState, type Dispatch, type ReactNode } from 'react'
 import { type WizardState, type WizardAction, initialState, MAX_STEP, MIN_STEP } from '@/lib/wizard-types'
 
 export function wizardReducer(state: WizardState, action: WizardAction): WizardState {
@@ -24,10 +24,40 @@ export function wizardReducer(state: WizardState, action: WizardAction): WizardS
   }
 }
 
+export const STORAGE_KEY = 'siag-wizard-state'
+
 const WizardContext = createContext<{ state: WizardState; dispatch: Dispatch<WizardAction> } | null>(null)
 
 export function WizardProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(wizardReducer, initialState)
+  const [isHydrated, setIsHydrated] = useState(false)
+
+  // Read from localStorage on mount (SSR-safe: useEffect only runs in browser)
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY)
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        dispatch({ type: 'HYDRATE', data: parsed })
+      }
+    } catch {
+      // Ignore corrupted data — start fresh
+    }
+    setIsHydrated(true)
+  }, [])
+
+  // Write to localStorage on every state change (skip until hydrated to avoid overwriting with initialState)
+  useEffect(() => {
+    if (isHydrated) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+    }
+  }, [state, isHydrated])
+
+  // Prevent rendering children until hydration complete (avoids flash of initial state)
+  if (!isHydrated) {
+    return null
+  }
+
   return <WizardContext.Provider value={{ state, dispatch }}>{children}</WizardContext.Provider>
 }
 
