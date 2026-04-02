@@ -11,7 +11,7 @@ progress:
   completed_phases: 1
   total_plans: 8
   completed_plans: 5
-  percent: 42
+percent: 42
 ---
 
 # STATE.md — SIAG Incident Management Assistent
