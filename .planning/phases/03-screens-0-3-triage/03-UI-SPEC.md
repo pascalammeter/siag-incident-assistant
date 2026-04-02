@@ -50,13 +50,12 @@ Exceptions:
 | Role | Size | Weight | Line Height | Tailwind Classes |
 |------|------|--------|-------------|-----------------|
 | Body | 16px | 400 (normal) | 1.5 | `text-base font-normal leading-relaxed` |
-| Label | 14px | 500 (medium) | 1.4 | `text-sm font-medium` |
-| Caption | 12px | 400 (normal) | 1.4 | `text-xs` |
+| Label | 14px | 400 (normal) | 1.4 | `text-sm font-normal` |
 | Heading (step) | 24px | 700 (bold) | 1.2 | `text-2xl font-bold` |
 | Display (hero) | 32px | 700 (bold) | 1.2 | `text-3xl font-bold` |
 
 Notes:
-- Max 2 weights used: 400 (normal body/caption) and 700 (bold headings/CTAs). 500 (medium) only for labels and button text.
+- 2 weights only: 400 (normal) for body/labels/captions and 700 (bold) for headings/CTAs/display/buttons.
 - All text inherits `color: var(--color-navy)` from body unless overridden.
 
 ---
@@ -89,7 +88,7 @@ Notes:
 ### No-Go Rule Card (x8)
 - Container: `border-l-4 border-amber bg-amber/10 rounded-r-lg p-4`
 - Icon: Unicode warning triangle (U+26A0) or amber dot, left-aligned
-- Text: `text-sm font-medium text-navy`
+- Text: `text-sm font-normal text-navy`
 - Each rule is a separate card, not a list
 
 ### 8 No-Go Rules — Exact Copy
@@ -110,7 +109,7 @@ Notes:
 - Label: `text-sm text-gray-700` — "Ich habe diese Hinweise gelesen und verstanden."
 
 ### Confirm Button
-- Style: `bg-navy text-white px-6 py-3 rounded-lg font-medium min-h-[44px]`
+- Style: `bg-navy text-white px-6 py-3 rounded-lg font-bold min-h-[44px]`
 - Disabled state: `opacity-50 cursor-not-allowed` when checkbox unchecked
 - Label: **"Verstanden — Weiter"**
 - Full width on mobile: `w-full sm:w-auto`
@@ -132,10 +131,10 @@ Notes:
 
 ### Hero Section
 - Heading: `text-3xl font-bold text-navy text-center` — "Sicherheitsvorfall?"
-- Subheading: `text-lg text-gray-600 text-center max-w-xl mx-auto` — "Wenn ein Sicherheitsvorfall erkannt wird, fuehrt Sie dieses Modul durch die Erstreaktion."
+- Subheading: `text-base text-gray-600 text-center max-w-xl mx-auto` — "Wenn ein Sicherheitsvorfall erkannt wird, fuehrt Sie dieses Modul durch die Erstreaktion."
 
 ### Shit-Happens Button (Primary CTA)
-- Style: `bg-navy text-white text-xl font-bold px-12 py-6 rounded-xl min-h-[64px] shadow-lg hover:bg-navy-light transition-colors mx-auto block`
+- Style: `bg-navy text-white text-2xl font-bold px-12 py-6 rounded-xl min-h-[64px] shadow-lg hover:bg-navy-light transition-colors mx-auto block`
 - Label: **"Shit Happens — Los geht's"**
 - Large, prominent, centered — this is the hero action
 - Minimum touch target: 64px height (stress-tauglich, NF1.4)
@@ -143,7 +142,7 @@ Notes:
 ### Alternative Entry
 - Below hero: `text-sm text-gray-500 text-center`
 - Copy: "Oder direkt: "
-- Link-style button: `text-navy underline font-medium` — **"Vorfall erfassen"**
+- Link-style button: `text-navy underline font-bold` — **"Vorfall erfassen"**
 - Same action as hero button (advances to Step 2)
 
 ### Kurzbeschreibung (below hero, before alternative)
@@ -170,10 +169,10 @@ Notes:
 - Container: `border-l-4 border-amber bg-amber/10 rounded-r-lg p-4 flex items-center gap-3`
 - Icon: Clock/warning icon (Unicode U+23F0 or U+26A0)
 - Copy: **"Achtung: Mit der Erkennung eines Vorfalls beginnen rechtliche Meldefristen zu laufen."**
-- Style: `text-sm font-medium text-navy`
+- Style: `text-sm font-normal text-navy`
 
 ### Form Field Pattern (reusable)
-- Label: `text-sm font-medium text-navy mb-1 block`
+- Label: `text-sm font-normal text-navy mb-1 block`
 - Input: `w-full border border-gray-300 rounded-lg px-4 py-3 text-base bg-white focus:ring-2 focus:ring-navy focus:border-navy outline-none min-h-[44px]`
 - Error: `text-sm text-red-600 mt-1` — shown only after Zod validation fails
 - Required indicator: `text-red-600` asterisk after label text
@@ -181,9 +180,9 @@ Notes:
 ### Field 1: Erkennungszeitpunkt (Datum + Uhrzeit)
 - Type: `datetime-local` input
 - Label: **"Wann wurde der Vorfall erkannt? *"**
-- "Jetzt"-Button: `bg-lightgray border border-navy text-navy px-4 py-2 rounded-lg text-sm font-medium min-h-[44px]` — inline next to input
+- "Jetzt eintragen"-Button: `bg-lightgray border border-navy text-navy px-4 py-2 rounded-lg text-sm font-bold min-h-[44px]` — inline next to input
 - Layout: `flex gap-2 items-end` (input + button side by side)
-- Button label: **"Jetzt"**
+- Button label: **"Jetzt eintragen"**
 - Auto-fills current date+time on click
 
 ### Field 2: Erkannt durch
@@ -212,13 +211,13 @@ Notes:
 - Container: `border-l-4 border-amber bg-amber/10 rounded-r-lg p-4 flex items-start gap-3`
 - Checkbox: `w-5 h-5 rounded border-gray-300 accent-navy mt-0.5`
 - Label: **"Ist ein Loesegeld-Schreiben oder eine Verschluesselungs-Meldung vorhanden?"**
-- Style: `text-sm font-medium text-navy`
+- Style: `text-sm font-normal text-navy`
 
 ### Timestamp Display (after form, above navigation)
 - Shown only after Erkennungszeitpunkt is filled
 - Container: `bg-navy text-white rounded-lg p-4 text-center`
-- Heading: `text-sm font-medium opacity-80` — "Erkennungszeitpunkt"
-- Time: `text-xl font-bold` — formatted timestamp
+- Heading: `text-sm font-normal opacity-80` — "Erkennungszeitpunkt"
+- Time: `text-2xl font-bold` — formatted timestamp
 - Subtext: `text-sm opacity-80 mt-1` — **"Ihre rechtliche Meldefrist beginnt jetzt."**
 
 ### Interaction Contract
@@ -238,15 +237,15 @@ Notes:
 
 ### Decision Tree (3 binary questions)
 - Each question in its own card: `bg-lightgray rounded-lg p-6`
-- Question text: `text-base font-medium text-navy mb-4`
+- Question text: `text-base font-normal text-navy mb-4`
 - Answer buttons: pill-style toggle group, horizontal
 
 #### Question Card Pattern
-- Question number: `text-xs font-medium text-gray-500 mb-1` — "Frage 1 von 3"
+- Question number: `text-sm font-normal text-gray-500 mb-1` — "Frage 1 von 3"
 - Question text: `text-base font-bold text-navy mb-4`
 - Button group: `flex gap-3`
-- Active button: `bg-navy text-white px-6 py-3 rounded-lg font-medium min-h-[44px]`
-- Inactive button: `bg-white border border-gray-300 text-navy px-6 py-3 rounded-lg font-medium min-h-[44px] hover:border-navy transition-colors`
+- Active button: `bg-navy text-white px-6 py-3 rounded-lg font-bold min-h-[44px]`
+- Inactive button: `bg-white border border-gray-300 text-navy px-6 py-3 rounded-lg font-normal min-h-[44px] hover:border-navy transition-colors`
 
 #### Question 1
 - **"Sind kritische Geschaeftssysteme betroffen oder verschluesselt?"**
@@ -266,18 +265,18 @@ Notes:
 
 #### Kritisch (any "Ja" on Q1 or Q3="Ja")
 - `border-l-4 border-amber bg-amber/10 rounded-r-lg p-6`
-- Badge: `inline-block bg-amber text-white text-xs font-bold px-3 py-1 rounded-full uppercase` — "KRITISCH"
-- Text: `text-base font-medium text-navy mt-2` — "Sofortige Eskalation erforderlich. SIAG-Berater einbeziehen."
+- Badge: `inline-block bg-amber text-white text-sm font-bold px-3 py-1 rounded-full uppercase` — "KRITISCH"
+- Text: `text-base font-normal text-navy mt-2` — "Sofortige Eskalation erforderlich. SIAG-Berater einbeziehen."
 
 #### Hoch (Q2="Ja" but Q1="Nein" and Q3!="Ja")
 - `border-l-4 border-navy bg-lightgray rounded-r-lg p-6`
-- Badge: `inline-block bg-navy text-white text-xs font-bold px-3 py-1 rounded-full uppercase` — "HOCH"
-- Text: `text-base font-medium text-navy mt-2` — "Erhoehte Aufmerksamkeit. Datenschutzrelevanz pruefen."
+- Badge: `inline-block bg-navy text-white text-sm font-bold px-3 py-1 rounded-full uppercase` — "HOCH"
+- Text: `text-base font-normal text-navy mt-2` — "Erhoehte Aufmerksamkeit. Datenschutzrelevanz pruefen."
 
 #### Mittel (all "Nein")
 - `border-l-4 border-gray-400 bg-lightgray rounded-r-lg p-6`
-- Badge: `inline-block bg-gray-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase` — "MITTEL"
-- Text: `text-base font-medium text-navy mt-2` — "Standardprozess. Dokumentation und Beobachtung."
+- Badge: `inline-block bg-gray-500 text-white text-sm font-bold px-3 py-1 rounded-full uppercase` — "MITTEL"
+- Text: `text-base font-normal text-navy mt-2` — "Standardprozess. Dokumentation und Beobachtung."
 
 ### Severity Logic
 ```
@@ -307,7 +306,7 @@ else → MITTEL
 - Shown only when severity = KRITISCH
 - Container: `border-2 border-amber bg-amber/10 rounded-lg p-6 text-center`
 - Icon: Unicode warning U+26A0 large `text-3xl`
-- Heading: `text-lg font-bold text-navy mt-2` — **"Schweregrad Kritisch"**
+- Heading: `text-base font-bold text-navy mt-2` — **"Schweregrad Kritisch"**
 - Body: `text-base text-navy mt-1` — **"SIAG-Berater sofort einbeziehen. Eskalieren Sie umgehend an die Geschaeftsleitung."**
 - CTA hint: `text-sm text-gray-500 mt-3` — "Der Kontakt zu SIAG erfolgt im letzten Schritt."
 
@@ -336,6 +335,7 @@ else → MITTEL
 | Screen 2 heading | "Vorfall erfassen" |
 | Screen 2 intro | "Erfassen Sie die wichtigsten Informationen zum Vorfall. Diese Daten bilden die Grundlage fuer alle weiteren Schritte." |
 | Screen 2 Meldefrist banner | "Achtung: Mit der Erkennung eines Vorfalls beginnen rechtliche Meldefristen zu laufen." |
+| Screen 2 timestamp button | "Jetzt eintragen" |
 | Screen 2 timestamp display | "Ihre rechtliche Meldefrist beginnt jetzt." |
 | Screen 3 heading | "Klassifikation & Schweregrad" |
 | Screen 3 intro | "Beantworten Sie drei Fragen zur Einschaetzung des Vorfalls. Der Schweregrad wird automatisch bestimmt." |
