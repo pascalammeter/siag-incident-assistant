@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 current_plan: 3 of 3
 status: unknown
-stopped_at: Completed 01-01-PLAN.md
-last_updated: "2026-04-02T06:44:13.061Z"
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-04-02T09:17:46.587Z"
 progress:
   total_phases: 6
   completed_phases: 0
   total_plans: 8
-  completed_plans: 2
-  percent: 25
+  completed_plans: 3
+  percent: 38
 ---
 
 # STATE.md — SIAG Incident Management Assistent
@@ -22,14 +22,14 @@ progress:
 
 **Phase:** 01-project-foundation
 **Current Plan:** 3 of 3
-**Progress:** [███░░░░░░░] 25%
+**Progress:** [████░░░░░░] 38%
 
 ## Phase Status
 
 | Phase | Titel | Status |
 |-------|-------|--------|
 | 1 | Project Foundation | 🔄 In Arbeit (Plan 2/3 done) |
-| 2 | Wizard Engine | ⬜ Ausstehend |
+| 2 | Wizard Engine | 🔄 In Arbeit (Plan 1/5 done) |
 | 3 | Screens 0-3 (Triage) | ⬜ Ausstehend |
 | 4 | Screens 4-5 (Response) | ⬜ Ausstehend |
 | 5 | Screen 6 + Polish | ⬜ Ausstehend |
@@ -46,6 +46,8 @@ progress:
 - [01-01] Tailwind v4 manually installed (create-next-app --tailwind installs v3)
 - [01-02] Logo as placeholder div (no SVG/image yet)
 - [01-02] max-w-4xl content width consistent across Header, Footer, main
+- [02-01] Vitest (not Jest) as test framework — consistent with Vite ecosystem, path alias support
+- [02-01] wizardReducer exported as named export from WizardContext.tsx — testable without Provider
 
 ## Source Assets (Workshop)
 
@@ -58,12 +60,13 @@ progress:
 |-------|------|----------|-------|-------|
 | 01 | 01 | 4min | 1 | 16 |
 | 01 | 02 | 2min | 2 | 4 |
+| 02 | 01 | 8min | 1 | 5 |
 
 ## Last Session
 
-- **Stopped at:** Completed 01-02-PLAN.md
+- **Stopped at:** Completed 02-01-PLAN.md
 - **Timestamp:** 2026-04-02T06:43:30Z
 
 ## Next Step
 
-Execute Plan 01-03 (GitHub Repo + Vercel Deploy)
+Execute Plan 02-02 (localStorage Persistenz mit SSR-sicherem Hydration-Guard)
