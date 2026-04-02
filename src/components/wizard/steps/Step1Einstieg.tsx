@@ -6,7 +6,7 @@ import { einstiegSchema } from '@/lib/wizard-schemas'
 export function Step1Einstieg() {
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-siag-navy">Einstieg</h2>
+      <h2 className="text-2xl font-bold text-navy">Einstieg</h2>
       <p className="text-gray-600">Willkommen beim Incident-Response-Assistenten.</p>
       <StepForm stepKey="einstieg" schema={einstiegSchema}>
         {(_form) => (

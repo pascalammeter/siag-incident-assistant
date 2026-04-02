@@ -6,7 +6,7 @@ import { dokumentationSchema } from '@/lib/wizard-schemas'
 export function Step6Dokumentation() {
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-siag-navy">Dokumentation</h2>
+      <h2 className="text-2xl font-bold text-navy">Dokumentation</h2>
       <p className="text-gray-600">Dokumentieren Sie den Vorfall und die getroffenen Massnahmen.</p>
       <StepForm stepKey="dokumentation" schema={dokumentationSchema}>
         {(_form) => (

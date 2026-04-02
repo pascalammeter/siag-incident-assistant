@@ -14,13 +14,13 @@ export function StepInterstitial() {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-siag-navy">Wichtige Hinweise vor dem Start</h2>
+      <h2 className="text-2xl font-bold text-navy">Wichtige Hinweise vor dem Start</h2>
       <p className="text-gray-600">
         Bevor Sie mit der Incident-Erfassung beginnen, beachten Sie diese kritischen Regeln.
       </p>
       {/* Placeholder for the 8 No-Go rules — content in Phase 3 */}
-      <div className="border-l-4 border-siag-amber bg-amber-50 p-4 rounded-r-lg">
-        <p className="font-medium text-siag-navy">8 No-Go-Regeln werden hier in Phase 3 eingefuegt.</p>
+      <div className="border-l-4 border-amber bg-amber-50 p-4 rounded-r-lg">
+        <p className="font-medium text-navy">8 No-Go-Regeln werden hier in Phase 3 eingefuegt.</p>
       </div>
       <label className="flex items-center gap-3 cursor-pointer">
         <input
@@ -34,7 +34,7 @@ export function StepInterstitial() {
       <button
         onClick={handleConfirm}
         disabled={!checked}
-        className="bg-siag-navy text-white px-6 py-3 rounded-lg font-medium min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
+        className="bg-navy text-white px-6 py-3 rounded-lg font-medium min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Verstanden — Weiter
       </button>

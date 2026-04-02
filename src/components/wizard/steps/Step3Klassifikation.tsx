@@ -6,7 +6,7 @@ import { klassifikationSchema } from '@/lib/wizard-schemas'
 export function Step3Klassifikation() {
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-siag-navy">Klassifikation</h2>
+      <h2 className="text-2xl font-bold text-navy">Klassifikation</h2>
       <p className="text-gray-600">Bestimmen Sie den Schweregrad des Vorfalls.</p>
       <StepForm stepKey="klassifikation" schema={klassifikationSchema}>
         {(_form) => (

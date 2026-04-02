@@ -6,7 +6,7 @@ import { erfassenSchema } from '@/lib/wizard-schemas'
 export function Step2Erfassen() {
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-siag-navy">Vorfall erfassen</h2>
+      <h2 className="text-2xl font-bold text-navy">Vorfall erfassen</h2>
       <p className="text-gray-600">Erfassen Sie die wichtigsten Details zum Vorfall.</p>
       <StepForm stepKey="erfassen" schema={erfassenSchema}>
         {(_form) => (

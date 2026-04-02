@@ -6,7 +6,7 @@ import { reaktionSchema } from '@/lib/wizard-schemas'
 export function Step4Reaktion() {
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-siag-navy">Reaktionsschritte</h2>
+      <h2 className="text-2xl font-bold text-navy">Reaktionsschritte</h2>
       <p className="text-gray-600">Definieren Sie die naechsten Reaktionsschritte.</p>
       <StepForm stepKey="reaktion" schema={reaktionSchema}>
         {(_form) => (

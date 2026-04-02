@@ -6,7 +6,7 @@ import { kommunikationSchema } from '@/lib/wizard-schemas'
 export function Step5Kommunikation() {
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-siag-navy">Kommunikation & Eskalation</h2>
+      <h2 className="text-2xl font-bold text-navy">Kommunikation & Eskalation</h2>
       <p className="text-gray-600">Planen Sie die Kommunikation und Eskalation des Vorfalls.</p>
       <StepForm stepKey="kommunikation" schema={kommunikationSchema}>
         {(_form) => (
