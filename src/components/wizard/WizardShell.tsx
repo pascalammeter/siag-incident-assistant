@@ -4,6 +4,13 @@ import { WizardProvider, useWizard } from './WizardContext'
 import { WizardProgress } from './WizardProgress'
 import { StepNavigator } from './StepNavigator'
 import { type WizardState, MAX_STEP, MIN_STEP } from '@/lib/wizard-types'
+import { StepInterstitial } from './steps/StepInterstitial'
+import { Step1Einstieg } from './steps/Step1Einstieg'
+import { Step2Erfassen } from './steps/Step2Erfassen'
+import { Step3Klassifikation } from './steps/Step3Klassifikation'
+import { Step4Reaktion } from './steps/Step4Reaktion'
+import { Step5Kommunikation } from './steps/Step5Kommunikation'
+import { Step6Dokumentation } from './steps/Step6Dokumentation'
 
 interface WizardShellProps {
   onComplete?: (state: WizardState) => void
@@ -30,15 +37,14 @@ function WizardShellInner({ onComplete }: WizardShellProps) {
 
   const handlePrev = () => dispatch({ type: 'PREV_STEP' })
 
-  // Step routing — placeholder components will be replaced in Plans 04/05
   const stepComponents: Record<number, React.ReactNode> = {
-    0: <div className="text-center text-gray-500">Placeholder: No-Go Interstitial</div>,
-    1: <div className="text-center text-gray-500">Placeholder: Einstieg</div>,
-    2: <div className="text-center text-gray-500">Placeholder: Erfassen</div>,
-    3: <div className="text-center text-gray-500">Placeholder: Klassifikation</div>,
-    4: <div className="text-center text-gray-500">Placeholder: Reaktion</div>,
-    5: <div className="text-center text-gray-500">Placeholder: Kommunikation</div>,
-    6: <div className="text-center text-gray-500">Placeholder: Dokumentation</div>,
+    0: <StepInterstitial />,
+    1: <Step1Einstieg />,
+    2: <Step2Erfassen />,
+    3: <Step3Klassifikation />,
+    4: <Step4Reaktion />,
+    5: <Step5Kommunikation />,
+    6: <Step6Dokumentation />,
   }
 
   return (
@@ -47,13 +53,15 @@ function WizardShellInner({ onComplete }: WizardShellProps) {
       <div className="min-h-[300px] py-6">
         {stepComponents[state.currentStep]}
       </div>
-      <StepNavigator
-        currentStep={state.currentStep}
-        onNext={handleNext}
-        onPrev={handlePrev}
-        showPrev={state.currentStep > MIN_STEP}
-        nextLabel={state.currentStep === MAX_STEP ? 'Abschliessen' : 'Weiter'}
-      />
+      {state.currentStep > 0 && (
+        <StepNavigator
+          currentStep={state.currentStep}
+          onNext={handleNext}
+          onPrev={handlePrev}
+          showPrev={state.currentStep > MIN_STEP}
+          nextLabel={state.currentStep === MAX_STEP ? 'Abschliessen' : 'Weiter'}
+        />
+      )}
     </div>
   )
 }
