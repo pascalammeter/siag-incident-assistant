@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_plan: Not started
-status: Ready to plan
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-04-02T09:37:36.793Z"
+current_plan: 02-02
+status: In Progress
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-04-02T09:41:00Z"
 progress:
   total_phases: 6
   completed_phases: 1
   total_plans: 8
-  completed_plans: 4
-  percent: 38
+  completed_plans: 5
+  percent: 42
 ---
 
 # STATE.md — SIAG Incident Management Assistent
@@ -22,14 +22,14 @@ progress:
 
 **Phase:** 02
 **Current Plan:** Not started
-**Progress:** [████░░░░░░] 38%
+**Progress:** [████░░░░░░] 42%
 
 ## Phase Status
 
 | Phase | Titel | Status |
 |-------|-------|--------|
 | 1 | Project Foundation | 🔄 In Arbeit (Plan 2/3 done) |
-| 2 | Wizard Engine | 🔄 In Arbeit (Plan 1/5 done) |
+| 2 | Wizard Engine | 🔄 In Arbeit (Plan 2/5 done) |
 | 3 | Screens 0-3 (Triage) | ⬜ Ausstehend |
 | 4 | Screens 4-5 (Response) | ⬜ Ausstehend |
 | 5 | Screen 6 + Polish | ⬜ Ausstehend |
@@ -48,6 +48,8 @@ progress:
 - [01-02] max-w-4xl content width consistent across Header, Footer, main
 - [02-01] Vitest (not Jest) as test framework — consistent with Vite ecosystem, path alias support
 - [02-01] wizardReducer exported as named export from WizardContext.tsx — testable without Provider
+- [02-02] STORAGE_KEY as exported const for testability
+- [02-02] isHydrated guard returns null to prevent flash of initialState
 
 ## Source Assets (Workshop)
 
@@ -61,11 +63,12 @@ progress:
 | 01 | 01 | 4min | 1 | 16 |
 | 01 | 02 | 2min | 2 | 4 |
 | 02 | 01 | 8min | 1 | 5 |
+| 02 | 02 | 2min | 1 | 2 |
 
 ## Last Session
 
-- **Stopped at:** Completed 02-01-PLAN.md
-- **Timestamp:** 2026-04-02T06:43:30Z
+- **Stopped at:** Completed 02-02-PLAN.md
+- **Timestamp:** 2026-04-02T09:41:00Z
 
 ## Next Step
 
