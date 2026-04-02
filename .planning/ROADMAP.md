@@ -32,13 +32,13 @@ Plans:
 - Formulareingaben überleben Browser-Reload (localStorage)
 - Zod-Schemas für jeden Schritt vorhanden (leer, aber typisiert)
 
-**Plans:** 2/5 plans executed
+**Plans:** 4/5 plans executed
 
 Plans:
 - [x] 02-01-PLAN.md — Wizard-State mit `useReducer` + React Context (Types, Reducer, Provider, Tests)
 - [ ] 02-02-PLAN.md — `localStorage`-Persistenz mit SSR-sicherem Hydration-Guard
 - [x] 02-03-PLAN.md — `StepNavigator` + `WizardProgress` + `WizardShell` (Navigation-UI)
-- [ ] 02-04-PLAN.md — `react-hook-form` + Zod Integration (StepForm, Schemas, Tests)
+- [x] 02-04-PLAN.md — `react-hook-form` + Zod Integration (StepForm, Schemas, Tests)
 - [ ] 02-05-PLAN.md — 7 Placeholder-Screens scaffolden + Wizard auf Hauptseite mounten
 
 ---
