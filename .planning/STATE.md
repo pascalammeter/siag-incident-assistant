@@ -48,6 +48,8 @@ progress:
 - [01-02] max-w-4xl content width consistent across Header, Footer, main
 - [02-01] Vitest (not Jest) as test framework — consistent with Vite ecosystem, path alias support
 - [02-01] wizardReducer exported as named export from WizardContext.tsx — testable without Provider
+- [02-02] STORAGE_KEY as exported const for testability
+- [02-02] isHydrated guard returns null to prevent flash of initialState
 
 ## Source Assets (Workshop)
 
@@ -61,6 +63,7 @@ progress:
 | 01 | 01 | 4min | 1 | 16 |
 | 01 | 02 | 2min | 2 | 4 |
 | 02 | 01 | 8min | 1 | 5 |
+| 02 | 02 | 2min | 1 | 2 |
 | 02 | 03 | 3min | 2 | 4 |
 | 02 | 04 | 2min | 1 | 6 |
 
