@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_plan: 02-03
+current_plan: 02-05
 status: In Progress
-stopped_at: Completed 02-03-PLAN.md
-last_updated: "2026-04-02T09:42:00Z"
+stopped_at: Completed 02-05-PLAN.md
+last_updated: "2026-04-02T10:15:00Z"
 progress:
   total_phases: 6
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 8
-  completed_plans: 5
-percent: 42
+  completed_plans: 8
+percent: 53
 ---
 
 # STATE.md — SIAG Incident Management Assistent
@@ -23,15 +23,15 @@ percent: 42
 Phase: 02 (wizard-engine) — EXECUTING
 Plan: 1 of 5
 **Phase:** 02
-**Current Plan:** 02-03 complete
-**Progress:** [████░░░░░░] 42%
+**Current Plan:** 02-05 complete
+**Progress:** [█████░░░░░] 53%
 
 ## Phase Status
 
 | Phase | Titel | Status |
 |-------|-------|--------|
 | 1 | Project Foundation | 🔄 In Arbeit (Plan 2/3 done) |
-| 2 | Wizard Engine | 🔄 In Arbeit (Plan 4/5 done) |
+| 2 | Wizard Engine | ✅ Abgeschlossen (5/5 Plans) |
 | 3 | Screens 0-3 (Triage) | ⬜ Ausstehend |
 | 4 | Screens 4-5 (Response) | ⬜ Ausstehend |
 | 5 | Screen 6 + Polish | ⬜ Ausstehend |
@@ -52,6 +52,7 @@ Plan: 1 of 5
 - [02-01] wizardReducer exported as named export from WizardContext.tsx — testable without Provider
 - [02-02] STORAGE_KEY as exported const for testability
 - [02-02] isHydrated guard returns null to prevent flash of initialState
+- [02-05] Tailwind v4 tokens: bg-navy/text-navy (not siag-navy prefix) -- matches @theme{} in globals.css
 
 ## Source Assets (Workshop)
 
@@ -66,11 +67,15 @@ Plan: 1 of 5
 | 01 | 02 | 2min | 2 | 4 |
 | 02 | 01 | 8min | 1 | 5 |
 | 02 | 02 | 2min | 1 | 2 |
+| 02 | 03 | 3min | 2 | 3 |
+| 02 | 04 | 2min | 1 | 5 |
+| 02 | 05 | 10min | 3 | 9 |
+
 ## Last Session
 
-- **Stopped at:** Completed 02-02-PLAN.md
-- **Timestamp:** 2026-04-02T09:41:00Z
+- **Stopped at:** Completed 02-05-PLAN.md
+- **Timestamp:** 2026-04-02T10:15:00Z
 
 ## Next Step
 
-Execute Plan 02-05 (7 Placeholder-Screens scaffolden + Wizard auf Hauptseite mounten)
+Phase 2 complete. Next: Plan or execute Phase 3 (Screens 0-3 Triage)
