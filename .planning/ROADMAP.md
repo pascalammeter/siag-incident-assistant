@@ -17,7 +17,7 @@ Klickbarer, vollständiger 7-Screen Incident-Response-Wizard als Next.js 15 App 
 **Plans:** 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Next.js 15 + Tailwind v4 Setup + SIAG Design-Tokens + Static Export
+- [x] 01-01-PLAN.md — Next.js 15 + Tailwind v4 Setup + SIAG Design-Tokens + Static Export
 - [ ] 01-02-PLAN.md — Base Layout: Header (SIAG-Branding), Footer, Page-Shell
 - [ ] 01-03-PLAN.md — GitHub Repo + Vercel Deploy-Pipeline
 
