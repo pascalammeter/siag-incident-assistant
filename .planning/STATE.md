@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_plan: 1
-status: Executing Phase 03
-stopped_at: Completed 02-05-PLAN.md
-last_updated: "2026-04-03T09:33:58.754Z"
+current_plan: Not started
+status: Ready to execute
+stopped_at: Completed 03-04-PLAN.md
+last_updated: "2026-04-03T09:57:09.736Z"
 progress:
   total_phases: 6
   completed_phases: 2
-  total_plans: 12
-  completed_plans: 8
-  percent: 75
+  total_plans: 8
+  completed_plans: 9
+  percent: 100
 ---
 
 # STATE.md — SIAG Incident Management Assistent
@@ -20,11 +20,11 @@ progress:
 
 ## Current Position
 
-Phase: 03 (screens-0-3-triage) — EXECUTING
-Plan: 1 of 4
+Phase: 02 (wizard-engine) — EXECUTING
+Plan: 2 of 5
 **Phase:** 3
-**Current Plan:** 3
-**Progress:** [████████░░] 75%
+**Current Plan:** Not started
+**Progress:** [██████████] 100%
 
 ## Phase Status
 
@@ -53,8 +53,10 @@ Plan: 1 of 4
 - [02-02] STORAGE_KEY as exported const for testability
 - [02-02] isHydrated guard returns null to prevent flash of initialState
 - [02-05] Tailwind v4 tokens: bg-navy/text-navy (not siag-navy prefix) -- matches @theme{} in globals.css
-- [03-03] Heading and intro placed outside StepForm — consistent with existing placeholder structure
-- [03-03] StepNavigator rendered by StepForm internally with nextButtonType=submit — no standalone navigator needed for step 2
+- [03-04] Inner KlassifikationForm component to use hooks in StepForm render prop
+- [03-04] Pill buttons use type=button + form.setValue — hidden inputs register values for Zod
+- [03-04] Severity computed reactively via useEffect watching q1/q2/q3 (D-02, D-04)
+- [03-04] incidentType defaults to ransomware via useEffect if not set (F5.3)
 
 ## Source Assets (Workshop)
 
@@ -72,12 +74,12 @@ Plan: 1 of 4
 | 02 | 03 | 3min | 2 | 3 |
 | 02 | 04 | 2min | 1 | 5 |
 | 02 | 05 | 10min | 3 | 9 |
-| 03 | 03 | 1min | 1 | 1 |
+| 03 | 04 | 7min | 2 | 12 |
 
 ## Last Session
 
-- **Stopped at:** Completed 03-03-PLAN.md
-- **Timestamp:** 2026-04-03T09:45:00Z
+- **Stopped at:** Completed 03-04-PLAN.md
+- **Timestamp:** 2026-04-02T10:15:00Z
 
 ## Next Step
 
