@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_plan: 1
-status: Executing Phase 03
-stopped_at: Completed 02-05-PLAN.md
-last_updated: "2026-04-03T09:33:58.754Z"
+current_plan: Not started
+status: Ready to execute
+stopped_at: Completed 03-03-PLAN.md
+last_updated: "2026-04-03T09:47:05.191Z"
 progress:
   total_phases: 6
   completed_phases: 2
   total_plans: 12
-  completed_plans: 8
-  percent: 53
+  completed_plans: 9
+  percent: 75
 ---
 
 # STATE.md — SIAG Incident Management Assistent
@@ -20,11 +20,11 @@ progress:
 
 ## Current Position
 
-Phase: 03 (screens-0-3-triage) — EXECUTING
-Plan: 1 of 4
+Phase: 02 (wizard-engine) — EXECUTING
+Plan: 3 of 5
 **Phase:** 3
-**Current Plan:** 1
-**Progress:** [█████░░░░░] 53%
+**Current Plan:** Not started
+**Progress:** [████████░░] 75%
 
 ## Phase Status
 
@@ -32,7 +32,7 @@ Plan: 1 of 4
 |-------|-------|--------|
 | 1 | Project Foundation | 🔄 In Arbeit (Plan 2/3 done) |
 | 2 | Wizard Engine | ✅ Abgeschlossen (5/5 Plans) |
-| 3 | Screens 0-3 (Triage) | ⬜ Ausstehend |
+| 3 | Screens 0-3 (Triage) | 🔄 In Arbeit (Plan 1/4 done) |
 | 4 | Screens 4-5 (Response) | ⬜ Ausstehend |
 | 5 | Screen 6 + Polish | ⬜ Ausstehend |
 | 6 | Deployment & Review | ⬜ Ausstehend |
@@ -53,6 +53,9 @@ Plan: 1 of 4
 - [02-02] STORAGE_KEY as exported const for testability
 - [02-02] isHydrated guard returns null to prevent flash of initialState
 - [02-05] Tailwind v4 tokens: bg-navy/text-navy (not siag-navy prefix) -- matches @theme{} in globals.css
+- [03-01] calculateSeverity: Q3 unbekannt = KRITISCH (assume worst case, CISO best practice)
+- [03-01] StepForm contains StepNavigator with type=submit — RHF handleSubmit fires before NEXT_STEP
+- [03-01] WizardShell standalone StepNavigator only for step 1 with showNext=false
 
 ## Source Assets (Workshop)
 
@@ -70,12 +73,14 @@ Plan: 1 of 4
 | 02 | 03 | 3min | 2 | 3 |
 | 02 | 04 | 2min | 1 | 5 |
 | 02 | 05 | 10min | 3 | 9 |
+| 03 | 01 | 3min | 2 | 7 |
+| Phase 03 P03 | 1min | 1 tasks | 1 files |
 
 ## Last Session
 
-- **Stopped at:** Completed 02-05-PLAN.md
-- **Timestamp:** 2026-04-02T10:15:00Z
+- **Stopped at:** Completed 03-03-PLAN.md
+- **Timestamp:** 2026-04-03T09:40:00Z
 
 ## Next Step
 
-Phase 2 complete. Next: Plan or execute Phase 3 (Screens 0-3 Triage)
+Phase 3 Plan 1 complete. Next: Execute Phase 3 Plan 2 (Screen 1 Einstieg)
