@@ -10,6 +10,8 @@ interface StepNavigatorProps {
   nextLabel?: string
   prevLabel?: string
   showPrev?: boolean
+  showNext?: boolean
+  nextButtonType?: 'button' | 'submit'
 }
 
 export function StepNavigator({
@@ -20,6 +22,8 @@ export function StepNavigator({
   nextLabel,
   prevLabel = 'Zurück',
   showPrev = true,
+  showNext = true,
+  nextButtonType = 'button',
 }: StepNavigatorProps) {
   const resolvedNextLabel = nextLabel ?? (currentStep === MAX_STEP ? 'Abschliessen' : 'Weiter')
 
@@ -36,16 +40,20 @@ export function StepNavigator({
       ) : (
         <div />
       )}
-      <button
-        type="button"
-        onClick={onNext}
-        disabled={isNextDisabled}
-        className={`bg-navy text-white px-6 py-3 rounded-lg font-medium min-h-[44px] transition-colors ${
-          isNextDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-navy-light'
-        }`}
-      >
-        {resolvedNextLabel}
-      </button>
+      {showNext ? (
+        <button
+          type={nextButtonType}
+          onClick={nextButtonType === 'submit' ? undefined : onNext}
+          disabled={isNextDisabled}
+          className={`bg-navy text-white px-6 py-3 rounded-lg font-medium min-h-[44px] transition-colors ${
+            isNextDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-navy-light'
+          }`}
+        >
+          {resolvedNextLabel}
+        </button>
+      ) : (
+        <div />
+      )}
     </div>
   )
 }
