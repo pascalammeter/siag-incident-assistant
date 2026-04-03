@@ -1,7 +1,23 @@
 // Per-step data types (empty interfaces for Phase 2 — will be filled in Phases 3-5)
 export interface EinstiegData {}
-export interface ErfassenData {}
-export interface KlassifikationData {}
+
+export type IncidentType = 'ransomware' | 'phishing' | 'ddos' | 'datenverlust' | 'unbefugter-zugriff' | 'sonstiges'
+
+export interface ErfassenData {
+  erkennungszeitpunkt: string
+  erkannt_durch: 'it-mitarbeiter' | 'nutzer' | 'externes-system' | 'angreifer-kontakt' | 'sonstiges'
+  betroffene_systeme: string[]
+  erste_auffaelligkeiten?: string
+  loesegeld_meldung: boolean
+}
+
+export interface KlassifikationData {
+  q1SystemeBetroffen: 'ja' | 'nein'
+  q2PdBetroffen: 'ja' | 'nein'
+  q3AngreiferAktiv: 'ja' | 'nein' | 'unbekannt'
+  incidentType: IncidentType
+  severity: 'KRITISCH' | 'HOCH' | 'MITTEL'
+}
 export interface ReaktionData {}
 export interface KommunikationData {}
 export interface DokumentationData {}

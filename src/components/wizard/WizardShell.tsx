@@ -53,15 +53,18 @@ function WizardShellInner({ onComplete }: WizardShellProps) {
       <div className="min-h-[300px] py-6">
         {stepComponents[state.currentStep]}
       </div>
-      {state.currentStep > 0 && (
+      {/* Step 1 (Einstieg): show navigator with showNext=false — hero button handles forward nav */}
+      {state.currentStep === 1 && (
         <StepNavigator
           currentStep={state.currentStep}
           onNext={handleNext}
           onPrev={handlePrev}
           showPrev={state.currentStep > MIN_STEP}
-          nextLabel={state.currentStep === MAX_STEP ? 'Abschliessen' : 'Weiter'}
+          showNext={false}
         />
       )}
+      {/* Steps 2-6: StepForm renders its own navigator inside the form for Zod validation */}
+      {/* Step 0: StepInterstitial manages its own button — no navigator needed */}
     </div>
   )
 }
