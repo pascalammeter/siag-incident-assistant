@@ -69,11 +69,13 @@ Plans:
 - Schritt 4: 25-Punkte Checkliste in 4 Phasen, abhakbar, Fortschritts-Zähler, No-Go-Inlines
 - Schritt 5: 3-Fragen Meldepflicht → korrekte CH-Fristen (ISG 24h, DSG, FINMA 24/72h), Kommunikations-Checkliste
 
-**Plans:**
-- 01: Playbook-Daten als TypeScript-Konstanten — 25 Ransomware-Schritte, 4 Phasen, Rollen, No-Go-Flags
-- 02: Screen 4 — Reaktionsschritte: Checklisten-UI, Checkbox-State im Wizard-Context, Phase-Gruppen, No-Go-Amber-Boxes, Rollen-Badges
-- 03: Screen 5 — Meldepflicht: 3-Ja/Nein-Fragen → dynamische Fristen-Liste mit Countdown (ISG/DSG/FINMA), Kommunikations-Checkliste
-- 04: Screen 5 — Kommunikationsbausteine: Textvorlagen für GL, Mitarbeitende, Medien (kopierbar), „SIAG einbeziehen"-CTA
+**Plans:** 4 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Playbook-Daten als TypeScript-Konstanten + Types + Schemas + Deadline-Logik + Template-Generatoren
+- [ ] 04-02-PLAN.md — Screen 4 Reaktionsschritte: Checklisten-UI, Phase-Gruppen, No-Go-Amber-Boxes, Rollen-Badges, Fortschrittszaehler
+- [ ] 04-03-PLAN.md — Screen 5 Meldepflicht: 3-Ja/Nein-Fragen, Fristen-Anzeige (ISG/DSG/FINMA), Kommunikations-Checkliste, SIAG-CTA
+- [ ] 04-04-PLAN.md — Screen 5 Kommunikationsbausteine: Textvorlagen fuer GL, Mitarbeitende, Medien (editierbar, kopierbar)
 
 ---
 
