@@ -52,11 +52,13 @@ Plans:
 - Schritt 2: Auto-Timestamp funktioniert, alle Pflichtfelder validiert, Meldefrist-Hinweis sichtbar
 - Schritt 3: 3-Fragen-Entscheidungsbaum leitet korrekt zu Kritisch/Hoch/Mittel
 
-**Plans:**
-- 01: Screen 0 — No-Go Interstitial: 8 Regeln, amber-Styling, Checkbox + Confirm-Button, localStorage-Flag
-- 02: Screen 1 — Einstieg: „Shit Happens"-Button (gross, Navy, Hero), Kurzbeschreibung, Alternativeinstieg
-- 03: Screen 2 — Vorfall erfassen: Formular mit Auto-Timestamp, System-Multi-Select, Ransomware-Checkbox, Meldefrist-Banner
-- 04: Screen 3 — Klassifikation: 3-Fragen-Entscheidungsbaum → automatischer Schweregrad, Incident-Typ-Auswahl, Eskalations-Alert bei Kritisch
+**Plans:** 1/4 plans executed
+
+Plans:
+- [x] 03-01-PLAN.md — Foundation + Screen 0: Types, Schemas, calculateSeverity, StepForm submit wiring, No-Go Interstitial (8 rules)
+- [ ] 03-02-PLAN.md — Screen 1 Einstieg: „Shit Happens"-Button (gross, Navy, Hero), Kurzbeschreibung, Alternativeinstieg
+- [ ] 03-03-PLAN.md — Screen 2 Vorfall erfassen: Formular mit Auto-Timestamp, System-Multi-Select, Ransomware-Checkbox, Meldefrist-Banner
+- [ ] 03-04-PLAN.md — Screen 3 Klassifikation: 3-Fragen-Entscheidungsbaum → automatischer Schweregrad, Incident-Typ-Auswahl, Eskalations-Alert bei Kritisch
 
 ---
 
