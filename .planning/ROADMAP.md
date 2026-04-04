@@ -72,7 +72,7 @@ Plans:
 **Plans:** 4 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Playbook-Daten als TypeScript-Konstanten + Types + Schemas + Deadline-Logik + Template-Generatoren
+- [x] 04-01-PLAN.md — Playbook-Daten als TypeScript-Konstanten + Types + Schemas + Deadline-Logik + Template-Generatoren
 - [ ] 04-02-PLAN.md — Screen 4 Reaktionsschritte: Checklisten-UI, Phase-Gruppen, No-Go-Amber-Boxes, Rollen-Badges, Fortschrittszaehler
 - [ ] 04-03-PLAN.md — Screen 5 Meldepflicht: 3-Ja/Nein-Fragen, Fristen-Anzeige (ISG/DSG/FINMA), Kommunikations-Checkliste, SIAG-CTA
 - [ ] 04-04-PLAN.md — Screen 5 Kommunikationsbausteine: Textvorlagen fuer GL, Mitarbeitende, Medien (editierbar, kopierbar)
