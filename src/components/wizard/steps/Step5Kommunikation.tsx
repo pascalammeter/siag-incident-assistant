@@ -1,11 +1,18 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { type UseFormReturn } from 'react-hook-form'
 import { StepForm } from '../StepForm'
 import { useWizard } from '../WizardContext'
 import { kommunikationSchema } from '@/lib/wizard-schemas'
 import type { KommunikationData } from '@/lib/wizard-types'
-import { computeDeadline, formatDeadline } from '@/lib/communication-templates'
+import {
+  computeDeadline,
+  formatDeadline,
+  generateGLTemplate,
+  generateMitarbeitendeTemplate,
+  generateMedienTemplate,
+} from '@/lib/communication-templates'
 
 const MELDEPFLICHT_QUESTIONS = [
   {
@@ -30,6 +37,84 @@ const KOMM_CHECKLIST_ITEMS = [
   { id: 'kunden', label: 'Kunden informiert (falls betroffen)' },
   { id: 'partner', label: 'Partner/Lieferanten informiert (falls betroffen)' },
 ]
+
+const TEMPLATES = [
+  { key: 'templateGL' as const, title: 'Vorlage: Geschaeftsleitung / VR' },
+  { key: 'templateMitarbeitende' as const, title: 'Vorlage: Mitarbeitende' },
+  { key: 'templateMedien' as const, title: 'Vorlage: Medien / Oeffentlichkeit' },
+]
+
+type TemplateKey = typeof TEMPLATES[number]['key']
+
+const TEMPLATE_GENERATORS: Record<TemplateKey, (state: Parameters<typeof generateGLTemplate>[0]) => string> = {
+  templateGL: generateGLTemplate,
+  templateMitarbeitende: generateMitarbeitendeTemplate,
+  templateMedien: generateMedienTemplate,
+}
+
+function KommunikationsbausteineSection({
+  form,
+  state,
+}: {
+  form: UseFormReturn<KommunikationData>
+  state: ReturnType<typeof useWizard>['state']
+}) {
+  const [copyStates, setCopyStates] = useState<Record<string, 'idle' | 'success' | 'error'>>({})
+
+  // Initialize templates from generators if not already set by user
+  useEffect(() => {
+    for (const t of TEMPLATES) {
+      if (!form.getValues(t.key)) {
+        form.setValue(t.key, TEMPLATE_GENERATORS[t.key](state))
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Empty deps — only on mount
+
+  async function handleCopy(key: string) {
+    const text = form.getValues(key as keyof KommunikationData) as string
+    try {
+      await navigator.clipboard.writeText(text || '')
+      setCopyStates(prev => ({ ...prev, [key]: 'success' }))
+    } catch {
+      setCopyStates(prev => ({ ...prev, [key]: 'error' }))
+    }
+    setTimeout(() => setCopyStates(prev => ({ ...prev, [key]: 'idle' })), 2000)
+  }
+
+  return (
+    <div className="space-y-6">
+      <h3 className="text-lg font-bold text-navy">Kommunikationsbausteine</h3>
+      {TEMPLATES.map((template) => {
+        const copyState = copyStates[template.key] ?? 'idle'
+        return (
+          <div key={template.key} className="border border-gray-200 rounded-lg overflow-hidden">
+            <div className="bg-lightgray px-4 py-3 flex items-center justify-between border-b border-gray-200">
+              <h4 className="text-sm font-bold text-navy">{template.title}</h4>
+              <button
+                type="button"
+                onClick={() => handleCopy(template.key)}
+                className={
+                  copyState === 'success'
+                    ? 'text-sm font-bold text-white bg-navy px-4 py-2 rounded-lg min-h-[44px] transition-colors'
+                    : copyState === 'error'
+                      ? 'text-sm font-bold text-red-600 bg-white border border-red-300 px-4 py-2 rounded-lg min-h-[44px] transition-colors'
+                      : 'text-sm font-bold text-navy bg-white border border-navy hover:bg-lightgray px-4 py-2 rounded-lg min-h-[44px] transition-colors'
+                }
+              >
+                {copyState === 'success' ? 'Kopiert \u2713' : copyState === 'error' ? 'Kopieren fehlgeschlagen' : 'Kopieren'}
+              </button>
+            </div>
+            <textarea
+              {...form.register(template.key)}
+              className="w-full px-4 py-3 text-sm text-navy bg-white border-0 outline-none focus:ring-2 focus:ring-navy min-h-[200px] resize-y"
+            />
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
 function KommunikationForm({ form }: { form: UseFormReturn<KommunikationData> }) {
   const { state } = useWizard()
@@ -170,7 +255,8 @@ function KommunikationForm({ form }: { form: UseFormReturn<KommunikationData> })
         ))}
       </div>
 
-      {/* === Kommunikationsbausteine section (Plan 04) === */}
+      {/* KOMMUNIKATIONSBAUSTEINE */}
+      <KommunikationsbausteineSection form={form} state={state} />
 
       {/* SIAG CTA BLOCK */}
       <div className="border-2 border-navy bg-lightgray rounded-lg p-6 text-center space-y-4">
