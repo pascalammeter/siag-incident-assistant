@@ -16,24 +16,21 @@ progress:
 
 # STATE.md — SIAG Incident Management Assistent
 
-*Stand: 2026-04-02 | Phase 1 in Arbeit*
+*Stand: 2026-04-04 | Phase 4 abgeschlossen*
 
 ## Current Position
 
-Phase: 04 (screens-4-5-response-communication) — EXECUTING
-Plan: 2 of 4
-**Phase:** 4
-**Current Plan:** 1
-**Progress:** [██████████] 100%
+Phase: 04 (screens-4-5-response-communication) — COMPLETE (7/7 verification criteria passed)
+Next: Phase 5 (Screen 6 + Polish)
 
 ## Phase Status
 
 | Phase | Titel | Status |
 |-------|-------|--------|
-| 1 | Project Foundation | 🔄 In Arbeit (Plan 2/3 done) |
+| 1 | Project Foundation | ✅ Abgeschlossen (3/3 Plans) |
 | 2 | Wizard Engine | ✅ Abgeschlossen (5/5 Plans) |
-| 3 | Screens 0-3 (Triage) | ⬜ Ausstehend |
-| 4 | Screens 4-5 (Response) | ⬜ Ausstehend |
+| 3 | Screens 0-3 (Triage) | ✅ Abgeschlossen (4/4 Plans) |
+| 4 | Screens 4-5 (Response) | ✅ Abgeschlossen (4/4 Plans) |
 | 5 | Screen 6 + Polish | ⬜ Ausstehend |
 | 6 | Deployment & Review | ⬜ Ausstehend |
 
@@ -75,13 +72,23 @@ Plan: 2 of 4
 | 02 | 04 | 2min | 1 | 5 |
 | 02 | 05 | 10min | 3 | 9 |
 | 03 | 04 | 7min | 2 | 12 |
-| Phase 04 P04 | 2min | 1 tasks | 1 files |
+| 04 | 01 | 4min | 2 | 7 |
+| 04 | 02 | 3min | 1 | 1 |
+| 04 | 03 | 1min | 1 | 1 |
+| 04 | 04 | 2min | 1 | 1 |
+
+## Key Decisions (Phase 4)
+
+- [04-01] Screen 4 uses manual StepNavigator (no StepForm) — checkbox state is incremental, not batch-submit
+- [04-01] Screen 5 uses StepForm for 3 Meldepflicht pill-button questions — Zod-validated
+- [04-01] Deadline basis = erkennungszeitpunkt (static, no live ticking) in de-CH locale format
+- [04-04] Templates initialized on mount from generators consuming live wizard state
 
 ## Last Session
 
-- **Stopped at:** Completed 04-04-PLAN.md
-- **Timestamp:** 2026-04-02T10:15:00Z
+- **Stopped at:** Phase 04 complete — verification 7/7 passed
+- **Timestamp:** 2026-04-04T11:15:00Z
 
 ## Next Step
 
-Phase 2 complete. Next: Plan or execute Phase 3 (Screens 0-3 Triage)
+Phase 4 complete. Next: Plan or execute Phase 5 (Screen 6 + Polish)
