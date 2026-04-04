@@ -89,11 +89,13 @@ Plans:
 - Mobile: alle Screens auf 375px Viewport korrekt dargestellt
 - Keine offensichtlichen Design-Inkonsistenzen
 
-**Plans:**
-- 01: Screen 6 — Incident-Zusammenfassung: alle State-Felder konsolidiert darstellen, strukturierter Report-Layout
-- 02: Screen 6 — SIAG-Handoff CTA + Bericht-Export (Print-CSS, `window.print()`, sauberes Print-Layout)
-- 03: SIAG-Branding Refinement — Logo (SVG Placeholder mit Markierung), Typography-Hierarchie, Spacing-Konsistenz
-- 04: Mobile Responsiveness — alle 7 Screens auf 375px + 768px testen, Touch-Targets ≥ 44px, Stacking-Layouts
+**Plans:** 4 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Screen 6 Incident-Zusammenfassung: alle State-Felder konsolidiert, 6 Summary-Karten, SIAG-CTA, Nächste Schritte
+- [ ] 05-02-PLAN.md — Screen 6 Print-Export: window.print(), @media print CSS, Bericht exportieren Button
+- [ ] 05-03-PLAN.md — SIAG-Branding: SVG Logo Placeholder, Inter via next/font/google, Header-Update
+- [ ] 05-04-PLAN.md — Mobile Responsiveness: 4 bekannte Fixes (Step1/4/5) + Sweep aller Steps auf 375px
 
 ---
 
