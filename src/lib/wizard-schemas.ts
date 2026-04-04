@@ -37,8 +37,18 @@ export const klassifikationSchema = z.object({
   severity: z.enum(['KRITISCH', 'HOCH', 'MITTEL']),
 })
 
-export const reaktionSchema = z.object({})
-export const kommunikationSchema = z.object({})
+export const reaktionSchema = z.object({
+  completedSteps: z.array(z.string()).default([]),
+})
+export const kommunikationSchema = z.object({
+  kritischeInfrastruktur: z.enum(['ja', 'nein']).nullable().default(null),
+  personendatenBetroffen: z.enum(['ja', 'nein']).nullable().default(null),
+  reguliertesUnternehmen: z.enum(['ja', 'nein']).nullable().default(null),
+  kommChecklist: z.array(z.string()).default([]),
+  templateGL: z.string().optional(),
+  templateMitarbeitende: z.string().optional(),
+  templateMedien: z.string().optional(),
+})
 export const dokumentationSchema = z.object({})
 
 // Type inference helpers for step components
