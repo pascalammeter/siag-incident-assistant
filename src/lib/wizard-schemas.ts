@@ -5,7 +5,9 @@ import type { StepKey } from './wizard-types'
 export const einstiegSchema = z.object({})
 export const erfassenSchema = z.object({})
 export const klassifikationSchema = z.object({})
-export const reaktionSchema = z.object({})
+export const reaktionSchema = z.object({
+  completedSteps: z.array(z.string()).default([]),
+})
 export const kommunikationSchema = z.object({})
 export const dokumentationSchema = z.object({})
 

@@ -17,8 +17,18 @@ describe('wizard-schemas', () => {
 
   schemas.forEach(([name, schema]) => {
     it(`${name} accepts empty object`, () => {
-      expect(schema.parse({})).toEqual({})
+      const result = schema.parse({})
+      // Schemas with defaults may add fields (e.g. reaktionSchema adds completedSteps: [])
+      expect(result).toMatchObject({})
     })
+  })
+
+  it('reaktionSchema defaults completedSteps to empty array', () => {
+    expect(reaktionSchema.parse({})).toEqual({ completedSteps: [] })
+  })
+
+  it('reaktionSchema accepts completedSteps array', () => {
+    expect(reaktionSchema.parse({ completedSteps: ['sofort-01'] })).toEqual({ completedSteps: ['sofort-01'] })
   })
 
   it('stepSchemas maps all 6 step keys', () => {

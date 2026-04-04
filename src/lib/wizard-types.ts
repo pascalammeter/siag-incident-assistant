@@ -2,7 +2,9 @@
 export interface EinstiegData {}
 export interface ErfassenData {}
 export interface KlassifikationData {}
-export interface ReaktionData {}
+export interface ReaktionData {
+  completedSteps: string[]
+}
 export interface KommunikationData {}
 export interface DokumentationData {}
 
