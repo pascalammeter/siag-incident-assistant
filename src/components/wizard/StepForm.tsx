@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useForm, type FieldValues, type DefaultValues } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { ZodObject, ZodRawShape } from 'zod'
@@ -33,6 +34,14 @@ export function StepForm<T extends FieldValues>({
     resolver: zodResolver(schema) as any,
     defaultValues: (state[stepKey] as DefaultValues<T>) ?? ({} as DefaultValues<T>),
   })
+
+  // Auto-save form values to context on every change so a page reload restores them
+  useEffect(() => {
+    const subscription = form.watch((values) => {
+      dispatch({ type: 'UPDATE_STEP', stepKey, data: values as T })
+    })
+    return () => subscription.unsubscribe()
+  }, [form, stepKey, dispatch])
 
   const onSubmit = form.handleSubmit((data) => {
     dispatch({ type: 'UPDATE_STEP', stepKey, data })
