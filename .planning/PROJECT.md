@@ -50,7 +50,7 @@ SIAG-Kunden (CISO, IT-Leiter, Security Officers) sind in einer Sicherheitskrise 
 
 ## Current State
 
-Phase 3 complete (2026-04-03) — Triage screens 0-3 fully implemented. Users can navigate the full triage flow: No-Go Interstitial → Einstieg hero → Vorfall erfassen (with Zod validation) → Klassifikation with automatic severity (KRITISCH/HOCH/MITTEL). 45/45 tests passing.
+Phase 5 complete (2026-04-05) — All 6 wizard screens implemented and polished. Full 6-step ransomware incident flow functional: Interstitial → Einstieg → Erfassen → Klassifikation → Reaktion (playbook) → Meldepflicht (Swiss legal deadlines) → Incident Summary with print export. SIAG branding (SVG logo, Inter font), mobile-responsive at 375px, 74/74 tests passing. Ready for Phase 6: Vercel deployment and advisor review.
 
 ## Out of Scope (MVP)
 - Backend / Datenbankanbindung
