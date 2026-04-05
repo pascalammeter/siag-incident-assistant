@@ -2,29 +2,27 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_plan: Not started
-status: Ready to plan
-stopped_at: Completed 02-05-PLAN.md
-last_updated: "2026-04-02T11:16:42.467Z"
+current_plan: 05-02
+status: Executing
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-04-05T00:00:00Z"
 progress:
   total_phases: 6
   completed_phases: 2
   total_plans: 8
-  completed_plans: 8
-  percent: 53
+  completed_plans: 9
+  percent: 56
 ---
 
 # STATE.md — SIAG Incident Management Assistent
 
-*Stand: 2026-04-02 | Phase 1 in Arbeit*
+*Stand: 2026-04-05 | Phase 5 in Arbeit*
 
 ## Current Position
 
-Phase: 02 (wizard-engine) — EXECUTING
-Plan: 1 of 5
-**Phase:** 3
-**Current Plan:** Not started
-**Progress:** [█████░░░░░] 53%
+**Phase:** 5 (screen-6-polish) — EXECUTING
+**Current Plan:** 05-02
+**Progress:** [██████░░░░] 56%
 
 ## Phase Status
 
@@ -34,7 +32,7 @@ Plan: 1 of 5
 | 2 | Wizard Engine | ✅ Abgeschlossen (5/5 Plans) |
 | 3 | Screens 0-3 (Triage) | ⬜ Ausstehend |
 | 4 | Screens 4-5 (Response) | ⬜ Ausstehend |
-| 5 | Screen 6 + Polish | ⬜ Ausstehend |
+| 5 | Screen 6 + Polish | 🔄 In Arbeit (1/4 Plans done) |
 | 6 | Deployment & Review | ⬜ Ausstehend |
 
 ## Key Decisions
@@ -53,6 +51,8 @@ Plan: 1 of 5
 - [02-02] STORAGE_KEY as exported const for testability
 - [02-02] isHydrated guard returns null to prevent flash of initialState
 - [02-05] Tailwind v4 tokens: bg-navy/text-navy (not siag-navy prefix) -- matches @theme{} in globals.css
+- [05-01] Step6Dokumentation uses useWizard() directly (no StepForm) — read-only final step per plan rule
+- [05-01] playbook-data.ts backported from main branch (created in Phase 4, missing in worktree)
 
 ## Source Assets (Workshop)
 
@@ -70,12 +70,13 @@ Plan: 1 of 5
 | 02 | 03 | 3min | 2 | 3 |
 | 02 | 04 | 2min | 1 | 5 |
 | 02 | 05 | 10min | 3 | 9 |
+| 05 | 01 | 8min | 1 | 4 |
 
 ## Last Session
 
-- **Stopped at:** Completed 02-05-PLAN.md
-- **Timestamp:** 2026-04-02T10:15:00Z
+- **Stopped at:** Completed 05-01-PLAN.md
+- **Timestamp:** 2026-04-05T00:00:00Z
 
 ## Next Step
 
-Phase 2 complete. Next: Plan or execute Phase 3 (Screens 0-3 Triage)
+Phase 5 Plan 01 complete. Next: Execute 05-02 (Screen 6 — SIAG Handoff CTA + Print Export)
