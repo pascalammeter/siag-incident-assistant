@@ -2,16 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_plan: 1
 status: Ready to execute
-stopped_at: Completed 04-04-PLAN.md
-last_updated: "2026-04-04T11:10:05.582Z"
+stopped_at: Completed 05-04-PLAN.md
+last_updated: "2026-04-05T17:22:38.356Z"
 progress:
   total_phases: 6
   completed_phases: 4
-  total_plans: 16
-  completed_plans: 16
-  percent: 100
+  total_plans: 20
+  completed_plans: 18
 ---
 
 # STATE.md — SIAG Incident Management Assistent
@@ -20,7 +18,8 @@ progress:
 
 ## Current Position
 
-Phase: 04 (screens-4-5-response-communication) — COMPLETE (7/7 verification criteria passed)
+Phase: 05 (screen-6-polish) — EXECUTING
+Plan: 2 of 4
 Next: Phase 5 (Screen 6 + Polish)
 
 ## Phase Status
@@ -54,6 +53,10 @@ Next: Phase 5 (Screen 6 + Polish)
 - [03-04] Pill buttons use type=button + form.setValue — hidden inputs register values for Zod
 - [03-04] Severity computed reactively via useEffect watching q1/q2/q3 (D-02, D-04)
 - [03-04] incidentType defaults to ransomware via useEffect if not set (F5.3)
+- [05-03] Inter loaded via next/font/google applied to html element (not body) — correct App Router pattern
+- [05-03] <img> tag used for SVG logo (not next/image) — simpler, works fine for static SVG in static export
+- [05-04] Hero button px-6 sm:px-12 — prevents 375px overflow while keeping desktop appearance unchanged
+- [05-04] Progress bar w-full max-w-xs — replaces fixed w-48 to scale to viewport width on mobile
 
 ## Source Assets (Workshop)
 
@@ -76,6 +79,8 @@ Next: Phase 5 (Screen 6 + Polish)
 | 04 | 02 | 3min | 1 | 1 |
 | 04 | 03 | 1min | 1 | 1 |
 | 04 | 04 | 2min | 1 | 1 |
+| 05 | 03 | 3min | 2 | 3 |
+| 05 | 04 | 2min | 1 | 3 |
 
 ## Key Decisions (Phase 4)
 
@@ -86,8 +91,8 @@ Next: Phase 5 (Screen 6 + Polish)
 
 ## Last Session
 
-- **Stopped at:** Phase 04 complete — verification 7/7 passed
-- **Timestamp:** 2026-04-04T11:15:00Z
+- **Stopped at:** Completed 05-04-PLAN.md
+- **Timestamp:** 2026-04-05T17:20:51Z
 
 ## Next Step
 

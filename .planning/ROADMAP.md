@@ -89,13 +89,13 @@ Plans:
 - Mobile: alle Screens auf 375px Viewport korrekt dargestellt
 - Keine offensichtlichen Design-Inkonsistenzen
 
-**Plans:** 4 plans
+**Plans:** 2/4 plans executed
 
 Plans:
 - [ ] 05-01-PLAN.md — Screen 6 Incident-Zusammenfassung: alle State-Felder konsolidiert, 6 Summary-Karten, SIAG-CTA, Nächste Schritte
 - [ ] 05-02-PLAN.md — Screen 6 Print-Export: window.print(), @media print CSS, Bericht exportieren Button
-- [ ] 05-03-PLAN.md — SIAG-Branding: SVG Logo Placeholder, Inter via next/font/google, Header-Update
-- [ ] 05-04-PLAN.md — Mobile Responsiveness: 4 bekannte Fixes (Step1/4/5) + Sweep aller Steps auf 375px
+- [x] 05-03-PLAN.md — SIAG-Branding: SVG Logo Placeholder, Inter via next/font/google, Header-Update
+- [x] 05-04-PLAN.md — Mobile Responsiveness: 4 bekannte Fixes (Step1/4/5) + Sweep aller Steps auf 375px
 
 ---
 
