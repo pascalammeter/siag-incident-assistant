@@ -103,7 +103,7 @@ Plans:
 - Review-Notiz / README für Berater vorhanden
 
 **Plans:**
-- 01: Production Build verifizieren (`next build` + `output: 'export'`) — alle Warnings beseitigen
+- [x] 01: Production Build verifizieren (`next build` + `output: 'export'`) — alle Warnings beseitigen
 - 02: Vercel Production Deploy — Branch `main` → automatisches Deploy, Custom-Domain optional
 - 03: End-to-End Smoke Test — kompletter Durchlauf aller 7 Screens, localStorage, Print-Export
 - 04: `README.md` für Berater — Vercel-URL, Ziel des Reviews, Feedback-Fragen, Workshop-Kontext
