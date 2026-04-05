@@ -2,25 +2,25 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to execute
-stopped_at: Completed 06-02-PLAN.md
-last_updated: "2026-04-06T00:00:00.000Z"
+status: COMPLETE
+stopped_at: Completed 06-03-PLAN.md (Phase 6 done — all 24/24 plans complete)
+last_updated: "2026-04-06T01:00:00.000Z"
 progress:
   total_phases: 6
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 24
-  completed_plans: 22
+  completed_plans: 24
 ---
 
 # STATE.md — SIAG Incident Management Assistent
 
-*Stand: 2026-04-06 | Phase 6 in Arbeit*
+*Stand: 2026-04-06 | Phase 6 ABGESCHLOSSEN — Milestone v1.0 complete*
 
 ## Current Position
 
-Phase: 06 (deployment-review-readiness) — EXECUTING
-Plan: 3 of 4
-Next: 06-03 (End-to-End Smoke Testing)
+Phase: 06 (deployment-review-readiness) — ✅ COMPLETE
+Plan: 4 of 4 (all done)
+Next: /gsd:next → Phase 6 Verification or Milestone close
 
 ## Phase Status
 
@@ -31,7 +31,7 @@ Next: 06-03 (End-to-End Smoke Testing)
 | 3 | Screens 0-3 (Triage) | ✅ Abgeschlossen (4/4 Plans) |
 | 4 | Screens 4-5 (Response) | ✅ Abgeschlossen (4/4 Plans) |
 | 5 | Screen 6 + Polish | ✅ Abgeschlossen (4/4 Plans) |
-| 6 | Deployment & Review | 🔄 In Arbeit (2/4 Plans done) |
+| 6 | Deployment & Review | ✅ Abgeschlossen (4/4 Plans) |
 
 ## Key Decisions
 
@@ -95,10 +95,13 @@ Next: 06-03 (End-to-End Smoke Testing)
 
 ## Last Session
 
-- **Stopped at:** Completed 06-02-PLAN.md (Vercel production deployment)
+- **Stopped at:** Completed 06-03-PLAN.md (Smoke test PASS + 3 bugfixes deployed)
 - **Timestamp:** 2026-04-06
 - **Production URL:** https://siag-incident-assistant.vercel.app
+- **Tests:** 74/74 green
+- **Deployment method:** `npx vercel@latest --prod` (GitHub webhook defekt, CLI als Workaround)
 
 ## Next Step
 
-Plan 06-03: End-to-End Smoke Testing — create test checklist, execute manual walkthrough on production URL
+Milestone v1.0 complete — 24/24 plans done, 6/6 phases abgeschlossen.
+Run `/gsd:next` for Phase 6 Verification or Milestone close.
