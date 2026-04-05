@@ -2,9 +2,7 @@
 
 ## Live-URL
 
-**{PRODUCTION_URL}**
-
-_(URL wird nach erstem Deploy auf Vercel aktualisiert)_
+**https://siag-incident-assistant.vercel.app**
 
 ---
 
