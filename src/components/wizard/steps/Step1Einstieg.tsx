@@ -24,7 +24,7 @@ export function Step1Einstieg() {
         <button
           type="button"
           onClick={handleAdvance}
-          className="bg-navy text-white text-2xl font-bold px-12 py-6 rounded-xl min-h-[64px] shadow-lg hover:bg-navy-light transition-colors mx-auto block"
+          className="bg-navy text-white text-2xl font-bold px-6 sm:px-12 py-6 rounded-xl min-h-[64px] shadow-lg hover:bg-navy-light transition-colors mx-auto block"
         >
           Shit Happens — Los geht&apos;s
         </button>

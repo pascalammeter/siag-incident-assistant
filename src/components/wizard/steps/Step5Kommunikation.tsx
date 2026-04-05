@@ -89,7 +89,7 @@ function KommunikationsbausteineSection({
         const copyState = copyStates[template.key] ?? 'idle'
         return (
           <div key={template.key} className="border border-gray-200 rounded-lg overflow-hidden">
-            <div className="bg-lightgray px-4 py-3 flex items-center justify-between border-b border-gray-200">
+            <div className="bg-lightgray px-4 py-3 flex flex-wrap gap-2 items-center justify-between border-b border-gray-200">
               <h4 className="text-sm font-bold text-navy">{template.title}</h4>
               <button
                 type="button"
@@ -207,7 +207,7 @@ function KommunikationForm({ form }: { form: UseFormReturn<KommunikationData> })
         <div className="space-y-3">
           {deadlines.map((d) => (
             <div key={d.law} className="bg-navy text-white rounded-lg p-4">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center justify-between">
                 <div>
                   <p className="text-sm font-normal opacity-80">{d.law}</p>
                   <p className="text-base font-bold">

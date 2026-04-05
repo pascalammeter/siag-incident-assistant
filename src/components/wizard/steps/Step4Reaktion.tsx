@@ -29,7 +29,7 @@ function Step4Content() {
       {/* Progress counter */}
       <div className="bg-lightgray rounded-lg p-4 flex items-center justify-between">
         <span className="text-sm font-bold text-navy">{completedCount} von 25 erledigt</span>
-        <div className="w-48 h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div className="w-full max-w-xs h-2 bg-gray-200 rounded-full overflow-hidden">
           <div
             className="h-full bg-navy rounded-full transition-all"
             style={{ width: `${percent}%` }}
