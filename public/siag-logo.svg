@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40">
+  <rect width="120" height="40" rx="4" fill="#1a2e4a"/>
+  <text x="60" y="26" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700" fill="#ffffff" text-anchor="middle">SIAG</text>
+  <text x="60" y="37" font-family="Inter, system-ui, sans-serif" font-size="7" fill="#9ca3af" text-anchor="middle">(placeholder)</text>
+</svg>
