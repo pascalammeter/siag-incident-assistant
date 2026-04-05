@@ -27,6 +27,12 @@ export function Step6Dokumentation() {
 
   const handlePrev = () => dispatch({ type: 'PREV_STEP' })
 
+  const handlePrint = () => {
+    if (typeof window !== 'undefined') {
+      window.print()
+    }
+  }
+
   const getSeverityClasses = (severity: string | undefined) => {
     if (severity === 'KRITISCH') return 'bg-red-100 border border-red-300 text-red-800'
     if (severity === 'HOCH') return 'bg-amber-100 border border-amber-300 text-amber-800'
@@ -41,10 +47,28 @@ export function Step6Dokumentation() {
 
   return (
     <div className="space-y-6">
+      {/* Print-only header — hidden in browser, shown in print */}
+      <div className="print-only hidden space-y-1 border-b border-gray-300 pb-4 mb-2">
+        <p className="text-xl font-bold text-navy">SIAG Incident Management Assistent</p>
+        <p className="text-base font-semibold text-navy">Incident-Zusammenfassung</p>
+        <p className="text-sm text-gray-500">Erstellt: {new Date().toLocaleDateString('de-CH')}</p>
+      </div>
+
       {/* Page header */}
       <div>
         <h2 className="text-2xl font-bold text-navy">Incident-Zusammenfassung</h2>
         <p className="text-sm text-gray-500">Erstellt: {new Date().toLocaleDateString('de-CH')}</p>
+      </div>
+
+      {/* Export button — top placement */}
+      <div className="flex justify-end print:hidden">
+        <button
+          type="button"
+          onClick={handlePrint}
+          className="bg-white border border-navy text-navy px-4 py-2 rounded-lg text-sm font-medium min-h-[44px] hover:bg-lightgray transition-colors flex items-center gap-2"
+        >
+          Bericht exportieren (PDF)
+        </button>
       </div>
 
       {/* Severity banner */}
@@ -55,7 +79,7 @@ export function Step6Dokumentation() {
       )}
 
       {/* Section 1: Was ist passiert */}
-      <div className="bg-lightgray rounded-lg p-4 space-y-3">
+      <div className="bg-lightgray rounded-lg p-4 space-y-3 print-section">
         <h3 className="text-base font-bold text-navy">Was ist passiert</h3>
         <div className="flex gap-2 text-sm">
           <span className="text-gray-500 w-40 shrink-0">Erkennungszeitpunkt</span>
@@ -86,7 +110,7 @@ export function Step6Dokumentation() {
       </div>
 
       {/* Section 2: Betroffene Systeme */}
-      <div className="bg-lightgray rounded-lg p-4 space-y-3">
+      <div className="bg-lightgray rounded-lg p-4 space-y-3 print-section">
         <h3 className="text-base font-bold text-navy">Betroffene Systeme</h3>
         <div className="text-sm">
           {erfassen?.betroffene_systeme?.length && erfassen.betroffene_systeme.length > 0 ? (
@@ -107,7 +131,7 @@ export function Step6Dokumentation() {
       </div>
 
       {/* Section 3: Klassifikation */}
-      <div className="bg-lightgray rounded-lg p-4 space-y-3">
+      <div className="bg-lightgray rounded-lg p-4 space-y-3 print-section">
         <h3 className="text-base font-bold text-navy">Klassifikation</h3>
         <div className="flex gap-2 text-sm">
           <span className="text-gray-500 w-40 shrink-0">Schweregrad</span>
@@ -144,7 +168,7 @@ export function Step6Dokumentation() {
       </div>
 
       {/* Section 4: Massnahmen-Fortschritt */}
-      <div className="bg-lightgray rounded-lg p-4 space-y-3">
+      <div className="bg-lightgray rounded-lg p-4 space-y-3 print-section">
         <h3 className="text-base font-bold text-navy">Massnahmen-Fortschritt</h3>
         <div className="flex gap-2 text-sm">
           <span className="text-gray-500 w-40 shrink-0">Checkliste Reaktion</span>
@@ -168,7 +192,7 @@ export function Step6Dokumentation() {
       </div>
 
       {/* Section 5: Meldepflichten */}
-      <div className="bg-lightgray rounded-lg p-4 space-y-3">
+      <div className="bg-lightgray rounded-lg p-4 space-y-3 print-section">
         <h3 className="text-base font-bold text-navy">Meldepflichten</h3>
         <div className="flex gap-2 text-sm">
           <span className="text-gray-500 w-40 shrink-0">ISG/NCSC (24h)</span>
@@ -203,7 +227,7 @@ export function Step6Dokumentation() {
       </div>
 
       {/* Section 6: Kommunikation */}
-      <div className="bg-lightgray rounded-lg p-4 space-y-3">
+      <div className="bg-lightgray rounded-lg p-4 space-y-3 print-section">
         <h3 className="text-base font-bold text-navy">Kommunikation</h3>
         <div className="flex gap-2 text-sm">
           <span className="text-gray-500 w-40 shrink-0">Kommunikations-Checkliste</span>
@@ -228,7 +252,7 @@ export function Step6Dokumentation() {
       </div>
 
       {/* Nächste Schritte */}
-      <div className="bg-lightgray rounded-lg p-4 space-y-2">
+      <div className="bg-lightgray rounded-lg p-4 space-y-2 print-section">
         <h3 className="text-base font-bold text-navy">Nächste Schritte</h3>
         <ul className="space-y-2 text-sm text-navy list-disc list-inside">
           <li>Bericht an SIAG-Berater übergeben (siehe unten)</li>
@@ -240,7 +264,7 @@ export function Step6Dokumentation() {
       </div>
 
       {/* SIAG Handoff CTA */}
-      <div className="bg-navy text-white rounded-lg p-6 space-y-4">
+      <div className="bg-navy text-white rounded-lg p-6 space-y-4 print-section">
         <h3 className="text-lg font-bold">An SIAG-Berater übergeben</h3>
         <p className="text-sm text-white/80">
           Ihr SIAG-Berater übernimmt ab hier die Koordination. Teilen Sie diesen Bericht oder kontaktieren Sie uns direkt.
@@ -259,6 +283,13 @@ export function Step6Dokumentation() {
             incident@siag.ch
           </a>
         </div>
+        <button
+          type="button"
+          onClick={handlePrint}
+          className="bg-white text-navy px-4 py-3 rounded-lg text-sm font-medium min-h-[44px] hover:bg-gray-100 transition-colors print:hidden w-full sm:w-auto"
+        >
+          Bericht für GL/VR exportieren (PDF)
+        </button>
         <p className="text-xs text-white/60">
           Bereitschaft: 24/7 — Antwortzeit: &lt; 1 Stunde bei kritischen Vorfällen
         </p>

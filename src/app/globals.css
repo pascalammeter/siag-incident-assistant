@@ -21,3 +21,58 @@ body {
   color: var(--color-navy);
   background-color: var(--color-white);
 }
+
+@media print {
+  /* Hide all interactive navigation */
+  .print-hidden {
+    display: none !important;
+  }
+
+  /* Remove page chrome */
+  header,
+  footer {
+    display: none !important;
+  }
+
+  /* Reset body for print */
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 11pt;
+  }
+
+  /* Ensure main content is full width */
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Page break before each summary card section */
+  .print-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Show the print-only header */
+  .print-only {
+    display: block !important;
+  }
+
+  /* Clean up card backgrounds for print */
+  .bg-lightgray,
+  [class*="bg-lightgray"] {
+    background: #f9f9f9 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Keep navy sections readable */
+  .bg-navy,
+  [class*="bg-navy"] {
+    background: #1a2e4a !important;
+    color: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

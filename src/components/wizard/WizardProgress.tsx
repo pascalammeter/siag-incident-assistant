@@ -9,7 +9,7 @@ interface WizardProgressProps {
 
 export function WizardProgress({ currentStep, totalSteps }: WizardProgressProps) {
   return (
-    <div className="w-full mb-6">
+    <div className="w-full mb-6 print:hidden">
       {/* Step counter text */}
       <p className="text-sm text-gray-500 mb-2">
         {currentStep === 0 ? 'Vorbereitung' : `Schritt ${currentStep} von ${totalSteps}`}

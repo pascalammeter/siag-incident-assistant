@@ -28,7 +28,7 @@ export function StepNavigator({
   const resolvedNextLabel = nextLabel ?? (currentStep === MAX_STEP ? 'Abschliessen' : 'Weiter')
 
   return (
-    <div className="flex justify-between items-center pt-6">
+    <div className="flex justify-between items-center pt-6 print:hidden">
       {showPrev && currentStep > 0 ? (
         <button
           type="button"
