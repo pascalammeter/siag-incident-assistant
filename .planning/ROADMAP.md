@@ -108,13 +108,13 @@ Plans:
 - localStorage-Persistenz auf Vercel verifiziert
 - Review-Notiz / README für Berater vorhanden
 
-**Plans:** 4 plans
+**Plans:** 1/4 plans executed
 
 Plans:
 - [ ] 06-01-PLAN.md — Production Build verifizieren: turbopack.root fix, `npm run build` clean, 74 tests green
 - [ ] 06-02-PLAN.md — Vercel Production Deploy: git push main → GitHub integration → live URL (human checkpoint)
 - [ ] 06-03-PLAN.md — End-to-End Smoke Test: 7-Screen-Durchlauf, localStorage-Reload, Print-Export (manual checklist)
-- [ ] 06-04-PLAN.md — README.md für Berater: Vercel-URL, Walkthrough, 5 Feedback-Fragen, technischer Kontext
+- [x] 06-04-PLAN.md — README.md für Berater: Vercel-URL, Walkthrough, 5 Feedback-Fragen, technischer Kontext
 
 ---
 
