@@ -68,3 +68,16 @@ Empfehlung: Einen **Kritisch-Szenario** durchspielen (alle 3 Klassifikationsfrag
 ---
 
 _Fragen oder Feedback direkt an pascalammeter (GitHub: pascalammeter/siag-incident-assistant)_
+
+---
+
+## Entwicklung (Quick Reference)
+
+```bash
+npm install
+npm run dev        # Lokaler Dev-Server (http://localhost:3000)
+npm test           # 74 Tests via Vitest
+npm run build      # Statischen Export nach out/ generieren
+```
+
+Weitere Details: [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) | [`docs/TESTING.md`](docs/TESTING.md) | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
