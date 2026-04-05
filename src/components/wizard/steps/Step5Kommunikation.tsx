@@ -119,6 +119,14 @@ function KommunikationsbausteineSection({
 function KommunikationForm({ form }: { form: UseFormReturn<KommunikationData> }) {
   const { state } = useWizard()
 
+  // Pre-fill personendatenBetroffen from Screen 3 q2PdBetroffen (same question, avoid repetition)
+  useEffect(() => {
+    const q2 = state.klassifikation?.q2PdBetroffen
+    if (q2 && !form.getValues('personendatenBetroffen')) {
+      form.setValue('personendatenBetroffen', q2, { shouldValidate: true })
+    }
+  }, [state.klassifikation, form])
+
   const kritisch = form.watch('kritischeInfrastruktur')
   const personen = form.watch('personendatenBetroffen')
   const reguliert = form.watch('reguliertesUnternehmen')
