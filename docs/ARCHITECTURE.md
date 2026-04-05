@@ -161,4 +161,4 @@ siag-incident-assistant/
 | 3 | Screens 0–3 (Interstitial, Einstieg, Erfassen, Klassifikation) | Complete |
 | 4 | Screens 4–5 (Reaktion playbook, Kommunikation/Meldepflichten) | Complete |
 | 5 | Screen 6 + Polish (Dokumentation summary, SIAG branding, mobile) | Complete |
-| 6 | Deployment & Review (Vercel, advisor review, Phase 5 planning) | In progress |
+| 6 | Deployment & Review (Vercel, advisor review, smoke test, 3 bugfixes) | Complete |
