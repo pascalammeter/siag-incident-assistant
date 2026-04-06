@@ -1,28 +1,245 @@
+/* ============= TAILWIND & POSTCSS ============= */
 @import "tailwindcss";
+@import "@tailwindcss/postcss";
 
+/* ============= DESIGN TOKENS (@theme for Tailwind v4) ============= */
 @theme {
-  /* SIAG Brand Colors */
-  --color-navy: #1a2e4a;
-  --color-navy-light: #2a4a6b;
-  --color-navy-dark: #0f1e33;
-  --color-white: #ffffff;
-  --color-lightgray: #f5f7fa;
-  --color-amber: #f59e0b;
-  --color-amber-light: #fbbf24;
-  --color-amber-dark: #d97706;
+  /* SIAG Color Palette — Per brand guidelines */
+  --color-siag-red: #CC0033;      /* Primary red — incidents, warnings, critical status */
+  --color-siag-navy: #003B5E;     /* Primary navy — headers, primary buttons, dark backgrounds */
+  --color-siag-orange: #D44E17;   /* Accent orange — highlights, secondary actions, alerts */
 
-  /* Font */
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* Semantic colors */
+  --color-critical: var(--color-siag-red);
+  --color-high: #F97316;          /* Orange variant for high severity */
+  --color-medium: #EAB308;        /* Yellow for medium severity */
+  --color-low: #22C55E;           /* Green for low severity */
+
+  /* Neutral palette */
+  --color-background: #FFFFFF;
+  --color-foreground: #1F2937;
+  --color-border: #E5E7EB;
+  --color-muted: #6B7280;
+  --color-muted-foreground: #9CA3AF;
+
+  /* Dark mode */
+  --color-dark-background: #0F172A;
+  --color-dark-foreground: #F1F5F9;
+  --color-dark-border: #334155;
+
+  /* Component colors */
+  --color-button-hover: rgba(204, 0, 51, 0.1);  /* Siag-red with opacity */
+  --color-button-active: rgba(204, 0, 51, 0.2);
+  --color-card-shadow: rgba(0, 0, 0, 0.1);
+
+  /* Font families (injected by next/font/google) */
+  --font-sans: var(--font-sans, 'Source Sans Pro', system-ui, sans-serif);
+  --font-display: 'Stone Sans Pro', var(--font-sans); /* Display — H1, H2 */
 }
 
-/* Base body styles */
+/* ============= DARK MODE VARIABLES ============= */
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-siag-red: #FF3355;       /* Lighter red for dark mode */
+    --color-siag-navy: #1E3A8A;      /* Lighter navy for dark mode */
+    --color-siag-orange: #FB923C;    /* Lighter orange */
+
+    --color-background: var(--color-dark-background);
+    --color-foreground: var(--color-dark-foreground);
+    --color-border: var(--color-dark-border);
+    --color-muted: #A0AEC0;
+    --color-muted-foreground: #CBD5E1;
+  }
+}
+
+/* ============= GLOBAL STYLES ============= */
+* {
+  @apply border-color-border;
+}
+
+html {
+  color-scheme: light dark;
+  /* Allow smooth transitions when theme changes */
+  @apply transition-colors;
+}
+
 body {
+  @apply bg-color-background text-color-foreground;
   font-family: var(--font-sans);
-  color: var(--color-navy);
-  background-color: var(--color-white);
+  line-height: 1.6;
 }
 
+/* ============= TYPOGRAPHY HIERARCHY ============= */
+h1, h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+h1 {
+  @apply text-4xl md:text-5xl;
+}
+
+h2 {
+  @apply text-3xl md:text-4xl;
+}
+
+h3, h4 {
+  @apply font-semibold text-xl md:text-2xl;
+  font-family: var(--font-sans);
+}
+
+h3 {
+  @apply text-xl;
+}
+
+h4 {
+  @apply text-lg;
+}
+
+p {
+  @apply text-base leading-relaxed;
+}
+
+/* ============= BUTTON COMPONENTS ============= */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-4 py-2 bg-siag-red text-white font-semibold rounded-lg;
+    @apply transition-all duration-150 ease-out;
+    @apply hover:bg-siag-red/90 hover:shadow-lg;
+    @apply active:scale-98 active:duration-100;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-4 py-2 bg-siag-navy text-white font-semibold rounded-lg;
+    @apply transition-all duration-150 ease-out;
+    @apply hover:bg-siag-navy/90 hover:shadow-lg;
+    @apply active:scale-98 active:duration-100;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-4 py-2 bg-transparent text-siag-red font-semibold rounded-lg;
+    @apply transition-all duration-150 ease-out;
+    @apply hover:bg-color-button-hover;
+    @apply active:scale-98 active:duration-100;
+  }
+
+  /* Card component with shadow and hover elevation */
+  .card {
+    @apply rounded-lg bg-white dark:bg-slate-800 p-6;
+    @apply border border-color-border dark:border-color-dark-border;
+    @apply transition-shadow duration-150 ease-out;
+    @apply hover:shadow-lg;
+  }
+
+  /* Input fields */
+  .input {
+    @apply w-full px-4 py-2 rounded-lg border border-color-border dark:border-color-dark-border;
+    @apply bg-white dark:bg-slate-900 text-color-foreground;
+    @apply transition-colors duration-150;
+    @apply focus:outline-none focus:ring-2 focus:ring-siag-red focus:ring-offset-2 dark:focus:ring-offset-slate-950;
+  }
+
+  .input:disabled {
+    @apply bg-gray-100 dark:bg-slate-800 opacity-50 cursor-not-allowed;
+  }
+
+  /* Loading spinner */
+  .spinner {
+    @apply inline-block h-4 w-4 animate-spin rounded-full;
+    @apply border-2 border-color-siag-red border-r-transparent;
+  }
+}
+
+/* ============= ANIMATIONS & TRANSITIONS ============= */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Respect prefers-reduced-motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    @apply !transition-none !animate-none;
+  }
+
+  html {
+    @apply scroll-smooth !scroll-auto;
+  }
+
+  /* Remove all animations for users with motion sensitivity */
+  .spinner {
+    @apply !animate-none;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost,
+  .card {
+    @apply !transition-none;
+  }
+}
+
+/* ============= UTILITY CLASSES ============= */
+.container {
+  @apply mx-auto max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+
+/* Severity badges */
+.badge-critical {
+  @apply inline-block px-3 py-1 rounded-full bg-siag-red text-white text-sm font-semibold;
+}
+
+.badge-high {
+  @apply inline-block px-3 py-1 rounded-full bg-orange-500 text-white text-sm font-semibold;
+}
+
+.badge-medium {
+  @apply inline-block px-3 py-1 rounded-full bg-yellow-500 text-white text-sm font-semibold;
+}
+
+.badge-low {
+  @apply inline-block px-3 py-1 rounded-full bg-green-500 text-white text-sm font-semibold;
+}
+
+/* Error state */
+.error {
+  @apply text-siag-red dark:text-siag-red/90;
+}
+
+.error-border {
+  @apply border-siag-red focus:ring-siag-red;
+}
+
+/* Print styles (for PDF export in Phase 10) */
 @media print {
+  * {
+    @apply bg-white text-black;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost {
+    @apply border border-black;
+  }
+
+  .no-print {
+    @apply hidden;
+  }
+
+  h1, h2, h3 {
+    @apply page-break-after-avoid;
+  }
+
   /* Hide all interactive navigation */
   .print-hidden {
     display: none !important;

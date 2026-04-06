@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import { errorHandler } from '../middleware/errorHandler';
 import { getCorsHeaders } from '../utils/cors';
+import swaggerUi, { swaggerSetup, swaggerJson } from './swagger';
 
 // Load environment variables
 dotenv.config({ path: '.env.local' });
@@ -33,18 +34,19 @@ app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// API routes placeholder (to be implemented in Phase 01b and 02)
+// ============= SWAGGER UI (API Documentation) =============
+app.use('/api-docs', swaggerUi);
+app.get('/api-docs/', swaggerSetup);
+app.get('/api-docs/json', swaggerJson);
+
+// ============= API ROUTES (Phase 08) =============
+// Placeholder routes (to be implemented in Phase 08)
 app.get('/api/incidents', async (_req: Request, res: Response) => {
-  res.status(501).json({ error: 'Not implemented — coming in Phase 02' });
+  res.status(501).json({ error: 'Not implemented — coming in Phase 08' });
 });
 
 app.post('/api/incidents', async (_req: Request, res: Response) => {
-  res.status(501).json({ error: 'Not implemented — coming in Phase 02' });
-});
-
-// Swagger UI placeholder (to be implemented in Phase 03)
-app.get('/api-docs', (_req: Request, res: Response) => {
-  res.status(501).json({ error: 'Swagger UI not yet configured — coming in Phase 03' });
+  res.status(501).json({ error: 'Not implemented — coming in Phase 08' });
 });
 
 // Error handler (last middleware)
