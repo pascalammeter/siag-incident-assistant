@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Incident model — to be expanded in Phase 02 with full schema
+model Incident {
+  id            String    @id @default(uuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Placeholder fields; full schema in Phase 02
+  erkennungszeitpunkt DateTime?
+  erkannt_durch       String?
+  betroffene_systeme  String[]
+  erste_erkenntnisse  String?
+
+  incident_type String? // "ransomware" | "phishing" | "ddos" | "data_loss" | "other"
+  q1            Int?
+  q2            Int?
+  q3            Int?
+  severity      String? // "critical" | "high" | "medium" | "low"
+
+  playbook                   Json?
+  regulatorische_meldungen   Json?
+  metadata                   Json?
+
+  @@index([incident_type])
+  @@index([severity])
+  @@index([createdAt])
+}
