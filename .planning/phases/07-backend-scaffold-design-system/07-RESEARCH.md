@@ -1196,6 +1196,29 @@ For MVP (Phase 7), **in-memory store is fine**. Add Upstash Redis persistence in
    - What's unclear: Separate Neon projects for dev/prod, or shared with branch isolation?
    - Recommendation: Use Neon branch creation for isolated dev; separate prod project (Phase 13 decide)
 
+
+## Open Questions Status
+
+1. **Stone Sans Pro Font Licensing** — (RESOLVED)
+   - Decision: Use Source Sans Pro as primary font with Stone Sans Pro as fallback if licensed
+   - Plan 07-03 Task 1 handles both cases; no blocker to Phase 7 execution
+   - If SIAG confirms licensing later, update font loading in Phase 10 (Motion + PDF)
+
+2. **JSONB Indexing for Playbook Queries** — (RESOLVED as deferred)
+   - Decision: Defer to Phase 8; Phase 7 creates basic schema without GiN indexes
+   - Plan 07-02 creates btree indexes on frequently-queried columns (incident_type, severity, createdAt)
+   - If Phase 8 API queries need GiN indexing, Phase 8 Plan will add
+
+3. **API Key Rotation Strategy** — (RESOLVED as manual)
+   - Decision: Phase 7 implements stateless API key auth (X-API-Key header); OAuth deferred to v1.2
+   - Rotation handled manually via environment variable updates
+   - Auto-rotation deferred to Phase 13 or v1.2
+
+4. **Multi-Environment Database Strategy** — (RESOLVED as shared Neon)
+   - Decision: Single Neon project with dev branch for development, main branch for production
+   - Phase 13 (Deployment) finalizes branch setup
+   - Alternative (separate projects) deferred to v1.2 if needed
+
 ---
 
 ## Environment Availability

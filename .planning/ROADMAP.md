@@ -35,7 +35,17 @@ Transform v1.0 frontend MVP into professional-grade incident management platform
   4. Typography hierarchy implemented: Stone Sans display fonts (H1/H2) and Source Sans body text with correct font weights and line-height
   5. OpenAPI specification generated and Swagger UI accessible at /api-docs
 
-**Plans:** TBD
+**Plans:** 4 plans (07-01a + 07-01b + 07-02 + 07-03)
+
+Plan breakdown:
+- [ ] 07-01a-PLAN.md — Express Scaffold + TypeScript Configuration
+- [ ] 07-01b-PLAN.md — Prisma ORM Initialization (depends on 07-01a)
+- [ ] 07-02-PLAN.md — Database Schema + Prisma Migrations (depends on 07-01b)
+- [ ] 07-03-PLAN.md — Design System Implementation (depends on 07-01a only; parallel with 07-02)
+
+Wave structure:
+- Wave 1: 07-01a (Express Scaffold)
+- Wave 2 (parallel): 07-01b → 07-02 (sequential), 07-03 (independent of 07-02)
 
 ---
 
@@ -185,7 +195,7 @@ Transform v1.0 frontend MVP into professional-grade incident management platform
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 7. Backend Scaffold + Design System | 0/3 | Not started | - |
+| 7. Backend Scaffold + Design System | 0/4 | Not started | - |
 | 8. API Implementation | 0/4 | Not started | - |
 | 9. Wizard ↔ Backend Integration | 0/3 | Not started | - |
 | 10. Motion + PDF + Dark Mode | 0/3 | Not started | - |
@@ -193,4 +203,4 @@ Transform v1.0 frontend MVP into professional-grade incident management platform
 | 12. Testing + Security | 0/3 | Not started | - |
 | 13. Deployment + Polish | 0/4 | Not started | - |
 
-**Total:** 0/24 plans | **Estimate:** 7 weeks (1 week per phase)
+**Total:** 0/25 plans | **Estimate:** 7 weeks (1 week per phase)
