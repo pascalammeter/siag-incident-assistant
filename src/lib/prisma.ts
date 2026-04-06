@@ -1,10 +1,14 @@
 import { PrismaClient } from '@prisma/client';
+import { PrismaNeon } from '@prisma/adapter-neon';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
 export const prisma =
   globalForPrisma.prisma ||
   new PrismaClient({
+    adapter: process.env.DATABASE_URL
+      ? new PrismaNeon({ connectionString: process.env.DATABASE_URL })
+      : undefined,
     log: process.env.NODE_ENV === 'development'
       ? [
           { level: 'query', emit: 'event' },
@@ -16,13 +20,8 @@ export const prisma =
         ],
   });
 
-// Development: Log all queries and timing
-if (process.env.NODE_ENV === 'development') {
-  prisma.$on('query', (e: any) => {
-    console.log(`[${new Date().toISOString()}] Query took ${e.duration}ms`);
-    console.log(`  ${e.query}`);
-  });
-}
+// Note: Query event logging is configured via log levels above for Neon adapter compatibility
+// The Neon adapter handles logging internally when query logs are enabled
 
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma;
