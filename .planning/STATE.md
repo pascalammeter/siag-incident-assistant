@@ -1,10 +1,10 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.0
-milestone_name: milestone
-status: COMPLETE
-stopped_at: Completed 06-03-PLAN.md (Phase 6 done — all 24/24 plans complete)
-last_updated: "2026-04-06T01:00:00.000Z"
+milestone_name: SIAG Incident Assistant MVP
+status: ARCHIVED
+stopped_at: Completed v1.0 milestone archival (all 24/24 plans archived, production deployed, ready for v1.1 planning)
+last_updated: "2026-04-06T01:15:00.000Z"
 progress:
   total_phases: 6
   completed_phases: 6
