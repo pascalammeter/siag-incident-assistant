@@ -48,9 +48,40 @@ SIAG-Kunden (CISO, IT-Leiter, Security Officers) sind in einer Sicherheitskrise 
 - Expliziter Übergabepunkt „An SIAG-Berater übergeben"
 - Komponentenstruktur bereit für Kundenplattform-Integration (Phase 2)
 
-## Current State
+## Current State (v1.0)
 
-Phase 5 complete (2026-04-05) — All 6 wizard screens implemented and polished. Full 6-step ransomware incident flow functional: Interstitial → Einstieg → Erfassen → Klassifikation → Reaktion (playbook) → Meldepflicht (Swiss legal deadlines) → Incident Summary with print export. SIAG branding (SVG logo, Inter font), mobile-responsive at 375px, 74/74 tests passing. Ready for Phase 6: Vercel deployment and advisor review.
+**Shipped:** 2026-04-06 — SIAG Incident Assistant MVP v1.0
+
+Complete 7-screen ransomware incident response wizard deployed to production on Vercel. All functional and non-functional requirements validated and shipped:
+
+- ✅ Full 7-screen workflow (Interstitial → Einstieg → Erfassen → Klassifikation → Reaktion → Meldepflicht → Summary)
+- ✅ 25-point Playbook with 4 phases (Sofortmassnahmen, Eindämmung, Untersuchung, Kommunikation)
+- ✅ Schweizer Meldepflicht compliance (ISG 24h, DSG, FINMA 24/72h with auto-calculation)
+- ✅ SIAG branding (SVG logo, Inter font, #1a2e4a Navy palette)
+- ✅ Mobile-responsive (375px–2560px viewports)
+- ✅ Print-to-PDF export of incident summary
+- ✅ localStorage persistence (values auto-save on change)
+- ✅ 74/74 tests passing, production build verified
+- ✅ Public Vercel URL: https://siag-incident-assistant.vercel.app
+
+**Known Issues (Non-blocking):**
+- Turbopack workspace root detection warning (environmental, build succeeds)
+- GitHub webhook integration issue (documented, CLI deploy workaround provided)
+
+**Architecture Ready for:**
+- Customer platform integration (component structure prepared)
+- Additional incident types (playbook-data.ts architecture supports extensibility)
+- Backend integration (state structure exportable for API Phase 2)
+
+## Next Milestone (v1.1+)
+
+**Planned Enhancements:**
+- [ ] Backend integration (database + API layer)
+- [ ] User authentication (OAuth / SSO)
+- [ ] Multi-tenant support
+- [ ] Additional incident types (Phishing, DDoS, etc.)
+- [ ] Real PDF generation (vs. print-to-PDF)
+- [ ] Multilingual support (German, French, Italian)
 
 ## Out of Scope (MVP)
 - Backend / Datenbankanbindung
