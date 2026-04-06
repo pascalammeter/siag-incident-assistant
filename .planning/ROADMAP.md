@@ -35,17 +35,26 @@ Transform v1.0 frontend MVP into professional-grade incident management platform
   4. Typography hierarchy implemented: Stone Sans display fonts (H1/H2) and Source Sans body text with correct font weights and line-height
   5. OpenAPI specification generated and Swagger UI accessible at /api-docs
 
-**Plans:** 4 plans (07-01a + 07-01b + 07-02 + 07-03)
+**Plans:** 6 plans (07-01a + 07-01b + 07-01c + 07-01d + 07-02 + 07-03)
 
 Plan breakdown:
 - [x] 07-01a-PLAN.md — Express Scaffold + TypeScript Configuration
 - [x] 07-01b-PLAN.md — Prisma ORM Initialization (depends on 07-01a)
+- [ ] 07-01c-PLAN.md — Fix PrismaClient Adapter Configuration (Prisma v7.6.0) [GAP CLOSURE]
+- [ ] 07-01d-PLAN.md — Fix Prisma Config Type Definition (prisma.config.ts) [GAP CLOSURE]
 - [x] 07-02-PLAN.md — Database Schema + Prisma Migrations (depends on 07-01b)
 - [x] 07-03-PLAN.md — Design System Implementation (depends on 07-01a only; parallel with 07-02)
 
 Wave structure:
 - Wave 1: 07-01a (Express Scaffold)
 - Wave 2 (parallel): 07-01b → 07-02 (sequential), 07-03 (independent of 07-02)
+- Wave 1 (gap closure - parallel): 07-01c (Adapter config) + 07-01d (Config type fix) - both can run immediately
+
+**Gap Closure Rationale:** Phase 7 execution revealed 2 critical configuration gaps that must be fixed before Phase 08 API endpoints can run:
+1. **07-01c:** PrismaClient constructor missing required `adapter` or `accelerateUrl` option for Prisma v7.6.0 serverless compatibility
+2. **07-01d:** prisma.config.ts uses invalid `directUrl` property; TypeScript strict mode build fails
+
+Both gaps are isolated configuration issues (no new features, no schema changes). They must be fixed before Phase 08 can proceed, but can run in parallel with each other.
 
 ---
 
@@ -53,7 +62,7 @@ Wave structure:
 
 **Goal:** Implement all 5 CRUD endpoints for incident management, export endpoints for JSON/PDF, request validation with Zod, and comprehensive API documentation. All endpoints tested and responding correctly.
 
-**Depends on:** Phase 7
+**Depends on:** Phase 7 (including gap-closure plans 07-01c and 07-01d)
 
 **Requirements:** B4.1–B4.5, B5.1–B5.4, B6.1–B6.4, B7.1–B7.4
 
@@ -195,12 +204,12 @@ Wave structure:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 7. Backend Scaffold + Design System | 0/4 | Not started | - |
-| 8. API Implementation | 0/4 | Not started | - |
-| 9. Wizard ↔ Backend Integration | 0/3 | Not started | - |
-| 10. Motion + PDF + Dark Mode | 0/3 | Not started | - |
-| 11. Multi-Type Playbooks + Forms | 0/4 | Not started | - |
-| 12. Testing + Security | 0/3 | Not started | - |
-| 13. Deployment + Polish | 0/4 | Not started | - |
+| 7. Backend Scaffold + Design System | 4/6 (gap closure pending) | Executing | - |
+| 8. API Implementation | 0/4 | Blocked on Phase 7 | - |
+| 9. Wizard ↔ Backend Integration | 0/3 | Blocked on Phase 8 | - |
+| 10. Motion + PDF + Dark Mode | 0/3 | Blocked on Phase 9 | - |
+| 11. Multi-Type Playbooks + Forms | 0/4 | Blocked on Phase 10 | - |
+| 12. Testing + Security | 0/3 | Blocked on Phase 11 | - |
+| 13. Deployment + Polish | 0/4 | Blocked on Phase 12 | - |
 
-**Total:** 0/25 plans | **Estimate:** 7 weeks (1 week per phase)
+**Total:** 4/25 plans | **Estimate:** 7 weeks (1 week per phase)
