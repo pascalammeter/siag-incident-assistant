@@ -9,29 +9,39 @@ datasource db {
   provider = "postgresql"
 }
 
-// Incident model — to be expanded in Phase 02 with full schema
 model Incident {
   id            String    @id @default(uuid())
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  // Placeholder fields; full schema in Phase 02
+  // ========== Recognition (Erkennung) ==========
   erkennungszeitpunkt DateTime?
-  erkannt_durch       String?
-  betroffene_systeme  String[]
-  erste_erkenntnisse  String?
+  erkannt_durch       String?  @db.VarChar(255)
+  betroffene_systeme  String[] @db.Text
+  erste_erkenntnisse  String?  @db.Text
 
-  incident_type String? // "ransomware" | "phishing" | "ddos" | "data_loss" | "other"
-  q1            Int?
-  q2            Int?
-  q3            Int?
-  severity      String? // "critical" | "high" | "medium" | "low"
+  // ========== Classification (Klassifizierung) ==========
+  incident_type String?  @db.VarChar(50) // "ransomware" | "phishing" | "ddos" | "data_loss" | "other"
+  q1            Int?     // Classification question 1 (0-1)
+  q2            Int?     // Classification question 2 (0-1)
+  q3            Int?     // Classification question 3 (0-1)
+  severity      String?  @db.VarChar(20) // "critical" | "high" | "medium" | "low"
 
-  playbook                   Json?
-  regulatorische_meldungen   Json?
-  metadata                   Json?
+  // ========== Playbook & Progress (JSONB) ==========
+  // Structure: { checkedSteps: [{ stepId: string, checked: boolean, timestamp: ISO8601 }], status: "in_progress"|"completed" }
+  playbook      Json?    @db.JsonB
 
+  // ========== Regulatory (Regulatorische Meldungen) ==========
+  // Structure: { isg_24h: ISO8601 datetime, dsg: boolean, finma_24h: ISO8601, finma_72h: ISO8601 }
+  regulatorische_meldungen Json? @db.JsonB
+
+  // ========== Metadata & Audit Trail ==========
+  // Structure: { tags: [string], notes: string, custom_fields: Record<string, any> }
+  metadata      Json?    @db.JsonB
+
+  // ========== Indexes for Query Performance ==========
   @@index([incident_type])
   @@index([severity])
-  @@index([createdAt])
+  @@index([createdAt(sort: Desc)])
+  @@index([erkennungszeitpunkt(sort: Desc)])
 }
