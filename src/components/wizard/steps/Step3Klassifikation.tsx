@@ -42,7 +42,6 @@ const INCIDENT_TYPE_OPTIONS = [
   { value: 'phishing' as const, label: 'Phishing' },
   { value: 'ddos' as const, label: 'DDoS' },
   { value: 'datenverlust' as const, label: 'Datenverlust' },
-  { value: 'unbefugter-zugriff' as const, label: 'Unbefugter Zugriff' },
   { value: 'sonstiges' as const, label: 'Sonstiges' },
 ] as const
 
