@@ -1,4 +1,5 @@
 import swaggerUi from 'swagger-ui-express';
+import { Request, Response } from 'express';
 import { swaggerSpec } from '@/lib/swagger';
 
 /**
@@ -46,7 +47,7 @@ export const swaggerSetup = swaggerUi.setup(swaggerSpec, {
 /**
  * Serve OpenAPI spec as JSON at /api-docs/json
  */
-export const swaggerJson = (_req: any, res: any) => {
+export const swaggerJson = (_req: Request, res: Response): void => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
 };
