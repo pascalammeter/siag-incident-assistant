@@ -3,6 +3,7 @@ import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { MigrationInitializer } from "@/components/MigrationInitializer";
 
 // Load Source Sans Pro from Google Fonts
 const sourceSansPro = Source_Sans_3({
@@ -31,6 +32,7 @@ export default function RootLayout({
       className={sourceSansPro.variable}
     >
       <body className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-50 transition-colors">
+        <MigrationInitializer />
         <Header />
         <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-8">
           {children}
