@@ -8,18 +8,18 @@ progress:
   total_phases: 13
   completed_phases: 7
   total_plans: 27
-  completed_plans: 11
-  percent: 41
+  completed_plans: 12
+  percent: 44
 ---
 
 # STATE.md — SIAG Incident Management Assistent v1.1
 
-*Stand: 2026-04-07 | Phase 8-01 COMPLETE — 08-01 CRUD Endpoints Ready*
+*Stand: 2026-04-07 | Phase 8-02 COMPLETE — 08-02 List Filtering & Query Endpoints Done*
 
 ## Current Position
 
 Phase: 8 (api-implementation) — IN EXECUTION
-Plan: 08-01 COMPLETE ✅ | 08-02, 08-03, 08-04 Pending
+Plan: 08-01, 08-02 COMPLETE ✅ | 08-03, 08-04 Pending
 **Milestone:** v1.1 — Backend Integration, Design System, Multi-Type Support
 **Status:** Phase 7 complete, Phase 8 executing (1/4 plans done)
 **Phase:** 08
@@ -56,14 +56,14 @@ v1.1 transforms the v1.0 frontend MVP into a production-ready incident managemen
 | Phase | Title | Status | Plans |
 |-------|-------|--------|-------|
 | 7 | Backend Scaffold + Design System | Complete | 6/6 ✅ |
-| 8 | API Implementation | In Execution | 1/4 ✅ + 3/4 Pending |
+| 8 | API Implementation | In Execution | 2/4 ✅ + 2/4 Pending |
 | 9 | Wizard ↔ Backend Integration | Blocked on 8 | 0/3 |
 | 10 | Motion + PDF + Dark Mode | Blocked on 9 | 0/3 |
 | 11 | Multi-Type Playbooks + Forms | Blocked on 10 | 0/4 |
 | 12 | Testing + Security | Blocked on 11 | 0/3 |
 | 13 | Deployment + Polish | Blocked on 12 | 0/4 |
 
-**Total:** 11/27 plans | **Completed:** Phase 7 + 08-01 | **Estimate:** 5.5 weeks remaining
+**Total:** 12/27 plans | **Completed:** Phase 7 + 08-01 + 08-02 | **Estimate:** 5.5 weeks remaining
 
 ## Key Architecture Decisions
 
