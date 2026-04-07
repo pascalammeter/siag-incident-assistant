@@ -175,6 +175,30 @@ export const RANSOMWARE_PLAYBOOK: Playbook = {
   ],
 }
 
+import { DDOS_PLAYBOOK } from './playbooks/ddos'
+import { DATA_LOSS_PLAYBOOK } from './playbooks/data-loss'
+import { PHISHING_PLAYBOOK as IMPORTED_PHISHING_PLAYBOOK } from '../data/playbooks/phishing'
+
 export const PLAYBOOKS: Record<string, Playbook> = {
   ransomware: RANSOMWARE_PLAYBOOK,
+  ddos: DDOS_PLAYBOOK,
+  datenverlust: DATA_LOSS_PLAYBOOK,
+}
+
+export { DDOS_PLAYBOOK } from './playbooks/ddos'
+export { DATA_LOSS_PLAYBOOK } from './playbooks/data-loss'
+
+export const getPlaybook = (type: string): Playbook => {
+  switch (type) {
+    case 'ransomware':
+      return RANSOMWARE_PLAYBOOK
+    case 'phishing':
+      return IMPORTED_PHISHING_PLAYBOOK
+    case 'ddos':
+      return DDOS_PLAYBOOK
+    case 'datenverlust':
+      return DATA_LOSS_PLAYBOOK
+    default:
+      return RANSOMWARE_PLAYBOOK
+  }
 }
