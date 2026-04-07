@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(gsd-next)",
+      "Skill(gsd-complete-milestone)",
+      "Skill(update-config)",
+      "Bash(git push:*)",
+      "WebSearch",
+      "Skill(gsd-new-milestone)",
+      "Skill(gsd-plan-phase)",
+      "Skill(gsd-execute-phase)",
+      "Bash(npm run:*)",
+      "Bash(npx prisma:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m 'docs\\(07-02\\): complete database schema + prisma migrations plan:*)",
+      "Bash(npm list:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git restore:*)",
+      "Bash(git commit:*)",
+      "Bash(bash /tmp/verify.sh)",
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs state begin-phase --phase 07 --name backend-scaffold-design-system --plans 4)",
+      "Bash(node:*)",
+      "Bash(grep:*)",
+      "Skill(gsd-verify-work)",
+      "Skill(gsd-docs-update)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(python3 -c \"import sys, json; data = json.load\\(sys.stdin\\); print\\(f\\\\\"Status: {data['status']}\\\\\"\\); print\\(f\\\\\"Errors: {len\\(data['errors']\\)}\\\\\"\\); print\\(f\\\\\"Warnings: {len\\(data['warnings']\\)}\\\\\"\\); print\\(f\\\\\"Info: {len\\(data['info']\\)}\\\\\"\\)\")",
+      "Read(//tmp/**)",
+      "Skill(gsd-code-review)"
+    ]
+  }
+}

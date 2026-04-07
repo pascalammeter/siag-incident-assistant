@@ -22,7 +22,7 @@ Build a guided incident response platform for security teams in crisis. v1.0 (Ph
 ### v1.1: Backend Integration + Design System (In Progress)
 
 - [x] **Phase 07: Backend Scaffold + Design System** — Express + Prisma + PostgreSQL + SIAG palette + typography (completed 2026-04-07)
-- [ ] **Phase 08: API Implementation** — CRUD endpoints + export + validation + OpenAPI docs
+- [x] **Phase 08: API Implementation** — CRUD endpoints + export + validation + OpenAPI docs (completed 2026-04-07)
 - [ ] **Phase 09: Wizard ↔ Backend Integration** — Replace localStorage with API + incident list UI + type selector
 - [ ] **Phase 10: Motion + PDF + Dark Mode** — 150-300ms transitions + professional export + theme toggle
 - [ ] **Phase 11: Multi-Type Playbooks + Forms** — Phishing/DDoS/Data Loss playbooks + inline validation + helper text
@@ -96,7 +96,7 @@ Build a guided incident response platform for security teams in crisis. v1.0 (Ph
   4. Typography hierarchy implemented: Stone Sans display fonts (H1/H2) and Source Sans body text with correct font weights and line-height
   5. OpenAPI specification generated and Swagger UI accessible at /api-docs
 
-**Plans:** 11/8 plans complete
+**Plans:** 6/6 complete
 
 Plan breakdown:
 - [x] 07-01a-PLAN.md — Express Scaffold + TypeScript Configuration
@@ -106,16 +106,7 @@ Plan breakdown:
 - [x] 07-02-PLAN.md — Database Schema + Prisma Migrations (depends on 07-01b)
 - [x] 07-03-PLAN.md — Design System Implementation (depends on 07-01a only; parallel with 07-02)
 
-Wave structure:
-- Wave 1: 07-01a (Express Scaffold)
-- Wave 2 (parallel): 07-01b → 07-02 (sequential), 07-03 (independent of 07-02)
-- Wave 1 (gap closure - parallel): 07-01c (Adapter config) + 07-01d (Config type fix) - both can run immediately
-
-**Gap Closure Rationale:** Phase 7 execution revealed 2 critical configuration gaps that must be fixed before Phase 08 API endpoints can run:
-1. **07-01c:** PrismaClient constructor missing required `adapter` or `accelerateUrl` option for Prisma v7.6.0 serverless compatibility
-2. **07-01d:** prisma.config.ts uses invalid `directUrl` property; TypeScript strict mode build fails
-
-Both gaps are isolated configuration issues (no new features, no schema changes). They must be fixed before Phase 08 can proceed, but can run in parallel with each other.
+**Status:** ✅ Complete (2026-04-07)
 
 ---
 
@@ -135,7 +126,15 @@ Both gaps are isolated configuration issues (no new features, no schema changes)
   5. Invalid requests return 400 with field-level validation error messages from Zod
   6. All endpoints documented in Swagger UI with request/response examples
 
-**Plans:** TBD
+**Plans:** 4/4 complete
+
+Plan breakdown:
+- [x] 08-01-PLAN.md — CRUD Endpoints Implementation
+- [x] 08-02-PLAN.md — Incident List Endpoint with Filtering
+- [x] 08-03-PLAN.md — Export Endpoints (JSON & PDF)
+- [x] 08-04-PLAN.md — OpenAPI Documentation & Swagger UI
+
+**Status:** ✅ Complete (2026-04-07)
 
 ---
 
@@ -155,7 +154,18 @@ Both gaps are isolated configuration issues (no new features, no schema changes)
   5. All 74 existing tests still pass; no breaking changes to v1.0 user workflows
   6. localStorage fallback works if API unavailable (graceful degradation)
 
-**Plans:** TBD
+**Plans:** 3 plans
+
+Plan breakdown:
+- [ ] 09-01-PLAN.md — useIncident() Hook Implementation (Wave 1, parallel with 09-03)
+- [ ] 09-02-PLAN.md — Data Migration Layer (Wave 2, depends on 09-01)
+- [ ] 09-03-PLAN.md — Incident List UI & Integration (Wave 1, parallel with 09-01)
+
+**Wave Structure:**
+- Wave 1 (parallel): 09-01 (useIncident hook) + 09-03 (incident list page) — no file conflicts
+- Wave 2: 09-02 (migration layer) — depends on Wave 1 hook completion
+
+**Status:** Ready for execution
 
 **UI hint:** yes
 
@@ -265,12 +275,12 @@ Both gaps are isolated configuration issues (no new features, no schema changes)
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 7. Backend Scaffold + Design System | 4/6 (gap closure pending) | Executing | - |
-| 8. API Implementation | 0/4 | Blocked on Phase 7 | - |
-| 9. Wizard ↔ Backend Integration | 0/3 | Blocked on Phase 8 | - |
-| 10. Motion + PDF + Dark Mode | 0/3 | Blocked on Phase 9 | - |
-| 11. Multi-Type Playbooks + Forms | 0/4 | Blocked on Phase 10 | - |
-| 12. Testing + Security | 0/3 | Blocked on Phase 11 | - |
-| 13. Deployment + Polish | 0/4 | Blocked on Phase 12 | - |
+| 7. Backend Scaffold + Design System | 6/6 | ✅ Complete | 2026-04-07 |
+| 8. API Implementation | 4/4 | ✅ Complete | 2026-04-07 |
+| 9. Wizard ↔ Backend Integration | 0/3 | 📋 Planned | — |
+| 10. Motion + PDF + Dark Mode | 0/3 | ⏳ Pending | — |
+| 11. Multi-Type Playbooks + Forms | 0/4 | ⏳ Pending | — |
+| 12. Testing + Security | 0/3 | ⏳ Pending | — |
+| 13. Deployment + Polish | 0/4 | ⏳ Pending | — |
 
-**Total:** 4/25 plans | **Estimate:** 7 weeks (1 week per phase)
+**Total:** 10/27 plans | **Completed:** 10/27 (37%) | **Estimate:** 4 weeks remaining (Phases 9–13)

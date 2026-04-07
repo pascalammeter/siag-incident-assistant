@@ -1,5 +1,23 @@
 # SIAG Incident Management Assistent
 
+## What This Is
+
+A guided incident response wizard for security teams in crisis. Incident-focused: Ransomware, Phishing, DDoS, Data Loss. Deployed to Vercel as interactive Next.js web app.
+
+## Core Value
+
+Removes decision paralysis during active incidents through structured, step-by-step guidance — from first recognition to handoff to SIAG consultant. Standardizes response vs. ad-hoc reactions. Ensures compliance with Swiss incident notification requirements (ISG, DSG, FINMA).
+
+## Requirements
+
+- Wizard UI: 7-screen interactive flow for incident classification and response
+- Playbooks: 25-point checklists per incident type (detection → containment → investigation → communication)
+- Compliance: Auto-calculate notification deadlines (ISG 24h, DSG, FINMA 24/72h)
+- Storage: Persistent backend (Express + PostgreSQL) with API
+- Design: SIAG branding (Navy #003B5E, Red #CC0033, Orange #D44E17), responsive, mobile-first
+- Deployment: Vercel production with CI/CD
+- Testing: 80%+ coverage, UAT sign-off from SIAG consultant
+
 ## What We're Building
 Ein interaktiver, geführter Incident-Response-Assistent als Next.js-Webapplikation. Startpunkt ist ein klickbarer Prototyp auf Vercel für Review durch SIAG-Berater und Stakeholder. Die Architektur ist von Beginn an auf spätere Integration in die SIAG-Kundenplattform ausgelegt.
 
