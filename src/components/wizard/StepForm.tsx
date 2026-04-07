@@ -8,6 +8,8 @@ import { useWizard } from './WizardContext'
 import type { StepKey } from '@/lib/wizard-types'
 import { StepNavigator } from './StepNavigator'
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
+import { showSuccessToast, showErrorToast } from '@/components/Toast'
+import { getFieldErrorMessage } from '@/constants/errorMessages'
 
 interface StepFormProps<T extends FieldValues> {
   stepKey: StepKey
@@ -50,6 +52,13 @@ export function StepForm<T extends FieldValues>({
     try {
       dispatch({ type: 'UPDATE_STEP', stepKey, data })
       dispatch({ type: 'NEXT_STEP' })
+      showSuccessToast('Progress saved successfully')
+    } catch (error) {
+      const errorMessage = getFieldErrorMessage(error)
+      showErrorToast(errorMessage, {
+        label: 'Retry',
+        onClick: () => onSubmit(new Event('submit') as any),
+      })
     } finally {
       setIsSubmitting(false)
     }
