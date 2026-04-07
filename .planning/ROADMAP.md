@@ -1,16 +1,29 @@
-# Roadmap — SIAG Incident Management Assistent v1.1
+# Roadmap — SIAG Incident Management Assistent
 
 ## Project Goal
 
-Transform v1.0 frontend MVP into professional-grade incident management platform with persistent backend storage, SIAG design system compliance, multi-incident type support (Ransomware, Phishing, DDoS, Data Loss), and REST API for platform integration.
+Build a guided incident response platform for security teams in crisis. v1.0 (Phases 1–6) delivered frontend MVP. v1.1 (Phases 7–13) adds persistent backend, design system, multi-type support, and production deployment.
 
 ---
 
 ## Phases
 
-- [ ] **Phase 7: Backend Scaffold + Design System** — Express + Prisma + PostgreSQL + SIAG palette + typography
-- [ ] **Phase 8: API Implementation** — CRUD endpoints + export + validation + OpenAPI docs
-- [ ] **Phase 9: Wizard ↔ Backend Integration** — Replace localStorage with API + incident list UI + type selector
+### v1.0: MVP Frontend (Completed 2026-04-06)
+
+- [x] **Phase 01: Design + Research** — Incident response workflow analysis, prototype iterations
+- [x] **Phase 02: Frontend Scaffold** — Next.js 15, Tailwind CSS, TypeScript, component structure
+- [x] **Phase 03: Core Wizard + Ransomware** — 7-screen workflow, 25-point playbook, state management
+- [x] **Phase 04: Swiss Compliance** — Meldepflicht automation (ISG 24h, DSG, FINMA 24/72h), deadline calculation
+- [x] **Phase 05: Screen 6 + Polish** — Summary screen, localStorage persistence, responsive design
+- [x] **Phase 06: Deployment Review + Smoke Testing** — Vercel production, CI/CD, bug fixes, UAT sign-off
+
+**Status:** Shipped 2026-04-06 | Vercel: https://siag-incident-assistant.vercel.app | Tests: 74/74 passing
+
+### v1.1: Backend Integration + Design System (In Progress)
+
+- [x] **Phase 07: Backend Scaffold + Design System** — Express + Prisma + PostgreSQL + SIAG palette + typography (completed 2026-04-07)
+- [ ] **Phase 08: API Implementation** — CRUD endpoints + export + validation + OpenAPI docs
+- [ ] **Phase 09: Wizard ↔ Backend Integration** — Replace localStorage with API + incident list UI + type selector
 - [ ] **Phase 10: Motion + PDF + Dark Mode** — 150-300ms transitions + professional export + theme toggle
 - [ ] **Phase 11: Multi-Type Playbooks + Forms** — Phishing/DDoS/Data Loss playbooks + inline validation + helper text
 - [ ] **Phase 12: Testing + Security** — Integration tests + load tests + security audit + 80%+ coverage
@@ -20,7 +33,55 @@ Transform v1.0 frontend MVP into professional-grade incident management platform
 
 ## Phase Details
 
-### Phase 7: Backend Scaffold + Design System
+### Phase 01: Design + Research
+
+**Status:** ✅ Complete (2026-03-20)
+
+**Summary:** Incident response workflow analysis, prototype iterations, requirements documentation.
+
+---
+
+### Phase 02: Frontend Scaffold
+
+**Status:** ✅ Complete (2026-03-22)
+
+**Summary:** Next.js 15, Tailwind CSS, TypeScript, component structure, deployment setup on Vercel.
+
+---
+
+### Phase 03: Core Wizard + Ransomware
+
+**Status:** ✅ Complete (2026-03-24)
+
+**Summary:** 7-screen workflow, 25-point Ransomware playbook, state management with useWizard hook.
+
+---
+
+### Phase 04: Swiss Compliance
+
+**Status:** ✅ Complete (2026-03-26)
+
+**Summary:** Meldepflicht automation (ISG 24h, DSG, FINMA 24/72h), deadline calculation, compliance UI.
+
+---
+
+### Phase 05: Screen 6 + Polish
+
+**Status:** ✅ Complete (2026-04-02)
+
+**Summary:** Summary screen, localStorage persistence, responsive design refinement, accessibility.
+
+---
+
+### Phase 06: Deployment Review + Smoke Testing
+
+**Status:** ✅ Complete (2026-04-06)
+
+**Summary:** Vercel production deployment, GitHub CI/CD setup, smoke test execution, UAT sign-off, bugfixes.
+
+---
+
+### Phase 07: Backend Scaffold + Design System
 
 **Goal:** Establish backend infrastructure and SIAG design tokens as foundation for all subsequent phases. Express app running locally, Prisma ORM connected to PostgreSQL, all color and typography tokens updated to spec.
 
@@ -35,13 +96,13 @@ Transform v1.0 frontend MVP into professional-grade incident management platform
   4. Typography hierarchy implemented: Stone Sans display fonts (H1/H2) and Source Sans body text with correct font weights and line-height
   5. OpenAPI specification generated and Swagger UI accessible at /api-docs
 
-**Plans:** 6 plans (07-01a + 07-01b + 07-01c + 07-01d + 07-02 + 07-03)
+**Plans:** 11/8 plans complete
 
 Plan breakdown:
 - [x] 07-01a-PLAN.md — Express Scaffold + TypeScript Configuration
 - [x] 07-01b-PLAN.md — Prisma ORM Initialization (depends on 07-01a)
-- [ ] 07-01c-PLAN.md — Fix PrismaClient Adapter Configuration (Prisma v7.6.0) [GAP CLOSURE]
-- [ ] 07-01d-PLAN.md — Fix Prisma Config Type Definition (prisma.config.ts) [GAP CLOSURE]
+- [x] 07-01c-PLAN.md — Fix PrismaClient Adapter Configuration (Prisma v7.6.0) [GAP CLOSURE]
+- [x] 07-01d-PLAN.md — Fix Prisma Config Type Definition (prisma.config.ts) [GAP CLOSURE]
 - [x] 07-02-PLAN.md — Database Schema + Prisma Migrations (depends on 07-01b)
 - [x] 07-03-PLAN.md — Design System Implementation (depends on 07-01a only; parallel with 07-02)
 
