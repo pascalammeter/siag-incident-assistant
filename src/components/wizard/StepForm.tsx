@@ -1,12 +1,13 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, type FieldValues, type DefaultValues } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { ZodObject, ZodRawShape } from 'zod'
 import { useWizard } from './WizardContext'
 import type { StepKey } from '@/lib/wizard-types'
 import { StepNavigator } from './StepNavigator'
+import { LoadingSpinner } from '@/components/atoms/LoadingSpinner'
 
 interface StepFormProps<T extends FieldValues> {
   stepKey: StepKey
@@ -28,6 +29,7 @@ export function StepForm<T extends FieldValues>({
   nextLabel,
 }: StepFormProps<T>) {
   const { state, dispatch } = useWizard()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<T>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,15 +45,26 @@ export function StepForm<T extends FieldValues>({
     return () => subscription.unsubscribe()
   }, [form, stepKey, dispatch])
 
-  const onSubmit = form.handleSubmit((data) => {
-    dispatch({ type: 'UPDATE_STEP', stepKey, data })
-    dispatch({ type: 'NEXT_STEP' })
+  const onSubmit = form.handleSubmit(async (data) => {
+    setIsSubmitting(true)
+    try {
+      dispatch({ type: 'UPDATE_STEP', stepKey, data })
+      dispatch({ type: 'NEXT_STEP' })
+    } finally {
+      setIsSubmitting(false)
+    }
   })
 
   const handlePrev = onPrev ?? (() => dispatch({ type: 'PREV_STEP' }))
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
+      {isSubmitting && (
+        <div className="flex justify-center items-center py-4">
+          <LoadingSpinner size="md" />
+          <span className="ml-3 text-gray-600 dark:text-gray-300">Saving...</span>
+        </div>
+      )}
       {children(form)}
       <StepNavigator
         currentStep={state.currentStep}
@@ -61,6 +74,7 @@ export function StepForm<T extends FieldValues>({
         showNext={showNext ?? true}
         nextButtonType="submit"
         nextLabel={nextLabel}
+        isNextDisabled={isSubmitting}
       />
     </form>
   )

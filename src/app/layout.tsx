@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Source_Sans_3 } from "next/font/google";
+import { ThemeProvider } from "next-themes";
+import { MotionConfig } from "@/lib/motion-config";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -31,13 +33,22 @@ export default function RootLayout({
       suppressHydrationWarning
       className={sourceSansPro.variable}
     >
-      <body className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-50 transition-colors">
-        <MigrationInitializer />
-        <Header />
-        <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-8">
-          {children}
-        </main>
-        <Footer />
+      <body className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-50 transition-colors duration-200">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange={false}
+        >
+          <MotionConfig>
+            <MigrationInitializer />
+            <Header />
+            <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-8">
+              {children}
+            </main>
+            <Footer />
+          </MotionConfig>
+        </ThemeProvider>
       </body>
     </html>
   );

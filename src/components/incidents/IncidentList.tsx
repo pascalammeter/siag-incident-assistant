@@ -13,6 +13,7 @@ import { FilterBar } from './FilterBar';
 import { IncidentTable } from './IncidentTable';
 import { LoadingState } from './LoadingState';
 import { EmptyState } from './EmptyState';
+import { LoadingSpinner } from '@/components/atoms/LoadingSpinner';
 
 export function IncidentList() {
   const router = useRouter();
@@ -141,7 +142,11 @@ export function IncidentList() {
       )}
 
       {/* Loading state */}
-      {isLoading && <LoadingState />}
+      {isLoading && (
+        <div className="flex justify-center items-center py-12">
+          <LoadingSpinner size="lg" />
+        </div>
+      )}
 
       {/* Empty state */}
       {!isLoading && incidents.length === 0 && !error && !localError && (
