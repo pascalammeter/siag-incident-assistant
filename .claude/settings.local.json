@@ -27,7 +27,8 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(python3 -c \"import sys, json; data = json.load\\(sys.stdin\\); print\\(f\\\\\"Status: {data['status']}\\\\\"\\); print\\(f\\\\\"Errors: {len\\(data['errors']\\)}\\\\\"\\); print\\(f\\\\\"Warnings: {len\\(data['warnings']\\)}\\\\\"\\); print\\(f\\\\\"Info: {len\\(data['info']\\)}\\\\\"\\)\")",
       "Read(//tmp/**)",
-      "Skill(gsd-code-review)"
+      "Skill(gsd-code-review)",
+      "Bash(npm test:*)"
     ]
   }
 }
