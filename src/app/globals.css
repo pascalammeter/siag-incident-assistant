@@ -1,16 +1,15 @@
 /* ============= TAILWIND & POSTCSS ============= */
 @import "tailwindcss";
-@import "@tailwindcss/postcss";
 
-/* ============= DESIGN TOKENS (@theme for Tailwind v4) ============= */
-@theme {
+/* ============= DESIGN TOKENS (CSS Variables) ============= */
+:root {
   /* SIAG Color Palette — Per brand guidelines */
   --color-siag-red: #CC0033;      /* Primary red — incidents, warnings, critical status */
   --color-siag-navy: #003B5E;     /* Primary navy — headers, primary buttons, dark backgrounds */
   --color-siag-orange: #D44E17;   /* Accent orange — highlights, secondary actions, alerts */
 
   /* Semantic colors */
-  --color-critical: var(--color-siag-red);
+  --color-critical: #CC0033;
   --color-high: #F97316;          /* Orange variant for high severity */
   --color-medium: #EAB308;        /* Yellow for medium severity */
   --color-low: #22C55E;           /* Green for low severity */
@@ -33,40 +32,54 @@
   --color-card-shadow: rgba(0, 0, 0, 0.1);
 
   /* Font families (injected by next/font/google) */
-  --font-sans: var(--font-sans, 'Source Sans Pro', system-ui, sans-serif);
-  --font-display: 'Stone Sans Pro', var(--font-sans); /* Display — H1, H2 */
+  --font-sans: 'Source Sans Pro', system-ui, sans-serif;
+  --font-display: 'Stone Sans Pro', 'Source Sans Pro', system-ui, sans-serif;
 }
 
 /* ============= DARK MODE VARIABLES ============= */
 @media (prefers-color-scheme: dark) {
-  @theme {
+  :root {
     --color-siag-red: #FF3355;       /* Lighter red for dark mode */
     --color-siag-navy: #1E3A8A;      /* Lighter navy for dark mode */
     --color-siag-orange: #FB923C;    /* Lighter orange */
 
-    --color-background: var(--color-dark-background);
-    --color-foreground: var(--color-dark-foreground);
-    --color-border: var(--color-dark-border);
+    --color-background: #0F172A;
+    --color-foreground: #F1F5F9;
+    --color-border: #334155;
     --color-muted: #A0AEC0;
     --color-muted-foreground: #CBD5E1;
   }
 }
 
+/* Also support .dark class for Tailwind dark mode */
+.dark {
+  --color-siag-red: #FF3355;
+  --color-siag-navy: #1E3A8A;
+  --color-siag-orange: #FB923C;
+  --color-background: #0F172A;
+  --color-foreground: #F1F5F9;
+  --color-border: #334155;
+  --color-muted: #A0AEC0;
+  --color-muted-foreground: #CBD5E1;
+}
+
 /* ============= GLOBAL STYLES ============= */
 * {
-  @apply border-color-border;
+  border-color: var(--color-border);
 }
 
 html {
   color-scheme: light dark;
   /* Allow smooth transitions when theme changes */
-  @apply transition-colors;
+  transition: background-color 200ms, color 200ms;
 }
 
 body {
-  @apply bg-color-background text-color-foreground;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
   font-family: var(--font-sans);
   line-height: 1.6;
+  transition: background-color 200ms, color 200ms;
 }
 
 /* ============= TYPOGRAPHY HIERARCHY ============= */
@@ -105,52 +118,117 @@ p {
 /* ============= BUTTON COMPONENTS ============= */
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center px-4 py-2 bg-siag-red text-white font-semibold rounded-lg;
+    @apply inline-flex items-center justify-center px-4 py-2 text-white font-semibold rounded-lg;
     @apply transition-all duration-150 ease-out;
-    @apply hover:bg-siag-red/90 hover:shadow-lg;
-    @apply active:scale-98 active:duration-100;
-    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none;
+    background-color: var(--color-siag-red);
+  }
+
+  .btn-primary:hover {
+    opacity: 0.9;
+    @apply shadow-lg;
+  }
+
+  .btn-primary:active {
+    @apply scale-98 duration-100;
+  }
+
+  .btn-primary:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .btn-primary:disabled:hover {
+    @apply shadow-none;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-4 py-2 bg-siag-navy text-white font-semibold rounded-lg;
+    @apply inline-flex items-center justify-center px-4 py-2 text-white font-semibold rounded-lg;
     @apply transition-all duration-150 ease-out;
-    @apply hover:bg-siag-navy/90 hover:shadow-lg;
-    @apply active:scale-98 active:duration-100;
-    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+    background-color: var(--color-siag-navy);
+  }
+
+  .btn-secondary:hover {
+    opacity: 0.9;
+    @apply shadow-lg;
+  }
+
+  .btn-secondary:active {
+    @apply scale-98 duration-100;
+  }
+
+  .btn-secondary:disabled {
+    @apply opacity-50 cursor-not-allowed;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center px-4 py-2 bg-transparent text-siag-red font-semibold rounded-lg;
+    @apply inline-flex items-center justify-center px-4 py-2 font-semibold rounded-lg;
     @apply transition-all duration-150 ease-out;
-    @apply hover:bg-color-button-hover;
-    @apply active:scale-98 active:duration-100;
+    background-color: transparent;
+    color: var(--color-siag-red);
+  }
+
+  .btn-ghost:hover {
+    background-color: var(--color-button-hover);
+  }
+
+  .btn-ghost:active {
+    @apply scale-98 duration-100;
   }
 
   /* Card component with shadow and hover elevation */
   .card {
-    @apply rounded-lg bg-white dark:bg-slate-800 p-6;
-    @apply border border-color-border dark:border-color-dark-border;
+    @apply rounded-lg p-6;
     @apply transition-shadow duration-150 ease-out;
-    @apply hover:shadow-lg;
+    background-color: white;
+    border: 1px solid var(--color-border);
+  }
+
+  .dark .card {
+    background-color: #1e293b;
+    border-color: var(--color-border);
+  }
+
+  .card:hover {
+    @apply shadow-lg;
   }
 
   /* Input fields */
   .input {
-    @apply w-full px-4 py-2 rounded-lg border border-color-border dark:border-color-dark-border;
-    @apply bg-white dark:bg-slate-900 text-color-foreground;
+    @apply w-full px-4 py-2 rounded-lg;
     @apply transition-colors duration-150;
-    @apply focus:outline-none focus:ring-2 focus:ring-siag-red focus:ring-offset-2 dark:focus:ring-offset-slate-950;
+    background-color: white;
+    color: var(--color-foreground);
+    border: 1px solid var(--color-border);
+  }
+
+  .dark .input {
+    background-color: #020617;
+    color: var(--color-foreground);
+  }
+
+  .input:focus {
+    @apply outline-none ring-2 ring-offset-2;
+    border-color: var(--color-siag-red);
+    --tw-ring-color: var(--color-siag-red);
+  }
+
+  .dark .input:focus {
+    --tw-ring-offset-color: #0f172a;
   }
 
   .input:disabled {
-    @apply bg-gray-100 dark:bg-slate-800 opacity-50 cursor-not-allowed;
+    @apply opacity-50 cursor-not-allowed;
+    background-color: #f3f4f6;
+  }
+
+  .dark .input:disabled {
+    background-color: #1e293b;
   }
 
   /* Loading spinner */
   .spinner {
     @apply inline-block h-4 w-4 animate-spin rounded-full;
-    @apply border-2 border-color-siag-red border-r-transparent;
+    border: 2px solid var(--color-siag-red);
+    border-right-color: transparent;
   }
 }
 
@@ -196,7 +274,8 @@ p {
 
 /* Severity badges */
 .badge-critical {
-  @apply inline-block px-3 py-1 rounded-full bg-siag-red text-white text-sm font-semibold;
+  @apply inline-block px-3 py-1 rounded-full text-white text-sm font-semibold;
+  background-color: var(--color-siag-red);
 }
 
 .badge-high {
@@ -213,31 +292,40 @@ p {
 
 /* Error state */
 .error {
-  @apply text-siag-red dark:text-siag-red/90;
+  color: var(--color-siag-red);
+}
+
+.dark .error {
+  opacity: 0.9;
 }
 
 .error-border {
-  @apply border-siag-red focus:ring-siag-red;
+  border-color: var(--color-siag-red);
+}
+
+.error-border:focus {
+  --tw-ring-color: var(--color-siag-red);
 }
 
 /* Print styles (for PDF export in Phase 10) */
 @media print {
   * {
-    @apply bg-white text-black;
+    background: white !important;
+    color: black !important;
   }
 
   .btn-primary,
   .btn-secondary,
   .btn-ghost {
-    @apply border border-black;
+    border: 1px solid black;
   }
 
   .no-print {
-    @apply hidden;
+    display: none;
   }
 
   h1, h2, h3 {
-    @apply page-break-after-avoid;
+    page-break-after: avoid;
   }
 
   /* Hide all interactive navigation */
