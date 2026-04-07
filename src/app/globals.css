@@ -224,6 +224,76 @@ p {
     background-color: #1e293b;
   }
 
+  /* Form field wrapper and components (for 11-03) */
+  .form-group {
+    @apply space-y-1;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-gray-700;
+    @apply dark:text-gray-300;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-2 rounded-lg;
+    @apply transition-colors duration-150;
+    @apply border border-gray-300;
+    @apply dark:border-gray-600;
+    background-color: white;
+    color: var(--color-foreground);
+  }
+
+  .dark .form-input {
+    background-color: #020617;
+    color: var(--color-foreground);
+  }
+
+  .form-input:focus {
+    @apply outline-none ring-2 ring-offset-2;
+    border-color: var(--color-siag-red);
+    --tw-ring-color: var(--color-siag-red);
+  }
+
+  .dark .form-input:focus {
+    --tw-ring-offset-color: #0f172a;
+  }
+
+  /* Error state for form inputs */
+  .form-input.error {
+    border-color: var(--color-siag-red);
+    background-color: rgba(204, 0, 51, 0.05);
+  }
+
+  .dark .form-input.error {
+    border-color: var(--color-siag-red);
+    background-color: rgba(204, 0, 51, 0.1);
+  }
+
+  .form-input.error:focus {
+    border-color: var(--color-siag-red);
+    --tw-ring-color: var(--color-siag-red);
+  }
+
+  /* Error message text in red */
+  .form-error {
+    @apply text-sm font-medium;
+    color: var(--color-siag-red);
+    @apply mt-1;
+  }
+
+  /* Helper text in gray */
+  .form-helper {
+    @apply text-sm text-gray-600;
+    @apply dark:text-gray-400;
+    @apply mt-1;
+  }
+
+  /* Required field indicator (red asterisk) */
+  .required-indicator {
+    color: var(--color-siag-red);
+    @apply ml-1 font-bold;
+  }
+
   /* Loading spinner */
   .spinner {
     @apply inline-block h-4 w-4 animate-spin rounded-full;
