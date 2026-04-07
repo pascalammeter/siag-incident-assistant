@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import { errorHandler } from '../middleware/errorHandler';
 import { getCorsHeaders } from '../utils/cors';
+import { validateApiKey } from '../utils/auth';
+import { asyncHandler } from '../utils/error';
 import swaggerUi, { swaggerSetup, swaggerJson } from './swagger';
 
 // Load environment variables
@@ -41,13 +43,21 @@ app.get('/api-docs/json', swaggerJson);
 
 // ============= API ROUTES (Phase 08) =============
 // Placeholder routes (to be implemented in Phase 08)
-app.get('/api/incidents', async (_req: Request, res: Response) => {
-  res.status(501).json({ error: 'Not implemented — coming in Phase 08' });
-});
+app.get(
+  '/api/incidents',
+  validateApiKey,
+  asyncHandler(async (_req: Request, res: Response) => {
+    res.status(501).json({ error: 'Not implemented — coming in Phase 08' });
+  })
+);
 
-app.post('/api/incidents', async (_req: Request, res: Response) => {
-  res.status(501).json({ error: 'Not implemented — coming in Phase 08' });
-});
+app.post(
+  '/api/incidents',
+  validateApiKey,
+  asyncHandler(async (_req: Request, res: Response) => {
+    res.status(501).json({ error: 'Not implemented — coming in Phase 08' });
+  })
+);
 
 // Error handler (last middleware)
 app.use(errorHandler);
