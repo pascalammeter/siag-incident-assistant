@@ -72,7 +72,7 @@ export class IncidentService {
     return true;
   }
 
-  // Get list of incidents
+  // Get list of incidents (exclude soft-deleted)
   static async listIncidents(
     filters?: {
       type?: string;
@@ -87,7 +87,9 @@ export class IncidentService {
     const limit = pagination?.limit || 10;
     const skip = (page - 1) * limit;
 
-    const where: any = {};
+    const where: any = {
+      deletedAt: null,
+    };
 
     if (filters?.type) {
       where.incident_type = filters.type;
