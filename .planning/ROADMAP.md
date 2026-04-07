@@ -154,18 +154,18 @@ Plan breakdown:
   5. All 74 existing tests still pass; no breaking changes to v1.0 user workflows
   6. localStorage fallback works if API unavailable (graceful degradation)
 
-**Plans:** 3 plans
+**Plans:** 3/3 complete
 
 Plan breakdown:
-- [ ] 09-01-PLAN.md — useIncident() Hook Implementation (Wave 1, parallel with 09-03)
-- [ ] 09-02-PLAN.md — Data Migration Layer (Wave 2, depends on 09-01)
-- [ ] 09-03-PLAN.md — Incident List UI & Integration (Wave 1, parallel with 09-01)
+- [x] 09-01-PLAN.md — useIncident() Hook Implementation (Wave 1, parallel with 09-03)
+- [x] 09-02-PLAN.md — Data Migration Layer (Wave 2, depends on 09-01)
+- [x] 09-03-PLAN.md — Incident List UI & Integration (Wave 1, parallel with 09-01)
 
 **Wave Structure:**
 - Wave 1 (parallel): 09-01 (useIncident hook) + 09-03 (incident list page) — no file conflicts
 - Wave 2: 09-02 (migration layer) — depends on Wave 1 hook completion
 
-**Status:** Ready for execution
+**Status:** ✅ Complete (2026-04-07)
 
 **UI hint:** yes
 
@@ -277,10 +277,10 @@ Plan breakdown:
 |-------|----------------|--------|-----------|
 | 7. Backend Scaffold + Design System | 6/6 | ✅ Complete | 2026-04-07 |
 | 8. API Implementation | 4/4 | ✅ Complete | 2026-04-07 |
-| 9. Wizard ↔ Backend Integration | 0/3 | 📋 Planned | — |
+| 9. Wizard ↔ Backend Integration | 3/3 | ✅ Complete | 2026-04-07 |
 | 10. Motion + PDF + Dark Mode | 0/3 | ⏳ Pending | — |
 | 11. Multi-Type Playbooks + Forms | 0/4 | ⏳ Pending | — |
 | 12. Testing + Security | 0/3 | ⏳ Pending | — |
 | 13. Deployment + Polish | 0/4 | ⏳ Pending | — |
 
-**Total:** 10/27 plans | **Completed:** 10/27 (37%) | **Estimate:** 4 weeks remaining (Phases 9–13)
+**Total:** 13/27 plans | **Completed:** 13/27 (48%) | **Estimate:** 3.5 weeks remaining (Phases 10–13)
