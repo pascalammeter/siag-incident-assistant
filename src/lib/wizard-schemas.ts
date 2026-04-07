@@ -16,10 +16,16 @@ export function calculateSeverity(
 export const einstiegSchema = z.object({})
 
 export const erfassenSchema = z.object({
-  erkennungszeitpunkt: z.string().min(1, 'Bitte geben Sie ein gueltiges Datum und eine Uhrzeit ein.'),
+  erkennungszeitpunkt: z
+    .string()
+    .min(1, 'Erkennungszeitpunkt ist erforderlich.')
+    .refine(
+      (val) => !isNaN(new Date(val).getTime()),
+      'Bitte geben Sie ein gueltiges Datum und eine Uhrzeit ein.'
+    ),
   erkannt_durch: z.enum(
     ['it-mitarbeiter', 'nutzer', 'externes-system', 'angreifer-kontakt', 'sonstiges'],
-    { error: 'Bitte waehlen Sie eine Option.' }
+    { error: 'Bitte waehlen Sie aus, durch wen der Vorfall erkannt wurde.' }
   ),
   betroffene_systeme: z.array(z.string()).default([]),
   erste_auffaelligkeiten: z.string().optional(),
@@ -27,14 +33,14 @@ export const erfassenSchema = z.object({
 })
 
 export const klassifikationSchema = z.object({
-  q1SystemeBetroffen: z.enum(['ja', 'nein'], { error: 'Bitte waehlen Sie eine Option.' }),
-  q2PdBetroffen: z.enum(['ja', 'nein'], { error: 'Bitte waehlen Sie eine Option.' }),
-  q3AngreiferAktiv: z.enum(['ja', 'nein', 'unbekannt'], { error: 'Bitte waehlen Sie eine Option.' }),
+  q1SystemeBetroffen: z.enum(['ja', 'nein'], { error: 'Bitte beantwortet Sie diese Frage.' }),
+  q2PdBetroffen: z.enum(['ja', 'nein'], { error: 'Bitte beantwortet Sie diese Frage.' }),
+  q3AngreiferAktiv: z.enum(['ja', 'nein', 'unbekannt'], { error: 'Bitte beantwortet Sie diese Frage.' }),
   incidentType: z.enum(
     ['ransomware', 'phishing', 'ddos', 'datenverlust', 'unbefugter-zugriff', 'sonstiges'],
     { error: 'Bitte waehlen Sie einen Incident-Typ.' }
   ),
-  severity: z.enum(['KRITISCH', 'HOCH', 'MITTEL']),
+  severity: z.enum(['KRITISCH', 'HOCH', 'MITTEL'], { error: 'Bitte waehlen Sie eine Schweregrad.' }),
 })
 
 export const reaktionSchema = z.object({
