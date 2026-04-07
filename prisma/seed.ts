@@ -25,7 +25,7 @@ async function main() {
         status: 'in_progress',
       },
       regulatorische_meldungen: {
-        isg_24h: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+        isg_24h: '2026-04-07T10:30:00Z',
         dsg: true,
         finma_24h: null,
         finma_72h: null,
@@ -55,7 +55,7 @@ async function main() {
         status: 'in_progress',
       },
       regulatorische_meldungen: {
-        isg_24h: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+        isg_24h: '2026-04-06T14:15:00Z',
         dsg: false,
         finma_24h: null,
         finma_72h: null,
@@ -87,7 +87,7 @@ async function main() {
       regulatorische_meldungen: {
         isg_24h: null,
         dsg: false,
-        finma_24h: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+        finma_24h: '2026-04-05T09:00:00Z',
         finma_72h: null,
       },
       metadata: {
