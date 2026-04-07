@@ -21,6 +21,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@prisma/adapter-neon": "^7.6.0",
     "@prisma/client": "^7.6.0",
+    "@sparticuz/chromium-min": "^143.0.4",
     "@tailwindcss/postcss": "^4.2.2",
     "@types/express": "^5.0.6",
     "@types/swagger-ui-express": "^4.1.8",
