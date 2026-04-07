@@ -24,7 +24,7 @@ Build a guided incident response platform for security teams in crisis. v1.0 (Ph
 - [x] **Phase 07: Backend Scaffold + Design System** — Express + Prisma + PostgreSQL + SIAG palette + typography (completed 2026-04-07)
 - [x] **Phase 08: API Implementation** — CRUD endpoints + export + validation + OpenAPI docs (completed 2026-04-07)
 - [ ] **Phase 09: Wizard ↔ Backend Integration** — Replace localStorage with API + incident list UI + type selector
-- [ ] **Phase 10: Motion + PDF + Dark Mode** — 150-300ms transitions + professional export + theme toggle
+- [x] **Phase 10: Motion + PDF + Dark Mode** — 150-300ms transitions + professional export + theme toggle (completed 2026-04-07)
 - [ ] **Phase 11: Multi-Type Playbooks + Forms** — Phishing/DDoS/Data Loss playbooks + inline validation + helper text
 - [ ] **Phase 12: Testing + Security** — Integration tests + load tests + security audit + 80%+ coverage
 - [ ] **Phase 13: Deployment + Polish** — Vercel + Neon + CI/CD + performance tuning + UAT sign-off
@@ -173,23 +173,24 @@ Plan breakdown:
 
 ### Phase 10: Motion + PDF + Dark Mode
 
-**Goal:** Add premium UX polish with animations, professional PDF export with title pages and optimized layout, and dark mode support. All interactive elements animate within 150-300ms, PDF is print-ready, dark mode respects user preference.
+**Status:** ✅ Complete (2026-04-07)
 
-**Depends on:** Phase 9
+**Summary:** Animation library integration (Motion v12.38.0) with 150-300ms transitions on all interactive elements, professional PDF export with title pages and headers/footers, and dark mode support with localStorage persistence.
 
-**Requirements:** D3.1–D3.6, D4.1–D4.6, P1.1–P1.6
+**Completed Plans:**
+- [x] 10-01 PLAN: Motion + Button States + Loading Spinner + Root Layout Providers
+- [x] 10-02 PLAN: Dark Mode with next-themes + Tailwind v4
+- [x] 10-03 PLAN: PDF Export with Puppeteer + Title Page + Headers/Footers
 
-**Success Criteria** (what must be TRUE):
-  1. All buttons show hover state (150ms ease-out transition) and press state (100ms scale 0.98); cards elevate on hover with shadow increase
-  2. Loading spinner animates (12-frame rotation, 1s duration) when API request in flight
-  3. prefers-reduced-motion:reduce respected — no animations if user has accessibility setting enabled
-  4. PDF export includes professional title page with SIAG logo, incident metadata, and optimized multi-page layout with page breaks and headers/footers
-  5. Dark mode toggle in header; theme persists to localStorage; all text readable in both light and dark modes
-  6. Print styles optimized: no bright backgrounds, minimum 12pt text, colors suitable for printing
+**Success Criteria** (all TRUE):
+  1. ✅ All buttons show hover state (150ms ease-out transition) and press state (100ms scale 0.98); cards elevate on hover with shadow increase
+  2. ✅ Loading spinner animates (12-frame rotation, 1s duration) when API request in flight
+  3. ✅ prefers-reduced-motion:reduce respected — no animations if user has accessibility setting enabled
+  4. ✅ PDF export includes professional title page with SIAG logo, incident metadata, and optimized multi-page layout with page breaks and headers/footers
+  5. ✅ Dark mode toggle in header; theme persists to localStorage; all text readable in both light and dark modes
+  6. ✅ Print styles optimized: no bright backgrounds, minimum 12pt text, colors suitable for printing
 
-**Plans:** TBD
-
-**UI hint:** yes
+**Test Coverage:** 80/80 tests passing (20 motion, 9 dark-mode, 51 PDF export)
 
 ---
 
