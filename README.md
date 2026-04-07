@@ -71,13 +71,233 @@ _Fragen oder Feedback direkt an pascalammeter (GitHub: pascalammeter/siag-incide
 
 ---
 
+## Backend Setup (Local Development)
+
+### Prerequisites
+
+- Node.js 18+ and npm 9+
+- PostgreSQL database (Neon recommended for cloud)
+- API Key for authentication
+
+### 1. Clone and Install Dependencies
+
+```bash
+git clone https://github.com/pascalammeter/siag-incident-assistant.git
+cd siag-incident-assistant
+npm install
+```
+
+### 2. Configure Environment
+
+Create `.env.local` in the project root (use `.env.example` as template):
+
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local` with your database credentials:
+
+```env
+# Database (get from https://console.neon.tech)
+DATABASE_URL=postgresql://user:password@host.neon.tech/dbname?sslmode=require
+DIRECT_URL=postgresql://user:password@host.neon.tech/dbname?sslmode=require
+
+# API Configuration
+API_KEY=sk_test_your_secret_key_here
+CORS_ORIGIN=http://localhost:3000
+NODE_ENV=development
+```
+
+### 3. Set Up PostgreSQL Database
+
+**Option A: Using Neon (Recommended)**
+
+1. Create free account at https://console.neon.tech
+2. Create new PostgreSQL project
+3. Copy connection string to `DATABASE_URL` in `.env.local`
+4. Copy compute endpoint connection string to `DIRECT_URL`
+
+**Option B: Local PostgreSQL**
+
+```bash
+# macOS (homebrew)
+brew install postgresql@15
+brew services start postgresql@15
+
+# Linux (Ubuntu/Debian)
+sudo apt-get install postgresql postgresql-contrib
+sudo systemctl start postgresql
+
+# Create database and user
+psql postgres -c "CREATE USER incident_user WITH PASSWORD 'password';"
+psql postgres -c "CREATE DATABASE incident_db OWNER incident_user;"
+
+# Connection string for .env.local:
+# DATABASE_URL=postgresql://incident_user:password@localhost:5432/incident_db
+```
+
+### 4. Run Database Migrations
+
+```bash
+npm run prisma:migrate -- --name "initial"
+```
+
+This creates all tables defined in `prisma/schema.prisma`.
+
+### 5. Start Backend Server
+
+```bash
+npm run dev:backend
+```
+
+Server starts at `http://localhost:3000`
+
+Verify API is running:
+```bash
+curl -H "X-API-Key: sk_test_your_secret_key_here" \
+  http://localhost:3000/api/incidents
+```
+
+Expected response:
+```json
+{
+  "data": [],
+  "total": 0,
+  "page": 1,
+  "limit": 10
+}
+```
+
+### 6. Access API Documentation
+
+Open **Swagger UI** at:
+```
+http://localhost:3000/api-docs
+```
+
+Or view **OpenAPI JSON spec**:
+```
+http://localhost:3000/api-docs/json
+```
+
+### 7. Run Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm test -- --watch
+
+# Run tests with coverage
+npm test -- --coverage
+```
+
+Expected: 515+ tests passing ✅
+
+---
+
+## Frontend + Backend (Full Stack Local Development)
+
+```bash
+# Terminal 1: Backend API server
+npm run dev:backend
+
+# Terminal 2: Frontend dev server (in same project)
+npm run dev:frontend
+
+# Open http://localhost:3000 in browser
+```
+
+The frontend automatically connects to backend at `http://localhost:3000/api` with API key from `.env.local`.
+
+---
+
+## Production Deployment
+
+### Deploy to Vercel (Recommended)
+
+```bash
+# Push to GitHub
+git push origin main
+
+# Vercel auto-deploys from main branch
+# Set environment variables in Vercel dashboard:
+# - DATABASE_URL
+# - DIRECT_URL
+# - API_KEY (use sk_live_ prefix)
+# - CORS_ORIGIN=https://siag-incident-assistant.vercel.app
+# - NODE_ENV=production
+```
+
+### Access Production API
+
+```bash
+curl -H "X-API-Key: sk_live_..." \
+  https://siag-incident-assistant.vercel.app/api/incidents
+```
+
+---
+
+## Documentation
+
+| Document | Purpose |
+|----------|---------|
+| [`docs/INTEGRATION_GUIDE.md`](docs/INTEGRATION_GUIDE.md) | API endpoint documentation and examples |
+| [`docs/DATABASE_SCHEMA.md`](docs/DATABASE_SCHEMA.md) | Database schema, fields, indexes, constraints |
+| [`docs/DATABASE_SCHEMA_ER.mmd`](docs/DATABASE_SCHEMA_ER.mmd) | Entity-relationship diagram (Mermaid) |
+| [`docs/API_ERROR_CODES.md`](docs/API_ERROR_CODES.md) | Complete error codes reference and solutions |
+| [`docs/PERFORMANCE_BENCHMARKS.md`](docs/PERFORMANCE_BENCHMARKS.md) | Load test results, SLA metrics, capacity planning |
+| [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) | Frontend development setup and architecture |
+| [`docs/TESTING.md`](docs/TESTING.md) | Testing strategy and test coverage |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | System architecture and design decisions |
+
+---
+
+## API Quick Reference
+
+### Create Incident
+
+```bash
+curl -X POST http://localhost:3000/api/incidents \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: sk_test_your_key" \
+  -d '{
+    "incident_type": "ransomware",
+    "severity": "critical",
+    "erkennungszeitpunkt": "2026-04-07T14:30:00Z",
+    "erkannt_durch": "SOC monitoring",
+    "betroffene_systeme": ["Exchange", "SharePoint"]
+  }'
+```
+
+### List Incidents
+
+```bash
+curl "http://localhost:3000/api/incidents?severity=critical&limit=10" \
+  -H "X-API-Key: sk_test_your_key"
+```
+
+### Get Incident by ID
+
+```bash
+curl "http://localhost:3000/api/incidents/{id}" \
+  -H "X-API-Key: sk_test_your_key"
+```
+
+See [`docs/INTEGRATION_GUIDE.md`](docs/INTEGRATION_GUIDE.md) for complete API documentation.
+
+---
+
 ## Entwicklung (Quick Reference)
 
 ```bash
 npm install
-npm run dev        # Lokaler Dev-Server (http://localhost:3000)
-npm test           # 74 Tests via Vitest
-npm run build      # Statischen Export nach out/ generieren
+npm run dev:backend       # Backend API server (http://localhost:3000/api)
+npm run dev:frontend      # Frontend dev server
+npm test                  # Tests via Vitest (515+ tests)
+npm run build             # Static frontend export
+npm run prisma:migrate    # Run database migrations
 ```
 
 Weitere Details: [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) | [`docs/TESTING.md`](docs/TESTING.md) | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)

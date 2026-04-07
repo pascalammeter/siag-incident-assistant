@@ -1,0 +1,19 @@
+erDiagram
+    INCIDENT {
+        string id PK "UUID, auto-generated"
+        datetime createdAt "Timestamp when incident created in system"
+        datetime updatedAt "Last modification timestamp"
+        datetime deletedAt "Soft delete marker (nullable)"
+        datetime erkennungszeitpunkt "When incident was discovered"
+        string erkannt_durch "Detection method/source (max 255 chars)"
+        string_array betroffene_systeme "Affected systems/services"
+        string erste_erkenntnisse "Initial findings (text)"
+        enum incident_type "ransomware|phishing|ddos|data_loss|other"
+        int q1 "Classification answer 1 (0-1)"
+        int q2 "Classification answer 2 (0-1)"
+        int q3 "Classification answer 3 (0-1)"
+        enum severity "critical|high|medium|low"
+        jsonb playbook "Playbook progress tracking"
+        jsonb regulatorische_meldungen "Regulatory deadlines (ISG, DSG, FINMA)"
+        jsonb metadata "Custom fields, tags, notes"
+    }
