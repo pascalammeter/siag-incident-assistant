@@ -3,8 +3,9 @@ import dotenv from 'dotenv';
 import { errorHandler } from '../middleware/errorHandler';
 import { getCorsHeaders } from '../utils/cors';
 import { validateApiKey } from '../utils/auth';
-import { asyncHandler } from '../utils/error';
 import swaggerUi, { swaggerSetup, swaggerJson } from './swagger';
+import incidentsRouter from './routes/incidents';
+import { errorHandler as validationErrorHandler } from './middleware/validation';
 
 // Load environment variables
 dotenv.config({ path: '.env.local' });
@@ -42,24 +43,11 @@ app.get('/api-docs/', swaggerSetup);
 app.get('/api-docs/json', swaggerJson);
 
 // ============= API ROUTES (Phase 08) =============
-// Placeholder routes (to be implemented in Phase 08)
-app.get(
-  '/api/incidents',
-  validateApiKey,
-  asyncHandler(async (_req: Request, res: Response) => {
-    res.status(501).json({ error: 'Not implemented — coming in Phase 08' });
-  })
-);
-
-app.post(
-  '/api/incidents',
-  validateApiKey,
-  asyncHandler(async (_req: Request, res: Response) => {
-    res.status(501).json({ error: 'Not implemented — coming in Phase 08' });
-  })
-);
+// Mount incidents CRUD routes with API key validation
+app.use('/api/incidents', validateApiKey, incidentsRouter);
 
 // Error handler (last middleware)
+app.use(validationErrorHandler);
 app.use(errorHandler);
 
 // Port
