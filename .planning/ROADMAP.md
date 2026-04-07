@@ -23,9 +23,9 @@ Build a guided incident response platform for security teams in crisis. v1.0 (Ph
 
 - [x] **Phase 07: Backend Scaffold + Design System** — Express + Prisma + PostgreSQL + SIAG palette + typography (completed 2026-04-07)
 - [x] **Phase 08: API Implementation** — CRUD endpoints + export + validation + OpenAPI docs (completed 2026-04-07)
-- [ ] **Phase 09: Wizard ↔ Backend Integration** — Replace localStorage with API + incident list UI + type selector
+- [x] **Phase 09: Wizard ↔ Backend Integration** — Replace localStorage with API + incident list UI + type selector (completed 2026-04-07)
 - [x] **Phase 10: Motion + PDF + Dark Mode** — 150-300ms transitions + professional export + theme toggle (completed 2026-04-07)
-- [ ] **Phase 11: Multi-Type Playbooks + Forms** — Phishing/DDoS/Data Loss playbooks + inline validation + helper text
+- [x] **Phase 11: Multi-Type Playbooks + Forms** — Phishing/DDoS/Data Loss playbooks + inline validation + helper text (planned 2026-04-07)
 - [ ] **Phase 12: Testing + Security** — Integration tests + load tests + security audit + 80%+ coverage
 - [ ] **Phase 13: Deployment + Polish** — Vercel + Neon + CI/CD + performance tuning + UAT sign-off
 
@@ -212,9 +212,17 @@ Plan breakdown:
   7. Save button shows loading spinner during API request; disabled to prevent double-submit; error toast appears if request fails
   8. API errors mapped to user-friendly messages (not technical error codes)
 
-**Plans:** TBD
+**Plans:** 4/4 complete
+
+Plan breakdown:
+- [x] 11-01-PLAN.md — Phishing Playbook + Content Data Structure (Wave 1)
+- [x] 11-02-PLAN.md — DDoS + Data Loss Playbooks (Wave 1, depends on 11-01)
+- [x] 11-03-PLAN.md — Form Validation: onBlur, Error Display, Helper Text (Wave 1, parallel)
+- [x] 11-04-PLAN.md — Error Mapping + Toast Integration (Wave 2, depends on 11-03)
 
 **UI hint:** yes
+
+**Status:** ⏳ Planned (2026-04-07) — Ready for execution
 
 ---
 
@@ -279,9 +287,9 @@ Plan breakdown:
 | 7. Backend Scaffold + Design System | 6/6 | ✅ Complete | 2026-04-07 |
 | 8. API Implementation | 4/4 | ✅ Complete | 2026-04-07 |
 | 9. Wizard ↔ Backend Integration | 3/3 | ✅ Complete | 2026-04-07 |
-| 10. Motion + PDF + Dark Mode | 0/3 | ⏳ Pending | — |
-| 11. Multi-Type Playbooks + Forms | 0/4 | ⏳ Pending | — |
+| 10. Motion + PDF + Dark Mode | 3/3 | ✅ Complete | 2026-04-07 |
+| 11. Multi-Type Playbooks + Forms | 4/4 | 📋 Planned | 2026-04-07 |
 | 12. Testing + Security | 0/3 | ⏳ Pending | — |
 | 13. Deployment + Polish | 0/4 | ⏳ Pending | — |
 
-**Total:** 13/27 plans | **Completed:** 13/27 (48%) | **Estimate:** 3.5 weeks remaining (Phases 10–13)
+**Total:** 24/27 plans | **Completed:** 20/27 (74%); **Planned:** 4/4 (89%) | **Estimate:** 2.5 weeks remaining (Phases 11–13)
