@@ -7,7 +7,12 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    testTimeout: 30000, // Increase timeout for Puppeteer PDF generation
     exclude: ['**/node_modules/**', '**/.claude/worktrees/**'],
+    environmentMatchGlobs: [
+      ['**/api/**', 'node'], // Use node environment for API tests
+      ['**/__tests__/**', 'jsdom'], // Use jsdom for UI tests
+    ],
   },
   resolve: {
     alias: {

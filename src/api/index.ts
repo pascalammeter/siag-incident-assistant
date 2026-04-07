@@ -61,4 +61,5 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // For Vercel Functions (serverless)
+export { app };
 export default app;
