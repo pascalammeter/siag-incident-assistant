@@ -3,8 +3,7 @@
 import { useMemo } from 'react'
 import { useWizard } from '../WizardContext'
 import { StepNavigator } from '../StepNavigator'
-import { RANSOMWARE_PLAYBOOK } from '@/lib/playbook-data'
-import { getPlaybook } from '@/data/playbooks'
+import { RANSOMWARE_PLAYBOOK, getPlaybook } from '@/lib/playbook-data'
 import type { ReaktionData, KlassifikationData } from '@/lib/wizard-types'
 
 function Step4Content() {
@@ -12,29 +11,22 @@ function Step4Content() {
   const completedSteps: string[] = (state.reaktion as ReaktionData)?.completedSteps ?? []
   const selectedIncidentType = (state.klassifikation as Partial<KlassifikationData>)?.incidentType
 
-  // Determine which playbook to use
-  // Priority: 1. Selected type from Step 1, 2. Legacy Ransomware playbook as fallback
-  const playbook = useMemo(() => {
+  // Determine which playbook to use based on selected incident type
+  const displayedPlaybook = useMemo(() => {
     if (selectedIncidentType && selectedIncidentType !== 'sonstiges') {
-      const pb = getPlaybook(selectedIncidentType)
-      if (pb) return pb
+      try {
+        return getPlaybook(selectedIncidentType)
+      } catch {
+        return RANSOMWARE_PLAYBOOK
+      }
     }
-    // Fallback to old Ransomware playbook structure for backward compatibility
-    return null
+    return RANSOMWARE_PLAYBOOK
   }, [selectedIncidentType])
 
-  // Legacy ransomware playbook fallback
-  const displayedPlaybook = playbook || RANSOMWARE_PLAYBOOK
-
-  // Calculate total steps based on playbook structure
+  // Calculate total steps based on playbook structure (phases with steps)
   const totalSteps = useMemo(() => {
-    if (playbook) {
-      // New playbook structure: all steps in a flat array
-      return playbook.steps.length
-    }
-    // Legacy ransomware playbook: phases with steps
     return (displayedPlaybook as any).phases?.reduce((sum: number, p: any) => sum + p.steps.length, 0) || 0
-  }, [playbook, displayedPlaybook])
+  }, [displayedPlaybook])
 
   const completedCount = completedSteps.length
   const percent = Math.round((completedCount / totalSteps) * 100)
@@ -51,9 +43,7 @@ function Step4Content() {
     <>
       <h2 className="text-2xl font-bold text-navy">Reaktionsschritte</h2>
       <p className="text-base text-gray-600 leading-relaxed">
-        {playbook
-          ? `Arbeiten Sie die ${playbook.title} Schritt fuer Schritt ab. Alle ${totalSteps} Punkte muessen bestaetigt werden.`
-          : 'Arbeiten Sie die Ransomware-Checkliste Schritt fuer Schritt ab. Alle 25 Punkte muessen bestaetigt werden.'}
+        Arbeiten Sie die Checkliste Schritt fuer Schritt ab. Alle {totalSteps} Punkte muessen bestaetigt werden.
       </p>
 
       {/* Progress counter */}
@@ -66,58 +56,7 @@ function Step4Content() {
         </div>
       </div>
 
-      {/* Render new playbook structure */}
-      {playbook && (
-        <div className="space-y-6">
-          {playbook.sections.map((section) => (
-            <div key={section.name} className="border border-gray-200 rounded-lg overflow-hidden">
-              <div className="bg-navy px-4 py-2">
-                <h3 className="text-sm font-bold text-white">{section.title}</h3>
-              </div>
-              <table className="w-full text-sm">
-                <tbody>
-                  {section.steps.map((step, idx) => {
-                    const stepIdStr = String(step.number)
-                    const isChecked = completedSteps.includes(stepIdStr)
-                    return (
-                      <tr
-                        key={stepIdStr}
-                        onClick={() => toggleStep(stepIdStr)}
-                        className={`border-b border-gray-100 last:border-0 cursor-pointer transition-colors ${isChecked ? 'bg-green-50' : idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50`}
-                      >
-                        <td className="w-10 px-3 py-3 align-middle">
-                          <input
-                            type="checkbox"
-                            checked={isChecked}
-                            onChange={() => toggleStep(stepIdStr)}
-                            onClick={(e) => e.stopPropagation()}
-                            className="w-5 h-5 accent-navy"
-                          />
-                        </td>
-                        <td className="px-3 py-3 text-navy leading-snug">
-                          <div className="font-bold text-sm mb-1">{step.title}</div>
-                          <div className="text-xs text-gray-600">{step.action}</div>
-                        </td>
-                        <td className="w-32 px-3 py-3 text-right align-middle">
-                          <div className="flex flex-col gap-2">
-                            <span className="text-xs font-bold bg-navy/10 text-navy px-2 py-1 rounded-full whitespace-nowrap inline-block">
-                              {step.responsible}
-                            </span>
-                            <span className="text-xs text-gray-500">{step.timeframe}</span>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Fallback: Legacy ransomware playbook */}
-      {!playbook && (
+      {/* Playbook phases with steps */}
         <div className="space-y-6">
           {(displayedPlaybook as any).phases?.map((phase: any) => (
             <div key={phase.id} className="border border-gray-200 rounded-lg overflow-hidden">
@@ -169,7 +108,6 @@ function Step4Content() {
             </div>
           ))}
         </div>
-      )}
 
       {/* Navigation */}
       <StepNavigator
