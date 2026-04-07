@@ -14,12 +14,14 @@
 export class APIError extends Error {
   public readonly status: number;
   public readonly body: unknown;
+  public readonly code: string;
 
-  constructor(status: number, body: unknown, message: string) {
+  constructor(status: number, body: unknown, message: string, code?: string) {
     super(message);
     this.name = 'APIError';
     this.status = status;
     this.body = body;
+    this.code = code || String(status);
   }
 
   /**
@@ -169,10 +171,20 @@ export const apiClient = {
 
       // Check for error status
       if (!response.ok) {
+        // Extract error code from response body if available
+        let errorCode: string | undefined;
+        if (typeof responseBody === 'object' && responseBody !== null) {
+          const bodyObj = responseBody as Record<string, unknown>;
+          if ('code' in bodyObj && typeof bodyObj.code === 'string') {
+            errorCode = bodyObj.code;
+          }
+        }
+
         throw new APIError(
           response.status,
           responseBody,
-          `API request failed: ${response.status} ${response.statusText}`
+          `API request failed: ${response.status} ${response.statusText}`,
+          errorCode
         );
       }
 
