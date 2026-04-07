@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Source_Sans_3 } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { MotionConfig } from "@/lib/motion-config";
+import { ToastContainer } from "@/components/Toast";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -47,6 +48,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            <ToastContainer />
           </MotionConfig>
         </ThemeProvider>
       </body>
