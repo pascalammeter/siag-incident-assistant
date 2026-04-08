@@ -11,7 +11,6 @@ import { useIncident } from '@/hooks/useIncident';
 import { Incident, ListIncidentsFilters, IncidentType, Severity } from '@/lib/incident-types';
 import { FilterBar } from './FilterBar';
 import { IncidentTable } from './IncidentTable';
-import { LoadingState } from './LoadingState';
 import { EmptyState } from './EmptyState';
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner';
 

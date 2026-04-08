@@ -1,13 +1,26 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { ANIMATION_VARIANTS, ANIMATION_DURATIONS } from '@/lib/motion-config';
+import { ANIMATION_DURATIONS } from '@/lib/motion-config';
 import { LoadingSpinner } from './LoadingSpinner';
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+// Use a simple button props interface to avoid React vs Motion event handler conflicts.
+// Only pass through the props actually used by consumers.
+export interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
+  disabled?: boolean;
+  children?: React.ReactNode;
+  className?: string;
+  type?: 'button' | 'submit' | 'reset';
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  'aria-label'?: string;
+  'aria-describedby'?: string;
+  form?: string;
+  name?: string;
+  value?: string;
+  id?: string;
 }
 
 const variantClasses = {
@@ -52,8 +65,8 @@ export function Button({
       whileHover={{ scale: 1.05, boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}
       whileTap={{ scale: 0.98 }}
       transition={{
-        hover: { duration: ANIMATION_DURATIONS.hover, ease: 'easeOut' },
-        tap: { duration: ANIMATION_DURATIONS.tap, ease: 'easeOut' },
+        duration: ANIMATION_DURATIONS.hover,
+        ease: 'easeOut',
       }}
       disabled={isLoading || disabled}
       className={`

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Source_Sans_3 } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { MotionConfig } from "@/lib/motion-config";
@@ -8,19 +8,32 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MigrationInitializer } from "@/components/MigrationInitializer";
 
-// Load Source Sans Pro from Google Fonts
+// Load Source Sans 3 from Google Fonts via next/font for zero-CLS font loading.
+// Preloads critical weights; display:swap prevents FOIT.
 const sourceSansPro = Source_Sans_3({
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700"],  // Drop 500 — not used in design system
   variable: "--font-sans",
-  display: "swap", // Show fallback while loading
+  display: "swap", // Show fallback while loading; CLS impact minimized by preload
   fallback: ["system-ui", "sans-serif"],
+  preload: true,   // Emit <link rel="preload"> for critical font subset
 });
 
 export const metadata: Metadata = {
   title: "SIAG Incident Management Assistent",
-  description: "Incident-Response-Wizard fuer SIAG-Berater",
-  viewport: "width=device-width, initial-scale=1",
+  description: "Incident-Response-Wizard fuer SIAG-Berater — strukturierte Incident-Response gemaess ISG, DSG und FINMA",
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: "SIAG Incident Management Assistent",
+    description: "Strukturierte Incident-Response fuer SIAG-Kunden",
+    type: "website",
+  },
+};
+
+// Separate viewport export (Next.js 14+ best practice — avoids Lighthouse warning)
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
