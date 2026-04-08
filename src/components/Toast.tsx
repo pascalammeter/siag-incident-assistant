@@ -1,6 +1,6 @@
 'use client'
 
-import { useTheme } from 'next-themes'
+import { useTheme } from 'next-themes' // used by ToastContainer
 import { Toaster, toast as sonnerToast } from 'sonner'
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info'
@@ -32,7 +32,7 @@ export interface ToastProps {
  * - Position: bottom-right (or top-right on mobile)
  */
 export function Toast({ message, type, duration = 4000, onDismiss, action }: ToastProps) {
-  const { theme } = useTheme()
+  // Theme is handled by ToastContainer (Sonner's <Toaster theme=...>); no hook needed here
 
   // Map toast type to Sonner method
   const toastMap = {
@@ -77,7 +77,7 @@ export function ToastContainer() {
       gap={12}
       toastOptions={{
         duration: 4000,
-        classNamess: {
+        classNames: {
           toast: 'bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-50',
           success: 'bg-green-50 text-green-900 dark:bg-green-950 dark:text-green-100',
           error: 'bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100',

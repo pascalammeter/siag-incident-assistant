@@ -4,7 +4,8 @@
  * Re-exports legacy playbook-data getPlaybook function for backward compatibility
  */
 
-import { getPlaybook as getPlaybookLegacy, PHISHING_PLAYBOOK, getAllPlaybooks as getAllPlaybooksLegacy } from '@/lib/playbook-data';
+import { getPlaybook as getPlaybookLegacy, PLAYBOOKS } from '@/lib/playbook-data';
+import { PHISHING_PLAYBOOK } from '@/data/playbooks/phishing';
 import type { Playbook } from '@/types/playbook';
 
 /**
@@ -26,7 +27,7 @@ export function getPlaybook(type: string): Playbook | undefined {
  */
 export function getAllPlaybooks(): Playbook[] {
   try {
-    return getAllPlaybooksLegacy ? Object.values(getAllPlaybooksLegacy) : [];
+    return PLAYBOOKS ? Object.values(PLAYBOOKS) : [];
   } catch {
     return [];
   }

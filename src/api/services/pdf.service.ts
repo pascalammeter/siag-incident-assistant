@@ -1,7 +1,5 @@
 import { getBrowserInstance } from '../../lib/puppeteer-singleton';
 import {
-  generateTitlePageHTML,
-  generateIncidentDetailsHTML,
   generateCompletePDF,
 } from '../../lib/pdf-templates';
 import { Incident } from '../../lib/incident-types';

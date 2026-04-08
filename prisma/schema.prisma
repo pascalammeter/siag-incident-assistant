@@ -47,4 +47,9 @@ model Incident {
   @@index([severity])
   @@index([createdAt(sort: Desc)])
   @@index([erkennungszeitpunkt(sort: Desc)])
+  // Soft-delete filter: every list query filters WHERE deletedAt IS NULL
+  @@index([deletedAt])
+  // Composite indexes for common combined filters
+  @@index([incident_type, deletedAt])
+  @@index([severity, deletedAt])
 }

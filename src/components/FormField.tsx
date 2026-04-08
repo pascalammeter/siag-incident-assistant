@@ -50,7 +50,7 @@ export const FormField: React.FC<FormFieldProps> = ({
 
       {/* Custom children or default input */}
       {children ? (
-        <div onBlur={onBlur}>{children}</div>
+        <div onBlur={onBlur as React.FocusEventHandler<HTMLDivElement>}>{children}</div>
       ) : (
         <>
           {type === 'textarea' ? (
