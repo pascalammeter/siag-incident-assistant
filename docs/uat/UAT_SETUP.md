@@ -1,107 +1,107 @@
-# UAT Environment Setup — SIAG Incident Assistant v1.1
+# UAT-Vorbereitung — SIAG Incident Assistant v1.1
 
-## Overview
+## Übersicht
 
-This document provides setup instructions for the User Acceptance Testing (UAT) of
-SIAG Incident Assistant v1.1. It is intended for the SIAG consultant conducting the
-official acceptance test prior to production promotion.
+Dieses Dokument enthält die Informationen für den User Acceptance Test (UAT) des
+SIAG Incident Assistants v1.1. Es richtet sich an den SIAG-Berater, der den
+offiziellen Abnahmetest vor dem Produktivbetrieb durchführt.
 
 ---
 
-## Production URL (UAT Target)
+## Produktions-URL (Testziel)
 
 **https://siag-incident-assistant.vercel.app**
 
-This is the live production deployment. UAT is conducted directly against production — no
-separate staging environment is required, as the application does not store sensitive
-personal data and all incidents created during UAT can be deleted afterward.
+Dies ist die live Produktionsumgebung. Der UAT wird direkt gegen die Produktionsumgebung
+durchgeführt — eine separate Testumgebung ist nicht notwendig, da die Applikation keine
+sensitiven Personendaten speichert und alle während des UAT erfassten Incidents
+anschliessend gelöscht werden können.
 
 ---
 
-## What Is Being Tested
+## Was wird getestet
 
-v1.1 is a significant upgrade from v1.0 (browser-only prototype). Key new capabilities:
+v1.1 ist eine wesentliche Erweiterung gegenüber v1.0 (Browser-only Prototyp). Die wichtigsten Neuerungen:
 
-| Feature | v1.0 | v1.1 |
+| Funktion | v1.0 | v1.1 |
 |---------|------|------|
-| Incident storage | Browser localStorage (lost on clear) | Persistent PostgreSQL (Neon) |
-| Incident types | Ransomware only | Ransomware, Phishing, DDoS, Data Loss |
-| Playbooks | 20-step Ransomware | 25-step per type (4 types) |
-| PDF export | Browser print dialog | Professional formatted PDF document |
-| Incident list | Not available | Sortable, filterable `/incidents` page |
-| Dark mode | System preference | Toggle in header |
-| Compliance deadlines | ISG/DSG/FINMA auto-calculated | Same, plus FINMA 24/72h |
-| Mobile | Responsive | Tested 375px+ |
-| Data migration | — | v1.0 localStorage data auto-migrated on first load |
+| Incident-Speicherung | Browser localStorage (geht bei Cache-Leerung verloren) | Persistente PostgreSQL-Datenbank (Neon) |
+| Incident-Typen | Nur Ransomware | Ransomware, Phishing, DDoS, Datenverlust |
+| Playbooks | 20-schrittiges Ransomware-Playbook | 25 Schritte pro Typ (4 Typen) |
+| PDF-Export | Browser-Druckdialog | Professionell formatiertes PDF-Dokument |
+| Incident-Liste | Nicht vorhanden | Sortierbare, filterbare Seite `/incidents` |
+| Dark Mode | Systemeinstellung | Toggle in der Kopfzeile |
+| Compliance-Fristen | ISG/DSG/FINMA automatisch berechnet | Gleich, plus FINMA 24/72h |
+| Mobil | Responsiv | Getestet ab 375px Breite |
+| Datenmigration | — | v1.0 localStorage-Daten werden beim ersten Aufruf automatisch migriert |
 
 ---
 
-## Access Instructions
+## Zugang
 
-1. Open **https://siag-incident-assistant.vercel.app** in any modern browser
-2. No login required — the wizard is accessible without authentication
-3. To view the incident list, click the "Incidents" link in the header navigation
-4. All data submitted during UAT is persisted to the production database
+1. **https://siag-incident-assistant.vercel.app** in einem modernen Browser öffnen
+2. Kein Login erforderlich — der Wizard ist ohne Authentifizierung zugänglich
+3. Die Incident-Liste ist über den Link "Incidents" in der Navigation erreichbar
+4. Alle während des UAT erfassten Daten werden in der Produktionsdatenbank gespeichert
 
-**Recommended browsers:** Chrome 120+, Firefox 121+, Safari 17+ (macOS/iOS)
-
----
-
-## UAT Timeline
-
-| Phase | Duration | What Happens |
-|-------|----------|--------------|
-| Orientation | 15 min | Review this setup doc, open app, familiarize |
-| Functional testing | 90 min | Complete UAT_CHECKLIST.md for all 4 incident types |
-| Mobile testing | 20 min | Repeat key steps on mobile device |
-| Accessibility audit | 15 min | Keyboard navigation, screen reader, contrast |
-| Debrief / sign-off | 30 min | Document findings, provide written sign-off if approved |
-| **Total** | **~2.5–3 hours** | |
+**Empfohlene Browser:** Chrome 120+, Firefox 121+, Safari 17+ (macOS/iOS)
 
 ---
 
-## What to Bring
+## UAT-Zeitplan
 
-- Laptop with Chrome or Firefox (for Lighthouse/DevTools if needed)
-- Mobile device (iPhone or Android) for mobile testing
-- The UAT checklist: [`docs/uat/UAT_CHECKLIST.md`](./UAT_CHECKLIST.md)
-- Screen recording software (optional, for documenting issues)
-
----
-
-## Data Isolation During UAT
-
-- All incidents created during UAT are real records in the production database
-- They are soft-deletable — the admin can mark them `deletedAt` after UAT completes
-- No personal or sensitive data should be entered; use fictional test data (e.g., "Test AG", test IPs)
-- v1.0 localStorage data (if present in the browser) will be auto-migrated on first visit
+| Phase | Dauer | Inhalt |
+|-------|-------|--------|
+| Einführung | 15 Min | Dokument lesen, App öffnen, orientieren |
+| Funktionstests | 90 Min | UAT_CHECKLISTE.md für alle 4 Incident-Typen durcharbeiten |
+| Mobil-Test | 20 Min | Wichtigste Schritte auf Mobilgerät wiederholen |
+| Barrierefreiheit | 15 Min | Tastaturnavigation, Screenreader, Kontrast |
+| Abschluss / Abnahme | 30 Min | Befunde dokumentieren, schriftliche Abnahme ausstellen |
+| **Total** | **ca. 2.5–3 Stunden** | |
 
 ---
 
-## If You Find a Critical Issue
+## Was mitbringen
 
-1. Stop the affected test case
-2. Document: which step failed, what was expected, what actually happened (screenshots welcome)
-3. Continue testing unrelated functionality
-4. Report to the development team before the sign-off meeting
-
-Minor cosmetic issues (alignment, wording) can be logged as post-launch improvements and
-do not block sign-off unless they affect core functionality.
+- Laptop mit Chrome oder Firefox
+- Mobilgerät (iPhone oder Android) für den Mobil-Test
+- Die UAT-Checkliste: [`docs/uat/UAT_CHECKLISTE.md`](./UAT_CHECKLISTE.md)
+- Bildschirmaufnahme-Software (optional, zur Dokumentation von Problemen)
 
 ---
 
-## Post-UAT Cleanup
+## Testdaten
 
-After sign-off:
-
-- Development team will tag `v1.1.0` on GitHub
-- UAT test incidents will be soft-deleted from the production database
-- This document will be archived in `docs/uat/`
+- Alle während des UAT erfassten Incidents sind echte Einträge in der Produktionsdatenbank
+- Sie können nach dem UAT soft-gelöscht werden (kein physisches Löschen nötig)
+- Bitte keine echten Personendaten oder sensitive Informationen eingeben — fiktive Testdaten verwenden (z.B. "Test AG", fiktive IP-Adressen)
+- Falls v1.0 localStorage-Daten im Browser vorhanden sind, werden diese beim ersten Aufruf automatisch migriert
 
 ---
 
-## Contact
+## Bei kritischen Problemen
 
-Project: pascalammeter/siag-incident-assistant (GitHub)
+1. Betroffenen Testfall stoppen
+2. Dokumentieren: welcher Schritt schlug fehl, was war erwartet, was ist passiert (Screenshots willkommen)
+3. Übrige Testfälle weiter durchführen
+4. Problem vor dem Abnahme-Gespräch dem Entwicklungsteam melden
 
-For technical issues during UAT, contact the development team directly.
+Kleinere kosmetische Probleme (Ausrichtung, Formulierungen) können als Nachbesserungen nach dem Launch protokolliert werden und blockieren die Abnahme nicht, sofern die Kernfunktionalität nicht beeinträchtigt ist.
+
+---
+
+## Nach dem UAT
+
+Nach der Abnahme:
+
+- Entwicklungsteam erstellt Tag `v1.1.0` auf GitHub
+- UAT-Testincidents werden in der Produktionsdatenbank soft-gelöscht
+- Dieses Dokument wird in `docs/uat/` archiviert
+
+---
+
+## Kontakt
+
+Projekt: pascalammeter/siag-incident-assistant (GitHub)
+
+Bei technischen Problemen während des UAT das Entwicklungsteam direkt kontaktieren.

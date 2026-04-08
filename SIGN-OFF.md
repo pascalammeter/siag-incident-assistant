@@ -1,79 +1,80 @@
-# Production Sign-off — SIAG Incident Assistant v1.1
+# Produktionsabnahme — SIAG Incident Assistant v1.1
 
-> **TEMPLATE — Fill in after UAT session is complete**
+> **VORLAGE — Bitte nach der UAT-Sitzung ausfüllen**
 >
-> See `docs/uat/UAT_CHECKLIST.md` for the test checklist to complete before signing off.
+> Die UAT-Checkliste findet sich unter `docs/uat/UAT_CHECKLISTE.md`.
 
 ---
 
-**Date:** [Date of UAT completion — e.g. 2026-04-15]  
-**Consultant:** [Full Name], [Title], [Organization]  
+**Datum:** [Datum der UAT-Durchführung — z.B. 2026-04-15]  
+**Berater:** [Vollständiger Name], [Funktion], [Organisation]  
 **Version:** v1.1.0  
-**Production URL:** https://siag-incident-assistant.vercel.app  
+**Produktions-URL:** https://siag-incident-assistant.vercel.app  
 
 ---
 
-## UAT Summary
+## UAT-Zusammenfassung
 
-| Test Area | Result | Notes |
-|-----------|--------|-------|
-| Ransomware incident (end-to-end) | [ ] Pass / [ ] Fail | |
-| Phishing incident (end-to-end) | [ ] Pass / [ ] Fail | |
-| DDoS incident (end-to-end) | [ ] Pass / [ ] Fail | |
-| Data Loss incident (end-to-end) | [ ] Pass / [ ] Fail | |
-| PDF export quality | [ ] Pass / [ ] Fail | |
-| FINMA/ISG/DSG compliance logic | [ ] Pass / [ ] Fail | |
-| Incident list and resume | [ ] Pass / [ ] Fail | |
-| Mobile performance (375px) | [ ] Pass / [ ] Fail | |
-| Keyboard accessibility | [ ] Pass / [ ] Fail | |
-| Color contrast (WCAG AA) | [ ] Pass / [ ] Fail | |
-| Dark mode | [ ] Pass / [ ] Fail | |
-
----
-
-## Issues Found During UAT
-
-_List any issues discovered. Critical issues must be resolved before sign-off._
-
-| # | Description | Severity | Resolution |
-|---|-------------|----------|------------|
-| — | None | — | — |
+| Testbereich | Ergebnis | Bemerkungen |
+|-------------|----------|-------------|
+| Ransomware-Incident (Ende-zu-Ende) | [ ] Bestanden / [ ] Nicht bestanden | |
+| Phishing-Incident (Ende-zu-Ende) | [ ] Bestanden / [ ] Nicht bestanden | |
+| DDoS-Incident (Ende-zu-Ende) | [ ] Bestanden / [ ] Nicht bestanden | |
+| Datenverlust-Incident (Ende-zu-Ende) | [ ] Bestanden / [ ] Nicht bestanden | |
+| PDF-Export-Qualität | [ ] Bestanden / [ ] Nicht bestanden | |
+| FINMA/ISG/DSG-Compliance-Logik | [ ] Bestanden / [ ] Nicht bestanden | |
+| Incident-Liste und Fortsetzen | [ ] Bestanden / [ ] Nicht bestanden | |
+| Mobil-Bedienbarkeit (375px) | [ ] Bestanden / [ ] Nicht bestanden | |
+| Tastatur-Barrierefreiheit | [ ] Bestanden / [ ] Nicht bestanden | |
+| Farbkontrast (WCAG AA) | [ ] Bestanden / [ ] Nicht bestanden | |
+| Dark Mode | [ ] Bestanden / [ ] Nicht bestanden | |
 
 ---
 
-## Conditions (if any)
+## Während des UAT gefundene Probleme
 
-_If signing off with conditions, list the agreed follow-up actions and their target dates._
+_Alle gefundenen Probleme auflisten. Kritische Probleme müssen vor der Abnahme behoben sein._
 
-- [ ] [Condition 1 — e.g. "Minor wording fix in Phishing playbook step 12 to be addressed in v1.1.1"]
-
----
-
-## Sign-off Statement
-
-> "I have completed User Acceptance Testing of SIAG Incident Assistant v1.1 as described
-> in `docs/uat/UAT_CHECKLIST.md`. All four incident types (Ransomware, Phishing, DDoS,
-> Data Loss) were tested end-to-end. PDF export quality, compliance deadline logic, mobile
-> usability, and accessibility were verified. I confirm that this version meets the
-> acceptance criteria and recommend it for production promotion."
-
-**Consultant Name:** [Full Name]  
-**Title:** [Job Title]  
-**Organization:** [Company / SIAG]  
-**Date:** [Date]  
-**Email:** [Email address for records]  
+| # | Beschreibung | Schweregrad | Behebung |
+|---|-------------|-------------|----------|
+| — | Keine | — | — |
 
 ---
 
-## Next Steps After Sign-off
+## Auflagen (falls vorhanden)
 
-1. Development team creates git tag: `v1.1.0`
-2. CHANGELOG.md `[Unreleased]` section updated with tag date
-3. Stakeholder notification email sent with release summary
-4. UAT test incidents soft-deleted from production database
-5. This document committed to project repository as record
+_Bei Abnahme mit Auflagen: vereinbarte Nachbesserungen und Zieldaten auflisten._
+
+- [ ] [Auflage 1 — z.B. "Kleinere Formulierungskorrektur in Phishing-Playbook Schritt 12 bis v1.1.1"]
 
 ---
 
-_SIAG Incident Assistant — UAT Sign-off Template_  
-_Document version: 1.0 — Created 2026-04-08_
+## Abnahme-Erklärung
+
+> «Ich habe den User Acceptance Test des SIAG Incident Assistants v1.1 gemäss der Checkliste
+> `docs/uat/UAT_CHECKLISTE.md` vollständig durchgeführt. Alle vier Incident-Typen
+> (Ransomware, Phishing, DDoS, Datenverlust) wurden Ende-zu-Ende getestet. PDF-Export-Qualität,
+> Compliance-Fristenlogik, Mobil-Bedienbarkeit und Barrierefreiheit wurden überprüft.
+> Ich bestätige, dass diese Version die Abnahmekriterien erfüllt, und empfehle den
+> Produktivbetrieb.»
+
+**Name des Beraters:** [Vollständiger Name]  
+**Funktion:** [Berufsbezeichnung]  
+**Organisation:** [Unternehmen / SIAG]  
+**Datum:** [Datum]  
+**E-Mail:** [E-Mail-Adresse für die Ablage]  
+
+---
+
+## Nächste Schritte nach der Abnahme
+
+1. Entwicklungsteam erstellt Git-Tag: `v1.1.0`
+2. `CHANGELOG.md` wird mit Veröffentlichungsdatum aktualisiert
+3. Stakeholder erhalten Benachrichtigungs-E-Mail mit Release-Zusammenfassung
+4. UAT-Testincidents werden in der Produktionsdatenbank soft-gelöscht
+5. Dieses Dokument wird als Nachweis ins Projekt-Repository eingecheckt
+
+---
+
+_SIAG Incident Assistant — Abnahme-Vorlage_  
+_Dokumentversion: 1.0 — Erstellt 2026-04-08_
