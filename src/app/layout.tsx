@@ -58,8 +58,15 @@ export default function RootLayout({
         >
           <MotionConfig>
             <MigrationInitializer />
+            {/* Skip link: keyboard users can jump past nav to main content */}
+            <a
+              href="#main-content"
+              className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-siag-navy focus:rounded focus:shadow-lg focus:outline-none"
+            >
+              Zum Hauptinhalt springen
+            </a>
             <Header />
-            <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-8">
+            <main id="main-content" className="flex-1 max-w-4xl mx-auto w-full px-6 py-8">
               {children}
             </main>
             <Footer />

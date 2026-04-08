@@ -39,13 +39,23 @@ export const FormField: React.FC<FormFieldProps> = ({
   onChange,
 }) => {
   const showError = Boolean(error && touched)
+  // Unique IDs for aria-describedby associations
+  const errorId = `${name}-error`
+  const helperId = `${name}-helper`
+  // Build aria-describedby: point to error when visible, helper text otherwise
+  const describedBy = showError ? errorId : helperText ? helperId : undefined
 
   return (
     <div className="form-group">
       {/* Label with required indicator */}
       <label htmlFor={name} className="form-label">
         {label}
-        {required && <span className="required-indicator">*</span>}
+        {required && (
+          <span className="required-indicator" aria-hidden="true">
+            *
+          </span>
+        )}
+        {required && <span className="sr-only">(required)</span>}
       </label>
 
       {/* Custom children or default input */}
@@ -62,6 +72,9 @@ export const FormField: React.FC<FormFieldProps> = ({
               disabled={disabled}
               value={value}
               onChange={onChange}
+              aria-required={required}
+              aria-invalid={showError}
+              aria-describedby={describedBy}
               className={`form-input ${showError ? 'error' : ''}`}
             />
           ) : type === 'select' ? (
@@ -72,6 +85,9 @@ export const FormField: React.FC<FormFieldProps> = ({
               disabled={disabled}
               value={value}
               onChange={onChange}
+              aria-required={required}
+              aria-invalid={showError}
+              aria-describedby={describedBy}
               className={`form-input ${showError ? 'error' : ''}`}
             />
           ) : (
@@ -84,17 +100,28 @@ export const FormField: React.FC<FormFieldProps> = ({
               disabled={disabled}
               value={value}
               onChange={onChange}
+              aria-required={required}
+              aria-invalid={showError}
+              aria-describedby={describedBy}
               className={`form-input ${showError ? 'error' : ''}`}
             />
           )}
         </>
       )}
 
-      {/* Error message in red */}
-      {showError && <div className="form-error">{error}</div>}
+      {/* Error message in red — announced by screen readers via aria-live */}
+      {showError && (
+        <div id={errorId} className="form-error" role="alert" aria-live="polite">
+          {error}
+        </div>
+      )}
 
       {/* Helper text in gray (only if no error) */}
-      {helperText && !showError && <div className="form-helper">{helperText}</div>}
+      {helperText && !showError && (
+        <div id={helperId} className="form-helper">
+          {helperText}
+        </div>
+      )}
     </div>
   )
 }

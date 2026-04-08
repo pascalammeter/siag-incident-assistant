@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { ThemeToggle } from '@/components/atoms/ThemeToggle';
 
 export function Header() {
@@ -7,14 +8,34 @@ export function Header() {
         <div className="flex items-center gap-4">
           <img
             src="/siag-logo.svg"
-            alt="SIAG"
+            alt="SIAG Logo"
             className="h-8 w-auto"
           />
-          <h1 className="text-lg font-semibold">Incident Management Assistent</h1>
+          <span className="text-lg font-semibold">Incident Management Assistent</span>
         </div>
-        <div className="flex items-center gap-4">
-          <ThemeToggle />
-        </div>
+        <nav aria-label="Hauptnavigation">
+          <ul className="flex items-center gap-4 list-none m-0 p-0">
+            <li>
+              <Link
+                href="/"
+                className="text-white hover:text-slate-200 transition-colors underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                Wizard
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/incidents"
+                className="text-white hover:text-slate-200 transition-colors underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                Incidents
+              </Link>
+            </li>
+            <li>
+              <ThemeToggle />
+            </li>
+          </ul>
+        </nav>
       </div>
     </header>
   );
