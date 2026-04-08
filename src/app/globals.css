@@ -3,11 +3,12 @@
 
 /* ============= SIAG CI COLOR TOKENS (Tailwind v4 @theme) ============= */
 @theme {
-  --color-navy: #003B5E;        /* SIAG-Blau — text, borders, secondary UI */
-  --color-navy-light: #00549E;  /* SIAG Morgenhimmel — hover on navy elements */
-  --color-lightgray: #F0F0F0;   /* SIAG-Hellgrau — card/section backgrounds */
-  --color-amber: #D44E17;       /* SIAG-Orange — warnings, highlights */
-  --color-siag-text: #404040;   /* SIAG-Schwarz — body text (not pure black) */
+  /* Tailwind v4: these generate bg-navy, text-navy, border-navy etc. */
+  /* Do NOT duplicate names already in :root — causes PostCSS conflict  */
+  --color-navy: #003B5E;
+  --color-navy-light: #00549E;
+  --color-lightgray: #F0F0F0;
+  --color-amber: #D44E17;
 }
 
 /* ============= DESIGN TOKENS (CSS Variables) ============= */
