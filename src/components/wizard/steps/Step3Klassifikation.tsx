@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { type UseFormReturn } from 'react-hook-form'
+import { useForm, type UseFormReturn } from 'react-hook-form'
 import { StepForm } from '../StepForm'
 import { klassifikationSchema, calculateSeverity } from '@/lib/wizard-schemas'
 import type { KlassifikationData } from '@/lib/wizard-types'

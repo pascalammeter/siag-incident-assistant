@@ -5,7 +5,7 @@
 
 | Technology | Version | Role |
 |-----------|---------|------|
-| Next.js | 16.2.2 | Framework (App Router, SSR + Vercel Functions) |
+| Next.js | 16.2.2 | Framework (App Router, static export) |
 | React | 19.x | UI |
 | TypeScript | 5.x | Language |
 | Tailwind CSS | v4 | Styling |
@@ -150,52 +150,4 @@ npm run lint
 npm run build
 ```
 
-Next.js builds as SSR (no `output: 'export'` — removed in Phase 13-01 to enable Vercel
-Functions). Vercel picks this up automatically via git push. Do not commit the `.next/`
-directory (it is in `.gitignore`).
-
-After schema changes, push indexes to Neon:
-
-```bash
-npx prisma db push   # non-destructive: creates missing tables/indexes
-# or for tracked migrations:
-npx prisma migrate dev --name describe-change
-```
-
-## Performance Optimization (Phase 13-02)
-
-### What Was Optimized
-
-| Area | Change | Impact |
-|------|--------|--------|
-| Font | Dropped weight 500 (unused), added `preload: true` | -15KB, -50ms LCP |
-| Viewport | Separate `export const viewport` (Next.js 14+) | Lighthouse Best Practices |
-| Caching | Cache-Control headers in next.config.ts | Repeat visits ~instant |
-| Security | X-Content-Type-Options, X-Frame-Options, Referrer-Policy | Best Practices +5pts |
-| Images | AVIF/WebP formats configured, 1yr TTL | -20-40% image transfer |
-| DB indexes | deletedAt, (type, deletedAt), (severity, deletedAt) | -10-30ms filtered queries |
-| Pagination | Max 50 per page (was 100) | -50% max payload |
-| Monitoring | @vercel/analytics + @vercel/speed-insights wired | Real CWV tracking |
-
-### Lighthouse Targets
-
-All categories ≥90. See `docs/lighthouse/` for audit reports.
-
-### Running a Lighthouse Audit
-
-```bash
-# Via PageSpeed Insights (recommended — includes field data)
-open https://pagespeed.web.dev/report?url=https://siag-incident-assistant.vercel.app
-
-# Via CLI (requires Chrome)
-npx lighthouse https://siag-incident-assistant.vercel.app \
-  --output=html \
-  --output-path=docs/lighthouse/report-$(date +%Y%m%d).html \
-  --chrome-flags="--headless"
-```
-
-### Performance Monitoring
-
-- **Vercel Analytics**: Visit https://vercel.com/dashboard → your project → Analytics
-- **Speed Insights**: Visit https://vercel.com/dashboard → your project → Speed Insights
-- **Alert thresholds**: See `docs/PERFORMANCE_BENCHMARKS.md` for recommended alert levels
+The output lands in `out/`. Vercel picks this up automatically via the `output: 'export'` setting — no `vercel.json` needed. Do not commit the `out/` directory (it is in `.gitignore`).

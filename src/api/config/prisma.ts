@@ -1,17 +1,16 @@
 import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 import { PrismaNeon } from '@prisma/adapter-neon';
+import { Pool } from '@neondatabase/serverless';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
 export const prisma =
   globalForPrisma.prisma ||
   (() => {
-    // PrismaNeon v7+ accepts PoolConfig directly (not a Pool instance).
-    // See: https://www.prisma.io/docs/guides/database/neon
-    const adapter = new PrismaNeon({
-      connectionString: process.env.DATABASE_URL,
-    });
+    // Use Neon adapter for serverless PostgreSQL
+    const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+    const adapter = new PrismaNeon(pool);
 
     return new PrismaClient({
       adapter,

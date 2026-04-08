@@ -148,7 +148,7 @@ function IncidentTableRow({
 
 export function IncidentTable({
   incidents,
-  isLoading: _isLoading,
+  isLoading,
   onViewClick,
   onExportClick,
   onDeleteClick,

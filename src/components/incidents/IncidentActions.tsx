@@ -54,9 +54,9 @@ function DeleteConfirmationModal({
 }
 
 export function IncidentActions({
-  incidentId: _incidentId,
+  incidentId,
   onViewClick,
-  onExportClick: _onExportClick,
+  onExportClick,
   onDeleteClick,
 }: IncidentActionsProps) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);

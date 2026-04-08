@@ -8,12 +8,13 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { IncidentAPI } from './useIncidentAPI';
-import { APIError, shouldFallback } from '../api/client';
+import { APIError, NetworkError, shouldFallback } from '../api/client';
 import {
   Incident,
   CreateIncidentInput,
   UpdateIncidentInput,
   ListIncidentsFilters,
+  ListIncidentsResponse,
 } from '../lib/incident-types';
 
 // ============================================================================

@@ -38,7 +38,7 @@ export const ListIncidentsQuerySchema = z.object({
   type: IncidentTypeSchema.optional(),
   severity: SeveritySchema.optional(),
   page: z.coerce.number().int().positive().default(1),
-  limit: z.coerce.number().int().positive().max(50).default(10), // max 50 per page to limit payload size
+  limit: z.coerce.number().int().positive().max(100).default(10),
 });
 
 export type ListIncidentsQuery = z.infer<typeof ListIncidentsQuerySchema>;

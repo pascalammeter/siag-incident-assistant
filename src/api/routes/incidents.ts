@@ -8,7 +8,6 @@ import {
 import { IncidentService } from '../services/incident.service';
 import { PDFService } from '../services/pdf.service';
 import { setDownloadHeaders, generateFileName } from '../../utils/fileDownload';
-import type { Incident } from '../../lib/incident-types';
 
 const router = Router();
 
@@ -524,9 +523,7 @@ router.post(
     }
 
     try {
-      // Cast Prisma result to domain Incident type — incident_type from DB is
-      // constrained to the IncidentType union by the schema VARCHAR(50) + Zod validation
-      const pdfBuffer = await PDFService.generateIncidentPDF(incident as unknown as Incident);
+      const pdfBuffer = await PDFService.generateIncidentPDF(incident);
 
       const filename = generateFileName(id, 'pdf');
       setDownloadHeaders(res, {

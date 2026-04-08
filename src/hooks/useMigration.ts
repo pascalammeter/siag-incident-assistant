@@ -57,6 +57,14 @@ function markMigrationCompleted(): void {
 }
 
 /**
+ * Check if migration has failed and needs retry
+ */
+function isMigrationPending(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.localStorage.getItem(MIGRATION_KEYS.PENDING) === 'true';
+}
+
+/**
  * Mark migration as pending (needs retry on next load)
  */
 function markMigrationPending(): void {

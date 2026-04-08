@@ -51,27 +51,10 @@ Empfehlung: Einen **Kritisch-Szenario** durchspielen (alle 3 Klassifikationsfrag
 | Eigenschaft | Wert |
 |------------|------|
 | Framework | Next.js 16, TypeScript, Tailwind v4 |
-| Datenspeicherung | Neon PostgreSQL (API) + localStorage (Fallback) |
-| Tests | 99+ Tests (Vitest), k6 Load Tests |
-| Deployment | Vercel Functions + CDN (SSR, kein Static Export) |
+| Datenspeicherung | localStorage (Browser only — kein Backend, keine Datenübertragung) |
+| Tests | 74/74 grün (Vitest) |
+| Deployment | Vercel Static Export (CDN, kein Server) |
 | Mobile | Getestet auf 375px Viewport |
-| Monitoring | Vercel Analytics + Speed Insights (Core Web Vitals) |
-
-## Performance-Metriken (v1.1)
-
-| Metrik | Wert | Ziel |
-|--------|------|------|
-| Lighthouse Performance | ≥90 (erwartet nach Optimierungen) | ≥90 |
-| Lighthouse Accessibility | ≥90 | ≥90 |
-| Lighthouse Best Practices | ≥90 | ≥90 |
-| Lighthouse SEO | ≥90 | ≥90 |
-| LCP | <2.5s | <2.5s |
-| CLS | <0.1 | <0.1 |
-| API GET /api/incidents | avg 145ms, p95 320ms | avg <200ms, p95 <500ms |
-| API POST /api/incidents | avg 380ms, p95 850ms | avg <500ms, p95 <1000ms |
-
-Vollständige Benchmarks: [docs/PERFORMANCE_BENCHMARKS.md](docs/PERFORMANCE_BENCHMARKS.md)  
-Lighthouse-Berichte: [docs/lighthouse/](docs/lighthouse/)
 
 ---
 

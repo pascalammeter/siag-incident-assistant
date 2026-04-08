@@ -1,7 +1,7 @@
 export interface PlaybookStep {
   id: string
   text: string
-  role: 'IT-Leiter' | 'CISO' | 'CEO' | 'Forensik' | 'Legal' | 'HR'
+  role: 'IT-Leiter' | 'CISO' | 'CEO' | 'Forensik'
   noGoWarning?: string
 }
 

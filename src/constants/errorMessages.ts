@@ -130,7 +130,7 @@ export function getNetworkErrorMessage(code: string, defaultMessage?: string): s
  * @param fieldName - Field name for context
  * @returns User-friendly error message
  */
-export function getFieldErrorMessage(error: unknown, _fieldName?: string): string {
+export function getFieldErrorMessage(error: unknown, fieldName?: string): string {
   if (typeof error === 'string') {
     return error;
   }
