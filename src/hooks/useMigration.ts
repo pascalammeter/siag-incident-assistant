@@ -175,6 +175,7 @@ export function useMigration(): void {
         // If all failed with validation errors, mark completed but warn
         if (successCount === 0 && failureCount > 0) {
           markMigrationCompleted();
+          deleteV1State(); // Clear stale wizard state even on validation failure
           showNotification('Some incidents could not be migrated. Please review manually.', 'warning');
           console.warn('[Migration] All incidents had validation errors');
         }

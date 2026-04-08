@@ -38,7 +38,8 @@ export function WizardProvider({ children }: { children: ReactNode }) {
       const saved = localStorage.getItem(STORAGE_KEY)
       if (saved) {
         const parsed = JSON.parse(saved)
-        dispatch({ type: 'HYDRATE', data: parsed })
+        // Restore form data but always start at step 0 — avoids opening mid-wizard
+        dispatch({ type: 'HYDRATE', data: { ...parsed, currentStep: 0, noGoConfirmed: false } })
       }
     } catch {
       // Ignore corrupted data — start fresh
