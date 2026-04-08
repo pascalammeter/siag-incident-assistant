@@ -106,6 +106,13 @@ const nextConfig: NextConfig = {
   // ============================================================================
   // SWC minifier is the default in Next.js 13+ — no extra config needed.
   // Turbopack handles dev builds (configured via npm run dev --turbopack).
+
+  // ============================================================================
+  // Turbopack Root (suppress workspace lockfile warning)
+  // ============================================================================
+  turbopack: {
+    root: __dirname,
+  },
 };
 
 export default nextConfig;

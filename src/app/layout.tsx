@@ -7,6 +7,8 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MigrationInitializer } from "@/components/MigrationInitializer";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // Load Source Sans 3 from Google Fonts via next/font for zero-CLS font loading.
 // Preloads critical weights; display:swap prevents FOIT.
@@ -64,6 +66,10 @@ export default function RootLayout({
             <ToastContainer />
           </MotionConfig>
         </ThemeProvider>
+        {/* Vercel Analytics: tracks page views and custom events (free tier) */}
+        <Analytics />
+        {/* Vercel Speed Insights: tracks Core Web Vitals from real users */}
+        <SpeedInsights />
       </body>
     </html>
   );
