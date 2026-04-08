@@ -1,6 +1,15 @@
 /* ============= TAILWIND & POSTCSS ============= */
 @import "tailwindcss";
 
+/* ============= SIAG CI COLOR TOKENS (Tailwind v4 @theme) ============= */
+@theme {
+  --color-navy: #003B5E;        /* SIAG-Blau — text, borders, secondary UI */
+  --color-navy-light: #00549E;  /* SIAG Morgenhimmel — hover on navy elements */
+  --color-lightgray: #F0F0F0;   /* SIAG-Hellgrau — card/section backgrounds */
+  --color-amber: #D44E17;       /* SIAG-Orange — warnings, highlights */
+  --color-siag-text: #404040;   /* SIAG-Schwarz — body text (not pure black) */
+}
+
 /* ============= DESIGN TOKENS (CSS Variables) ============= */
 :root {
   /* SIAG Color Palette — Per brand guidelines */
@@ -66,6 +75,13 @@
 /* ============= GLOBAL STYLES ============= */
 * {
   border-color: var(--color-border);
+}
+
+/* SIAG CI focus ring — rot, sichtbar, nie entfernen */
+:focus-visible {
+  outline: 2px solid #CC0033;
+  outline-offset: 2px;
+  border-radius: 3px;
 }
 
 html {

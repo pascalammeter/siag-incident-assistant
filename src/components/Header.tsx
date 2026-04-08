@@ -7,11 +7,13 @@ export function Header() {
       <div className="max-w-4xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-4">
           <img
-            src="/siag-logo.svg"
-            alt="SIAG Logo"
-            className="h-8 w-auto"
+            src="/siag-logo.png"
+            alt="Swiss Infosec AG"
+            className="h-10 w-auto"
+            width={134}
+            height={40}
           />
-          <span className="text-lg font-semibold">Incident Management Assistent</span>
+          <span className="text-base font-semibold opacity-90 hidden sm:inline">Incident Management Assistent</span>
         </div>
         <nav aria-label="Hauptnavigation">
           <ul className="flex items-center gap-4 list-none m-0 p-0">

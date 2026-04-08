@@ -57,7 +57,7 @@ export function StepInterstitial() {
       <button
         onClick={handleConfirm}
         disabled={!checked}
-        className="bg-navy text-white px-6 py-3 rounded-lg font-bold min-h-[44px] w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed hover:bg-navy-light transition-colors"
+        className="bg-[#CC0033] text-white px-6 py-3 rounded-full font-bold min-h-[44px] w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#B51D2C] transition-colors"
       >
         Verstanden — Weiter
       </button>

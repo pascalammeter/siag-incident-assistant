@@ -33,7 +33,7 @@ export function StepNavigator({
         <button
           type="button"
           onClick={onPrev}
-          className="bg-white border border-navy text-navy px-6 py-3 rounded-lg font-medium min-h-[44px] hover:bg-lightgray transition-colors"
+          className="bg-white border border-navy text-navy px-6 py-3 rounded-full font-medium min-h-[44px] hover:bg-lightgray transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#CC0033]"
         >
           {prevLabel}
         </button>
@@ -45,8 +45,8 @@ export function StepNavigator({
           type={nextButtonType}
           onClick={nextButtonType === 'submit' ? undefined : onNext}
           disabled={isNextDisabled}
-          className={`bg-navy text-white px-6 py-3 rounded-lg font-medium min-h-[44px] transition-colors ${
-            isNextDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-navy-light'
+          className={`bg-[#CC0033] text-white px-6 py-3 rounded-full font-medium min-h-[44px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
+            isNextDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#B51D2C]'
           }`}
         >
           {resolvedNextLabel}
