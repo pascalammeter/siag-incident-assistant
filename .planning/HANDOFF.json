@@ -1,0 +1,40 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-04-08T20:52:16.352Z",
+  "phase": "post-13",
+  "phase_name": "production-fixes-and-ci-audit",
+  "phase_dir": ".planning",
+  "plan": null,
+  "task": null,
+  "total_tasks": null,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "name": "Prisma 7 migration — prisma.config.ts + schema.prisma fix", "status": "done", "commit": "1ceb399"},
+    {"id": 2, "name": "Vercel build fix — prisma generate in build script, exclude prisma/ from TS", "status": "done", "commit": "9f8101e"},
+    {"id": 3, "name": "UX: always start wizard at step 0 on hydration (localStorage step restore bug)", "status": "done", "commit": "61b9a6f"},
+    {"id": 4, "name": "Bug: useMigration deleteV1State() missing in validation-error path", "status": "done", "commit": "61b9a6f"},
+    {"id": 5, "name": "Fix: /incidents page nested header/main layout", "status": "done", "commit": "61b9a6f"},
+    {"id": 6, "name": "SIAG CI audit: real logo, Swiss Infosec AG branding, pill buttons, SIAG-Rot CTA", "status": "done", "commit": "12fc614"},
+    {"id": 7, "name": "Fix: bg-siag-navy transparent header (Tailwind v4 @theme gap)", "status": "done", "commit": "8bc12da"}
+  ],
+  "remaining_tasks": [
+    {"id": 8, "name": "Dark mode: text-navy (#003B5E) on dark backgrounds = barely visible — wizard components need dark: variants", "status": "not_started"},
+    {"id": 9, "name": "Step1Einstieg: incident-type buttons rounded-lg → rounded-full", "status": "not_started"},
+    {"id": 10, "name": "IncidentList alerts: generic yellow/red → SIAG palette (#D44E17 orange, #CC0033 red)", "status": "not_started"},
+    {"id": 11, "name": "Step1Einstieg: aria-pressed on toggle buttons + role=group", "status": "not_started"},
+    {"id": 12, "name": "UAT session with SIAG consultant + collect written sign-off → tag v1.1.0", "status": "not_started"}
+  ],
+  "blockers": [],
+  "human_actions_pending": [
+    {"action": "Smoke test production app — verify header visible in both light and dark mode", "context": "Header background was transparent (bg-siag-navy not a Tailwind utility); fixed with inline style. Needs visual verification.", "blocking": false},
+    {"action": "Schedule UAT session with SIAG consultant using docs/uat/UAT_CHECKLISTE.md", "context": "All code complete, UAT docs translated to German. Sign-off required for v1.1.0 tag.", "blocking": true}
+  ],
+  "decisions": [
+    {"decision": "Use style={{ backgroundColor: '#003B5E' }} in Header instead of @theme for siag-navy", "rationale": "Tailwind v4 @theme conflicts with :root CSS vars of same name. Inline style is guaranteed.", "phase": "post-13"},
+    {"decision": "WizardContext HYDRATE always resets currentStep to 0", "rationale": "Restoring mid-wizard step confused users; form data still restored, navigation resets to beginning.", "phase": "post-13"},
+    {"decision": "Prisma 7: datasource url moved to prisma.config.ts, DIRECT_URL used for migrations", "rationale": "Prisma 7 breaking change — url/directUrl no longer allowed in schema.prisma.", "phase": "post-13"}
+  ],
+  "uncommitted_files": [],
+  "next_action": "Visually verify production at https://siag-incident-assistant.vercel.app — check header visible in light mode, logo correct, buttons red (SIAG-Rot). Then address dark mode text-navy visibility issue.",
+  "context_notes": "Session focused on: (1) unblocking Vercel deployment after Prisma 7 upgrade, (2) fixing step-5-on-load UX bug, (3) SIAG CI/UX audit. The @theme Tailwind v4 issue was the trickiest — CSS vars in :root do NOT auto-generate Tailwind utilities; only @theme vars do. But @theme conflicts with same-named :root vars. Solution: inline style for the header."
+}
