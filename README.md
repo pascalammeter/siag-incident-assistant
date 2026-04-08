@@ -1,240 +1,136 @@
-# SIAG Incident Management Assistent — Berater-Review
+# SIAG Incident Management Assistent
 
-## Live-URL
+[![Version](https://img.shields.io/badge/version-v1.1.0--rc-blue)](https://github.com/pascalammeter/siag-incident-assistant)
+[![Tests](https://img.shields.io/badge/tests-99%2B%20passing-brightgreen)](docs/TEST_COVERAGE.md)
+[![Deployment](https://img.shields.io/badge/deployed-Vercel-black)](https://siag-incident-assistant.vercel.app)
+[![Security](https://img.shields.io/badge/security-OWASP%20A--grade-green)](docs/SECURITY_AUDIT.md)
 
-**https://siag-incident-assistant.vercel.app**
-
----
-
-## Was ist das?
-
-Ein klickbarer 7-Screen Prototyp für einen Incident-Response-Wizard, der SIAG-Berater durch einen Ransomware-Vorfall führt. Der Wizard deckt den vollständigen Ablauf ab: von der Ersterfassung über die Klassifikation und das Reaktions-Playbook bis zur Dokumentation und Übergabe.
-
-Erstellt im Rahmen des HDT-Workshops «Gruppe Incident Management», Phase 4 Prototyp.
+**Live:** https://siag-incident-assistant.vercel.app
 
 ---
 
-## Workshop-Kontext
+## What Is This?
 
-- **Projekt:** Kundenplattform-Prototyp für SIAG-Incident-Response-Services
-- **Ziel:** Validierung des Wizard-Flows und der inhaltlichen Vollständigkeit vor Integration in die Kundenplattform
-- **Scope:** Frontend-Prototyp (kein Backend, alle Daten bleiben im Browser)
+A production-grade Incident Response Wizard for SIAG consultants. Guides responders through the full lifecycle of a security incident — from initial detection through classification, playbook execution, compliance notification, and documentation export.
 
----
-
-## Durchlauf (ca. 5–8 Minuten)
-
-Empfehlung: Einen **Kritisch-Szenario** durchspielen (alle 3 Klassifikationsfragen mit «Ja» beantworten).
-
-1. **Screen 0 — No-Go-Regeln:** Checkbox bestätigen, «Weiter» klicken
-2. **Screen 1 — Einstieg:** «Shit Happens» Button klicken, «Weiter» klicken
-3. **Screen 2 — Vorfall erfassen:** «Jetzt» Button klicken (setzt Zeitstempel), Systeme auswählen, «Ransomware» ankreuzen
-4. **Screen 3 — Klassifikation:** Alle 3 Fragen mit «Ja» beantworten → Schweregrad «Kritisch» erscheint automatisch
-5. **Screen 4 — Reaktionsschritte:** 2–3 Massnahmen abhaken, Fortschritts-Zähler beobachten
-6. **Screen 5 — Meldepflichten:** Fragen beantworten → ISG/DSG/FINMA-Fristen erscheinen; Kommunikationsbausteine öffnen
-7. **Screen 6 — Zusammenfassung:** Alle Eingaben konsolidiert sichtbar; «Bericht exportieren (PDF)» testen; «An SIAG-Berater übergeben»-Button sehen
+**v1.1 (current):** API-backed persistent storage, 4 incident types, professional PDF export, dark mode, and Swiss regulatory compliance (ISG, DSG, FINMA).
 
 ---
 
-## Feedback-Fragen
+## Release History
 
-1. **Vollständigkeit des Flows:** Fehlt ein inhaltlicher Schritt im Wizard-Ablauf, der für einen echten Incident relevant wäre?
-2. **Meldepflichten:** Sind die dargestellten Fristen und Behörden (ISG 24h, DSG, FINMA 24h/72h) korrekt und vollständig für den CH-Kontext?
-3. **Kommunikationsbausteine:** Sind die Textvorlagen für GL, Mitarbeitende und Medien praxistauglich? Was würde ein Berater sofort ändern?
-4. **Kundenpräsentation:** Was würde diesen Prototyp heute für eine Kundenpräsentation blockieren?
-5. **Freies Feedback:** Was fällt noch auf — inhaltlich, sprachlich oder konzeptionell?
+| Version | Date | Highlights |
+|---------|------|-----------|
+| v1.1.0-rc | 2026-04-08 | Backend API, 4 incident types, PDF export, migration service — **UAT in progress** |
+| v1.0.0 | 2026-04-06 | Frontend prototype — 7-screen wizard, Ransomware playbook, localStorage |
 
----
-
-## Technischer Stand
-
-| Eigenschaft | Wert |
-|------------|------|
-| Framework | Next.js 16, TypeScript, Tailwind v4 |
-| Datenspeicherung | localStorage (Browser only — kein Backend, keine Datenübertragung) |
-| Tests | 74/74 grün (Vitest) |
-| Deployment | Vercel Static Export (CDN, kein Server) |
-| Mobile | Getestet auf 375px Viewport |
+See [CHANGELOG.md](CHANGELOG.md) for full release notes.
 
 ---
 
-## Bekannte Einschränkungen (Out of Scope für diesen Prototyp)
+## v1.1 Features
 
-- Kein echtes Backend / keine Datenpersistenz über Browser hinaus
-- PDF-Export via Browser-Druckdialog (kein dediziertes PDF-Library)
-- Logo ist ein Placeholder (SVG-Vorlage, kein finales SIAG-Logo)
-- Kein Authentication / Multi-User
+### Incident Types (4)
+- **Ransomware** — 25-step playbook with ISG/DSG compliance deadlines
+- **Phishing** — detection, containment, user notification, credential reset
+- **DDoS** — mitigation, upstream ISP notification, traffic scrubbing
+- **Data Loss** — data classification, FINMA 24/72h notification, legal steps
+
+### Key Capabilities
+| Feature | Description |
+|---------|-------------|
+| Persistent storage | Neon PostgreSQL — incidents survive browser reloads |
+| PDF export | Professional incident report with SIAG branding |
+| Incident list | Sortable, filterable list at `/incidents` |
+| Data migration | v1.0 localStorage data auto-migrated on first load |
+| Dark mode | System preference + manual toggle |
+| Compliance | ISG 24h, DSG 15 days, FINMA 24/72h deadlines auto-calculated |
+| Mobile | Responsive from 375px; 44px touch targets |
+| Accessibility | WCAG AA aria attributes, skip link, nav landmark |
+
+### Tech Stack
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router, Vercel Functions) |
+| Language | TypeScript (strict) |
+| Styling | Tailwind CSS v4 |
+| Database | Neon PostgreSQL 17 + Prisma ORM |
+| Validation | Zod |
+| Animation | Motion (Framer Motion) |
+| PDF | Puppeteer / next-pdf |
+| Monitoring | Vercel Analytics + Speed Insights |
+| Testing | Vitest — 99+ tests passing |
+| Deployment | Vercel (auto-deploy from main) |
 
 ---
 
-_Fragen oder Feedback direkt an pascalammeter (GitHub: pascalammeter/siag-incident-assistant)_
-
----
-
-## Backend Setup (Local Development)
+## Quick Start
 
 ### Prerequisites
-
 - Node.js 18+ and npm 9+
-- PostgreSQL database (Neon recommended for cloud)
+- PostgreSQL database (Neon recommended)
 - API Key for authentication
 
-### 1. Clone and Install Dependencies
+### Install and Run
 
 ```bash
 git clone https://github.com/pascalammeter/siag-incident-assistant.git
 cd siag-incident-assistant
 npm install
+cp .env.example .env.local   # Edit with your DB credentials
+npm run dev
 ```
 
-### 2. Configure Environment
+Open http://localhost:3000
 
-Create `.env.local` in the project root (use `.env.example` as template):
-
-```bash
-cp .env.example .env.local
-```
-
-Edit `.env.local` with your database credentials:
+### Environment Variables
 
 ```env
 # Database (get from https://console.neon.tech)
 DATABASE_URL=postgresql://user:password@host.neon.tech/dbname?sslmode=require
 DIRECT_URL=postgresql://user:password@host.neon.tech/dbname?sslmode=require
 
-# API Configuration
+# API
 API_KEY=sk_test_your_secret_key_here
 CORS_ORIGIN=http://localhost:3000
 NODE_ENV=development
 ```
 
-### 3. Set Up PostgreSQL Database
-
-**Option A: Using Neon (Recommended)**
-
-1. Create free account at https://console.neon.tech
-2. Create new PostgreSQL project
-3. Copy connection string to `DATABASE_URL` in `.env.local`
-4. Copy compute endpoint connection string to `DIRECT_URL`
-
-**Option B: Local PostgreSQL**
+### Run Tests
 
 ```bash
-# macOS (homebrew)
-brew install postgresql@15
-brew services start postgresql@15
-
-# Linux (Ubuntu/Debian)
-sudo apt-get install postgresql postgresql-contrib
-sudo systemctl start postgresql
-
-# Create database and user
-psql postgres -c "CREATE USER incident_user WITH PASSWORD 'password';"
-psql postgres -c "CREATE DATABASE incident_db OWNER incident_user;"
-
-# Connection string for .env.local:
-# DATABASE_URL=postgresql://incident_user:password@localhost:5432/incident_db
+npm test                  # 99+ tests via Vitest
+npm test -- --coverage    # With coverage report
 ```
-
-### 4. Run Database Migrations
-
-```bash
-npm run prisma:migrate -- --name "initial"
-```
-
-This creates all tables defined in `prisma/schema.prisma`.
-
-### 5. Start Backend Server
-
-```bash
-npm run dev:backend
-```
-
-Server starts at `http://localhost:3000`
-
-Verify API is running:
-```bash
-curl -H "X-API-Key: sk_test_your_secret_key_here" \
-  http://localhost:3000/api/incidents
-```
-
-Expected response:
-```json
-{
-  "data": [],
-  "total": 0,
-  "page": 1,
-  "limit": 10
-}
-```
-
-### 6. Access API Documentation
-
-Open **Swagger UI** at:
-```
-http://localhost:3000/api-docs
-```
-
-Or view **OpenAPI JSON spec**:
-```
-http://localhost:3000/api-docs/json
-```
-
-### 7. Run Tests
-
-```bash
-# Run all tests
-npm test
-
-# Run tests in watch mode
-npm test -- --watch
-
-# Run tests with coverage
-npm test -- --coverage
-```
-
-Expected: 515+ tests passing ✅
-
----
-
-## Frontend + Backend (Full Stack Local Development)
-
-```bash
-# Terminal 1: Backend API server
-npm run dev:backend
-
-# Terminal 2: Frontend dev server (in same project)
-npm run dev:frontend
-
-# Open http://localhost:3000 in browser
-```
-
-The frontend automatically connects to backend at `http://localhost:3000/api` with API key from `.env.local`.
 
 ---
 
 ## Production Deployment
 
-### Deploy to Vercel (Recommended)
-
 ```bash
-# Push to GitHub
+# Push to GitHub — Vercel auto-deploys from main branch
 git push origin main
 
-# Vercel auto-deploys from main branch
-# Set environment variables in Vercel dashboard:
-# - DATABASE_URL
-# - DIRECT_URL
-# - API_KEY (use sk_live_ prefix)
-# - CORS_ORIGIN=https://siag-incident-assistant.vercel.app
-# - NODE_ENV=production
+# Required environment variables in Vercel dashboard:
+# DATABASE_URL, DIRECT_URL, API_KEY, CORS_ORIGIN, NODE_ENV
 ```
 
-### Access Production API
+### API Routes
+
+| Route | Method | Description |
+|-------|--------|-------------|
+| `/api/health` | GET | Health check (no auth) |
+| `/api/incidents` | GET | List incidents (paginated, filtered) |
+| `/api/incidents` | POST | Create incident |
+| `/api/incidents/:id` | GET | Get single incident |
+| `/api/incidents/:id` | PATCH | Update incident |
+| `/api/incidents/:id` | DELETE | Soft-delete incident |
+
+All mutation routes require `X-API-Key` header.
 
 ```bash
 curl -H "X-API-Key: sk_live_..." \
-  https://siag-incident-assistant.vercel.app/api/incidents
+  https://siag-incident-assistant.vercel.app/api/health
 ```
 
 ---
@@ -243,61 +139,31 @@ curl -H "X-API-Key: sk_live_..." \
 
 | Document | Purpose |
 |----------|---------|
-| [`docs/INTEGRATION_GUIDE.md`](docs/INTEGRATION_GUIDE.md) | API endpoint documentation and examples |
-| [`docs/DATABASE_SCHEMA.md`](docs/DATABASE_SCHEMA.md) | Database schema, fields, indexes, constraints |
-| [`docs/DATABASE_SCHEMA_ER.mmd`](docs/DATABASE_SCHEMA_ER.mmd) | Entity-relationship diagram (Mermaid) |
-| [`docs/API_ERROR_CODES.md`](docs/API_ERROR_CODES.md) | Complete error codes reference and solutions |
-| [`docs/PERFORMANCE_BENCHMARKS.md`](docs/PERFORMANCE_BENCHMARKS.md) | Load test results, SLA metrics, capacity planning |
-| [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) | Frontend development setup and architecture |
-| [`docs/TESTING.md`](docs/TESTING.md) | Testing strategy and test coverage |
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | System architecture and design decisions |
+| [`CHANGELOG.md`](CHANGELOG.md) | Release notes (v1.0, v1.1) |
+| [`SIGN-OFF.md`](SIGN-OFF.md) | UAT sign-off template |
+| [`docs/uat/UAT_SETUP.md`](docs/uat/UAT_SETUP.md) | UAT environment setup |
+| [`docs/uat/UAT_CHECKLIST.md`](docs/uat/UAT_CHECKLIST.md) | UAT test checklist |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | System overview and design |
+| [`docs/INTEGRATION_GUIDE.md`](docs/INTEGRATION_GUIDE.md) | API endpoint documentation |
+| [`docs/DATABASE_SCHEMA.md`](docs/DATABASE_SCHEMA.md) | Prisma schema with field docs |
+| [`docs/API_ERROR_CODES.md`](docs/API_ERROR_CODES.md) | Error code reference |
+| [`docs/SECURITY_AUDIT.md`](docs/SECURITY_AUDIT.md) | OWASP A-grade audit |
+| [`docs/PERFORMANCE_BENCHMARKS.md`](docs/PERFORMANCE_BENCHMARKS.md) | Load test results |
+| [`docs/TEST_COVERAGE.md`](docs/TEST_COVERAGE.md) | 99+ test coverage report |
+| [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) | Development setup guide |
+| [`docs/v1.1/MIGRATION_GUIDE.md`](docs/v1.1/MIGRATION_GUIDE.md) | v1.0 → v1.1 migration |
 
 ---
 
-## API Quick Reference
+## UAT Status
 
-### Create Incident
+v1.1.0-rc is currently in User Acceptance Testing with the SIAG consultant.
 
-```bash
-curl -X POST http://localhost:3000/api/incidents \
-  -H "Content-Type: application/json" \
-  -H "X-API-Key: sk_test_your_key" \
-  -d '{
-    "incident_type": "ransomware",
-    "severity": "critical",
-    "erkennungszeitpunkt": "2026-04-07T14:30:00Z",
-    "erkannt_durch": "SOC monitoring",
-    "betroffene_systeme": ["Exchange", "SharePoint"]
-  }'
-```
-
-### List Incidents
-
-```bash
-curl "http://localhost:3000/api/incidents?severity=critical&limit=10" \
-  -H "X-API-Key: sk_test_your_key"
-```
-
-### Get Incident by ID
-
-```bash
-curl "http://localhost:3000/api/incidents/{id}" \
-  -H "X-API-Key: sk_test_your_key"
-```
-
-See [`docs/INTEGRATION_GUIDE.md`](docs/INTEGRATION_GUIDE.md) for complete API documentation.
+- [ ] Consultant UAT session (see `docs/uat/UAT_CHECKLIST.md`)
+- [ ] Written sign-off (see `SIGN-OFF.md`)
+- [ ] Git tag `v1.1.0`
+- [ ] Stakeholder announcement
 
 ---
 
-## Entwicklung (Quick Reference)
-
-```bash
-npm install
-npm run dev:backend       # Backend API server (http://localhost:3000/api)
-npm run dev:frontend      # Frontend dev server
-npm test                  # Tests via Vitest (515+ tests)
-npm run build             # Static frontend export
-npm run prisma:migrate    # Run database migrations
-```
-
-Weitere Details: [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) | [`docs/TESTING.md`](docs/TESTING.md) | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+_Fragen oder Feedback: pascalammeter (GitHub: pascalammeter/siag-incident-assistant)_
