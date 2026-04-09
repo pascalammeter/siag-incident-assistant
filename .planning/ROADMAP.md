@@ -279,15 +279,16 @@ Plan breakdown:
   6. SIAG consultant completes UAT: all 4 incident types tested end-to-end, PDF export verified for professional quality, performance tested on mobile networks
   7. SIAG consultant sign-off provided; README updated with backend setup; API docs and integration guide finalized; .env.example provided
 
-**Plans:** 4/4 plans complete
+**Plans:** 5 plans (4 complete + 1 gap closure)
 
 Plan breakdown:
 - [x] 13-01-PLAN.md — Vercel + Neon Production Deployment
 - [x] 13-02-PLAN.md — Performance Optimization & Lighthouse ≥90
 - [x] 13-03-PLAN.md — Backwards Compatibility & Migration
 - [x] 13-04-PLAN.md — UAT & Consultant Sign-off
+- [ ] 13-05-PLAN.md — Wire wizard completion to API save (GAP CLOSURE: UAT #16)
 
-**Status:** ⏳ Planned (2026-04-07) — Ready for execution
+**Status:** Gap closure — 13-05 addresses UAT blocker (wizard never saves to API)
 
 ---
 
@@ -313,7 +314,7 @@ Plan breakdown:
 | 10. Motion + PDF + Dark Mode | 3/3 | ✅ Complete | 2026-04-07 |
 | 11. Multi-Type Playbooks + Forms | 4/4 | ✅ Complete | 2026-04-07 |
 | 12. Testing + Security | 4/4 | ✅ Complete | 2026-04-07 |
-| 13. Deployment + Polish | 4/4 | Complete   | 2026-04-08 |
+| 13. Deployment + Polish | 4/5 | Gap closure   | 2026-04-08 |
 
 **Total:** 32/27 plans | **Completed:** 28/27 (104%); **Pending:** Phase 13 (4 plans) | **Estimate:** 1 week remaining (Phase 13 execution)
 
