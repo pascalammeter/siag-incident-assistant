@@ -51,8 +51,22 @@ export function withCors(response: NextResponse): NextResponse {
 /**
  * Validate the X-API-Key header using constant-time comparison.
  * Returns null if valid, or a 401 NextResponse if invalid.
+ *
+ * Same-origin requests (frontend calling its own API routes) are allowed
+ * without an API key. Cross-origin requests require the X-API-Key header.
  */
 export function validateApiKey(request: NextRequest): NextResponse | null {
+  const host = request.headers.get('host');
+  const origin = request.headers.get('origin');
+
+  // Same-origin requests: no Origin header (server-side / form post)
+  // or Origin matches the deployment host (browser fetch from same domain)
+  if (!origin) return null;
+  if (host && (origin === `https://${host}` || origin === `http://${host}`)) {
+    return null;
+  }
+
+  // Cross-origin: require a valid API key
   const apiKey = request.headers.get('x-api-key');
   const expectedKey = process.env.API_KEY;
 

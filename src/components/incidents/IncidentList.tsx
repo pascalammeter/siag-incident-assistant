@@ -115,17 +115,17 @@ export function IncidentList() {
     <div className="space-y-6">
       {/* Offline indicator */}
       {isOffline && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-          <p className="text-yellow-800 text-sm">
-            Working offline. Some features may be limited.
+        <div className="bg-amber/10 border border-amber/40 rounded-lg p-4">
+          <p className="text-navy dark:text-white text-sm font-medium">
+            Offline-Modus — einige Funktionen sind eingeschränkt.
           </p>
         </div>
       )}
 
       {/* Error display */}
       {(error || localError) && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-800 text-sm">{error || localError}</p>
+        <div className="bg-siag-red/10 border border-siag-red/30 rounded-lg p-4">
+          <p className="text-siag-red text-sm font-medium">{error || localError}</p>
         </div>
       )}
 
@@ -155,8 +155,8 @@ export function IncidentList() {
       {/* Incidents table */}
       {!isLoading && incidents.length > 0 && (
         <div className="space-y-4">
-          <div className="text-sm text-gray-600">
-            Showing {incidents.length} incident{incidents.length !== 1 ? 's' : ''}
+          <div className="text-sm text-gray-600 dark:text-slate-400">
+            {incidents.length} {incidents.length === 1 ? 'Incident' : 'Incidents'} gefunden
           </div>
           <IncidentTable
             incidents={incidents}

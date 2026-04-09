@@ -1,8 +1,10 @@
 'use client'
 
+import { useMemo } from 'react'
 import { useWizard } from '../WizardContext'
 import { StepNavigator } from '../StepNavigator'
-import { RANSOMWARE_PLAYBOOK } from '@/lib/playbook-data'
+import { getPlaybook } from '@/lib/playbook-data'
+import type { KlassifikationData } from '@/lib/wizard-types'
 
 const ERKANNT_DURCH_LABELS: Record<string, string> = {
   'it-mitarbeiter': 'IT-Mitarbeiter',
@@ -20,12 +22,18 @@ export function Step6Dokumentation() {
   const reaktion = state.reaktion
   const kommunikation = state.kommunikation
 
-  const totalSteps = RANSOMWARE_PLAYBOOK.phases.reduce((sum, p) => sum + p.steps.length, 0)
+  const incidentType = (klassifikation as Partial<KlassifikationData>)?.incidentType
+  const playbook = useMemo(() => getPlaybook(incidentType ?? 'ransomware'), [incidentType])
+  const totalSteps = useMemo(
+    () => playbook.phases.reduce((sum, p) => sum + p.steps.length, 0),
+    [playbook]
+  )
   const completedCount = reaktion?.completedSteps?.length ?? 0
 
   const fmt = (val: string | null | undefined): string => val ?? '—'
 
   const handlePrev = () => dispatch({ type: 'PREV_STEP' })
+  const handleReset = () => dispatch({ type: 'RESET' })
 
   const handlePrint = () => {
     if (typeof window !== 'undefined') {
@@ -56,8 +64,8 @@ export function Step6Dokumentation() {
 
       {/* Page header */}
       <div>
-        <h2 className="text-2xl font-bold text-navy">Incident-Zusammenfassung</h2>
-        <p className="text-sm text-gray-500">Erstellt: {new Date().toLocaleDateString('de-CH')}</p>
+        <h2 className="text-2xl font-bold text-navy dark:text-white">Incident-Zusammenfassung</h2>
+        <p className="text-sm text-gray-500 dark:text-slate-400">Erstellt: {new Date().toLocaleDateString('de-CH')}</p>
       </div>
 
       {/* Export button — top placement */}
@@ -79,83 +87,83 @@ export function Step6Dokumentation() {
       )}
 
       {/* Section 1: Was ist passiert */}
-      <div className="bg-lightgray rounded-lg p-4 space-y-3 print-section">
-        <h3 className="text-base font-bold text-navy">Was ist passiert</h3>
+      <div className="bg-lightgray dark:bg-slate-800 rounded-lg p-4 space-y-3 print-section">
+        <h3 className="text-base font-bold text-navy dark:text-white">Was ist passiert</h3>
         <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">Erkennungszeitpunkt</span>
-          <span className="text-navy">
+          <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Erkennungszeitpunkt</span>
+          <span className="text-navy dark:text-slate-200">
             {erfassen?.erkennungszeitpunkt
               ? new Date(erfassen.erkennungszeitpunkt).toLocaleString('de-CH')
               : '—'}
           </span>
         </div>
         <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">Erkannt durch</span>
-          <span className="text-navy">
+          <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Erkannt durch</span>
+          <span className="text-navy dark:text-slate-200">
             {erfassen?.erkannt_durch
               ? (ERKANNT_DURCH_LABELS[erfassen.erkannt_durch] ?? erfassen.erkannt_durch)
               : '—'}
           </span>
         </div>
         <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">Erste Auffälligkeiten</span>
-          <span className="text-navy">{fmt(erfassen?.erste_auffaelligkeiten)}</span>
+          <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Erste Auffälligkeiten</span>
+          <span className="text-navy dark:text-slate-200">{fmt(erfassen?.erste_auffaelligkeiten)}</span>
         </div>
         <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">Lösegeld-Forderung</span>
-          <span className="text-navy">
+          <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Lösegeld-Forderung</span>
+          <span className="text-navy dark:text-slate-200">
             {erfassen?.loesegeld_meldung ? 'Ja' : erfassen ? 'Nein' : '—'}
           </span>
         </div>
       </div>
 
       {/* Section 2: Betroffene Systeme */}
-      <div className="bg-lightgray rounded-lg p-4 space-y-3 print-section">
-        <h3 className="text-base font-bold text-navy">Betroffene Systeme</h3>
+      <div className="bg-lightgray dark:bg-slate-800 rounded-lg p-4 space-y-3 print-section">
+        <h3 className="text-base font-bold text-navy dark:text-white">Betroffene Systeme</h3>
         <div className="text-sm">
           {erfassen?.betroffene_systeme?.length && erfassen.betroffene_systeme.length > 0 ? (
             <div className="flex flex-wrap gap-1 mt-1">
               {erfassen.betroffene_systeme.map((system) => (
                 <span
                   key={system}
-                  className="inline-block bg-navy/10 text-navy text-xs px-2 py-0.5 rounded-full mr-1 mb-1"
+                  className="inline-block bg-navy/10 dark:bg-white/10 text-navy dark:text-slate-200 text-xs px-2 py-0.5 rounded-full mr-1 mb-1"
                 >
                   {system}
                 </span>
               ))}
             </div>
           ) : (
-            <span className="text-navy">—</span>
+            <span className="text-navy dark:text-slate-200">—</span>
           )}
         </div>
       </div>
 
       {/* Section 3: Klassifikation */}
-      <div className="bg-lightgray rounded-lg p-4 space-y-3 print-section">
-        <h3 className="text-base font-bold text-navy">Klassifikation</h3>
+      <div className="bg-lightgray dark:bg-slate-800 rounded-lg p-4 space-y-3 print-section">
+        <h3 className="text-base font-bold text-navy dark:text-white">Klassifikation</h3>
         <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">Schweregrad</span>
-          <span className="text-navy">{fmt(klassifikation?.severity)}</span>
+          <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Schweregrad</span>
+          <span className="text-navy dark:text-slate-200">{fmt(klassifikation?.severity)}</span>
         </div>
         <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">Incident-Typ</span>
-          <span className="text-navy">{capitalize(klassifikation?.incidentType)}</span>
+          <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Incident-Typ</span>
+          <span className="text-navy dark:text-slate-200">{capitalize(klassifikation?.incidentType)}</span>
         </div>
         <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">Kritische Systeme</span>
-          <span className="text-navy">
+          <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Kritische Systeme</span>
+          <span className="text-navy dark:text-slate-200">
             {klassifikation?.q1SystemeBetroffen === 'ja' ? 'Ja' : klassifikation ? 'Nein' : '—'}
           </span>
         </div>
         <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">Personendaten betroffen</span>
-          <span className="text-navy">
+          <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Personendaten betroffen</span>
+          <span className="text-navy dark:text-slate-200">
             {klassifikation?.q2PdBetroffen === 'ja' ? 'Ja' : klassifikation ? 'Nein' : '—'}
           </span>
         </div>
         <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">Angreifer aktiv</span>
-          <span className="text-navy">
+          <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Angreifer aktiv</span>
+          <span className="text-navy dark:text-slate-200">
             {klassifikation?.q3AngreiferAktiv === 'ja'
               ? 'Ja'
               : klassifikation?.q3AngreiferAktiv === 'nein'
@@ -168,11 +176,11 @@ export function Step6Dokumentation() {
       </div>
 
       {/* Section 4: Massnahmen-Fortschritt */}
-      <div className="bg-lightgray rounded-lg p-4 space-y-3 print-section">
-        <h3 className="text-base font-bold text-navy">Massnahmen-Fortschritt</h3>
+      <div className="bg-lightgray dark:bg-slate-800 rounded-lg p-4 space-y-3 print-section">
+        <h3 className="text-base font-bold text-navy dark:text-white">Massnahmen-Fortschritt</h3>
         <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">Checkliste Reaktion</span>
-          <span className="text-navy">{completedCount} von {totalSteps} Massnahmen erledigt</span>
+          <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Checkliste Reaktion</span>
+          <span className="text-navy dark:text-slate-200">{completedCount} von {totalSteps} Massnahmen erledigt</span>
         </div>
         <div className="w-full bg-gray-200 h-2 rounded-full mt-1">
           <div
@@ -182,78 +190,92 @@ export function Step6Dokumentation() {
         </div>
         <div className="text-sm">
           {completedCount < totalSteps ? (
-            <span className="text-amber-800">
+            <span className="text-amber-800 dark:text-amber-400">
               {totalSteps - completedCount} Massnahmen ausstehend
             </span>
           ) : (
-            <span className="text-navy">Alle Massnahmen abgeschlossen</span>
+            <span className="text-navy dark:text-slate-200">Alle Massnahmen abgeschlossen</span>
           )}
         </div>
       </div>
 
       {/* Section 5: Meldepflichten */}
-      <div className="bg-lightgray rounded-lg p-4 space-y-3 print-section">
-        <h3 className="text-base font-bold text-navy">Meldepflichten</h3>
-        <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">ISG/NCSC (24h)</span>
-          <span className="text-navy">
-            {kommunikation?.kritischeInfrastruktur === 'ja'
-              ? 'Ja — 24h Frist'
-              : kommunikation?.kritischeInfrastruktur === 'nein'
-              ? 'Nein'
-              : '—'}
-          </span>
-        </div>
-        <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">DSG/DSGVO</span>
-          <span className="text-navy">
-            {kommunikation?.personendatenBetroffen === 'ja'
-              ? 'Ja'
-              : kommunikation?.personendatenBetroffen === 'nein'
-              ? 'Nein'
-              : '—'}
-          </span>
-        </div>
-        <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">FINMA (24h/72h)</span>
-          <span className="text-navy">
-            {kommunikation?.reguliertesUnternehmen === 'ja'
-              ? 'Ja'
-              : kommunikation?.reguliertesUnternehmen === 'nein'
-              ? 'Nein'
-              : '—'}
-          </span>
-        </div>
+      <div className="bg-lightgray dark:bg-slate-800 rounded-lg p-4 space-y-3 print-section">
+        <h3 className="text-base font-bold text-navy dark:text-white">Meldepflichten</h3>
+        {(() => {
+          const erkannt = erfassen?.erkennungszeitpunkt
+          const fmtDeadline = (hours: number) => {
+            if (!erkannt) return `Ja — ${hours}h Frist (Zeitpunkt fehlt)`
+            const d = new Date(new Date(erkannt).getTime() + hours * 60 * 60 * 1000)
+            return `Ja — bis ${d.toLocaleString('de-CH', { dateStyle: 'short', timeStyle: 'short' })} (${hours}h Frist)`
+          }
+          return (
+            <>
+              <div className="flex gap-2 text-sm">
+                <span className="text-gray-500 dark:text-slate-400 w-44 shrink-0">ISG/NCSC (24h)</span>
+                <span className="text-navy dark:text-slate-200">
+                  {kommunikation?.kritischeInfrastruktur === 'ja'
+                    ? fmtDeadline(24)
+                    : kommunikation?.kritischeInfrastruktur === 'nein'
+                    ? 'Nein'
+                    : '—'}
+                </span>
+              </div>
+              <div className="flex gap-2 text-sm">
+                <span className="text-gray-500 dark:text-slate-400 w-44 shrink-0">DSG/DSGVO</span>
+                <span className="text-navy dark:text-slate-200">
+                  {kommunikation?.personendatenBetroffen === 'ja'
+                    ? 'Ja — unverzüglich melden (keine feste Frist)'
+                    : kommunikation?.personendatenBetroffen === 'nein'
+                    ? 'Nein'
+                    : '—'}
+                </span>
+              </div>
+              <div className="flex gap-2 text-sm">
+                <span className="text-gray-500 dark:text-slate-400 w-44 shrink-0">FINMA (24h/72h)</span>
+                <span className="text-navy dark:text-slate-200">
+                  {kommunikation?.reguliertesUnternehmen === 'ja'
+                    ? fmtDeadline(24) + ' (informell) / ' + (erkannt
+                        ? new Date(new Date(erkannt).getTime() + 72 * 60 * 60 * 1000).toLocaleString('de-CH', { dateStyle: 'short', timeStyle: 'short' }) + ' (vollständig)'
+                        : '72h (vollständig)')
+                    : kommunikation?.reguliertesUnternehmen === 'nein'
+                    ? 'Nein'
+                    : '—'}
+                </span>
+              </div>
+            </>
+          )
+        })()}
       </div>
 
       {/* Section 6: Kommunikation */}
-      <div className="bg-lightgray rounded-lg p-4 space-y-3 print-section">
-        <h3 className="text-base font-bold text-navy">Kommunikation</h3>
+      <div className="bg-lightgray dark:bg-slate-800 rounded-lg p-4 space-y-3 print-section">
+        <h3 className="text-base font-bold text-navy dark:text-white">Kommunikation</h3>
         <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">Kommunikations-Checkliste</span>
-          <span className="text-navy">
+          <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Kommunikations-Checkliste</span>
+          <span className="text-navy dark:text-slate-200">
             {kommunikation?.kommChecklist?.length && kommunikation.kommChecklist.length > 0
               ? kommunikation.kommChecklist.join(', ')
               : '—'}
           </span>
         </div>
         <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">GL-Vorlage</span>
-          <span className="text-navy">{kommunikation?.templateGL ? 'Erstellt' : '—'}</span>
+          <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">GL-Vorlage</span>
+          <span className="text-navy dark:text-slate-200">{kommunikation?.templateGL ? 'Erstellt' : '—'}</span>
         </div>
         <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">Mitarbeitende-Vorlage</span>
-          <span className="text-navy">{kommunikation?.templateMitarbeitende ? 'Erstellt' : '—'}</span>
+          <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Mitarbeitende-Vorlage</span>
+          <span className="text-navy dark:text-slate-200">{kommunikation?.templateMitarbeitende ? 'Erstellt' : '—'}</span>
         </div>
         <div className="flex gap-2 text-sm">
-          <span className="text-gray-500 w-40 shrink-0">Medien-Vorlage</span>
-          <span className="text-navy">{kommunikation?.templateMedien ? 'Erstellt' : '—'}</span>
+          <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Medien-Vorlage</span>
+          <span className="text-navy dark:text-slate-200">{kommunikation?.templateMedien ? 'Erstellt' : '—'}</span>
         </div>
       </div>
 
       {/* Nächste Schritte */}
       <div className="bg-lightgray rounded-lg p-4 space-y-2 print-section">
-        <h3 className="text-base font-bold text-navy">Nächste Schritte</h3>
+        <h3 className="text-base font-bold text-navy dark:text-white">Nächste Schritte</h3>
         <ul className="space-y-2 text-sm text-navy list-disc list-inside">
           <li>Bericht an SIAG-Berater übergeben (siehe unten)</li>
           <li>Offene Meldepflichten fristgerecht einhalten</li>
@@ -293,6 +315,17 @@ export function Step6Dokumentation() {
         <p className="text-xs text-white/60">
           Bereitschaft: 24/7 — Antwortzeit: &lt; 1 Stunde bei kritischen Vorfällen
         </p>
+      </div>
+
+      {/* Neuen Incident erfassen */}
+      <div className="flex justify-center print:hidden">
+        <button
+          type="button"
+          onClick={handleReset}
+          className="bg-siag-red text-white px-6 py-3 rounded-full text-sm font-bold min-h-[44px] hover:opacity-90 transition-opacity"
+        >
+          Neuen Incident erfassen
+        </button>
       </div>
 
       {/* Navigation — final step, no forward button */}

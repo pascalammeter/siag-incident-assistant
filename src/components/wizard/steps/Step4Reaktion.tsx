@@ -41,14 +41,14 @@ function Step4Content() {
 
   return (
     <>
-      <h2 className="text-2xl font-bold text-navy">Reaktionsschritte</h2>
-      <p className="text-base text-gray-600 leading-relaxed">
+      <h2 className="text-2xl font-bold text-navy dark:text-white">Reaktionsschritte</h2>
+      <p className="text-base text-gray-600 dark:text-slate-300 leading-relaxed">
         Arbeiten Sie die Checkliste Schritt fuer Schritt ab. Alle {totalSteps} Punkte muessen bestaetigt werden.
       </p>
 
       {/* Progress counter */}
-      <div className="bg-lightgray rounded-lg p-4 flex items-center justify-between">
-        <span className="text-sm font-bold text-navy">
+      <div className="bg-lightgray dark:bg-slate-800 rounded-lg p-4 flex items-center justify-between">
+        <span className="text-sm font-bold text-navy dark:text-white">
           {completedCount} von {totalSteps} erledigt
         </span>
         <div className="w-full max-w-xs h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -72,7 +72,7 @@ function Step4Content() {
                         <tr
                           key={step.id}
                           onClick={() => toggleStep(step.id)}
-                          className={`border-b border-gray-100 last:border-0 cursor-pointer transition-colors ${isChecked ? 'bg-green-50' : idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50`}
+                          className={`border-b border-gray-100 dark:border-slate-700 last:border-0 cursor-pointer transition-colors ${isChecked ? 'bg-green-50 dark:bg-green-900/20' : idx % 2 === 0 ? 'bg-white dark:bg-slate-900' : 'bg-gray-50 dark:bg-slate-800'} hover:bg-blue-50 dark:hover:bg-slate-700`}
                         >
                           <td className="w-10 px-3 py-3 align-middle">
                             <input
@@ -83,9 +83,9 @@ function Step4Content() {
                               className="w-5 h-5 accent-navy"
                             />
                           </td>
-                          <td className="px-3 py-3 text-navy leading-snug">{step.text}</td>
+                          <td className="px-3 py-3 text-navy dark:text-slate-200 leading-snug">{step.text}</td>
                           <td className="w-24 px-3 py-3 text-right align-middle">
-                            <span className="text-xs font-bold bg-navy/10 text-navy px-2 py-1 rounded-full whitespace-nowrap">
+                            <span className="text-xs font-bold bg-navy/10 dark:bg-white/10 text-navy dark:text-slate-200 px-2 py-1 rounded-full whitespace-nowrap">
                               {step.role}
                             </span>
                           </td>

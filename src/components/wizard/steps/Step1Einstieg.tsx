@@ -21,6 +21,10 @@ export function Step1Einstieg() {
   }
 
   const handleTypeSelect = (type: KlassifikationData['incidentType']) => {
+    // Playbook-Fortschritt zurücksetzen wenn Typ wechselt — verhindert "34 von 25" Bug
+    if (type !== selectedType) {
+      dispatch({ type: 'UPDATE_STEP', stepKey: 'reaktion', data: { completedSteps: [] } })
+    }
     dispatch({ type: 'UPDATE_STEP', stepKey: 'klassifikation', data: { incidentType: type } })
   }
 
@@ -28,25 +32,30 @@ export function Step1Einstieg() {
     <div className="space-y-8">
       {/* Hero Section */}
       <div className="text-center space-y-4">
-        <h2 className="text-3xl font-bold text-navy">Sicherheitsvorfall?</h2>
-        <p className="text-base text-gray-600 text-center max-w-xl mx-auto">
+        <h2 className="text-3xl font-bold text-navy dark:text-white">Sicherheitsvorfall?</h2>
+        <p className="text-base text-gray-600 dark:text-slate-300 text-center max-w-xl mx-auto">
           Wenn ein Sicherheitsvorfall erkannt wird, fuehrt Sie dieses Modul durch die Erstreaktion.
         </p>
       </div>
 
       {/* Incident Type Selection */}
-      <div className="bg-lightgray rounded-lg p-6">
-        <p className="text-sm font-bold text-navy mb-4">Vorfall-Typ (optional zur schnellen Navigation):</p>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+      <div className="bg-lightgray dark:bg-slate-800 rounded-lg p-6">
+        <p className="text-sm font-bold text-navy dark:text-white mb-4" id="incident-type-group-label">Vorfall-Typ (optional zur schnellen Navigation):</p>
+        <div
+          className="grid grid-cols-2 md:grid-cols-3 gap-3"
+          role="group"
+          aria-labelledby="incident-type-group-label"
+        >
           {INCIDENT_TYPE_OPTIONS.map((option) => (
             <button
               key={option.value}
               type="button"
               onClick={() => handleTypeSelect(option.value)}
+              aria-pressed={selectedType === option.value}
               className={
                 selectedType === option.value
-                  ? 'bg-navy text-white px-4 py-3 rounded-lg font-bold min-h-[44px] text-sm'
-                  : 'bg-white border border-gray-300 text-navy px-4 py-3 rounded-lg font-normal min-h-[44px] text-sm hover:border-navy transition-colors'
+                  ? 'bg-navy text-white px-4 py-3 rounded-full font-bold min-h-[44px] text-sm'
+                  : 'bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 text-navy dark:text-white px-4 py-3 rounded-full font-normal min-h-[44px] text-sm hover:border-navy dark:hover:border-slate-400 transition-colors'
               }
             >
               {option.label}
