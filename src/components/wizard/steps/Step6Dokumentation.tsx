@@ -1,10 +1,14 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useWizard } from '../WizardContext'
 import { StepNavigator } from '../StepNavigator'
 import { getPlaybook } from '@/lib/playbook-data'
 import type { KlassifikationData } from '@/lib/wizard-types'
+import { useIncident } from '@/hooks/useIncident'
+import { mapIncidentState } from '@/lib/migration'
+import type { LegacyWizardState } from '@/lib/migration'
+import { showSuccessToast, showErrorToast } from '@/components/Toast'
 
 const ERKANNT_DURCH_LABELS: Record<string, string> = {
   'it-mitarbeiter': 'IT-Mitarbeiter',
@@ -16,6 +20,8 @@ const ERKANNT_DURCH_LABELS: Record<string, string> = {
 
 export function Step6Dokumentation() {
   const { state, dispatch } = useWizard()
+  const { createIncident, isLoading: isSaving } = useIncident()
+  const [saveSuccess, setSaveSuccess] = useState(false)
 
   const erfassen = state.erfassen
   const klassifikation = state.klassifikation
@@ -38,6 +44,30 @@ export function Step6Dokumentation() {
   const handlePrint = () => {
     if (typeof window !== 'undefined') {
       window.print()
+    }
+  }
+
+  const handleSave = async () => {
+    // Map wizard state to API input using existing migration mapper
+    const input = mapIncidentState(state as unknown as LegacyWizardState)
+    if (!input) {
+      showErrorToast('Incident-Daten unvollstaendig. Bitte pruefen Sie Typ und Schweregrad.')
+      return
+    }
+
+    try {
+      await createIncident(input)
+      setSaveSuccess(true)
+      showSuccessToast('Incident erfolgreich gespeichert!')
+      // Brief delay so user sees the success toast, then reset
+      setTimeout(() => {
+        dispatch({ type: 'RESET' })
+      }, 1500)
+    } catch {
+      showErrorToast('Fehler beim Speichern. Bitte versuchen Sie es erneut.', {
+        label: 'Wiederholen',
+        onClick: () => handleSave(),
+      })
     }
   }
 
@@ -317,12 +347,34 @@ export function Step6Dokumentation() {
         </p>
       </div>
 
-      {/* Neuen Incident erfassen */}
-      <div className="flex justify-center print:hidden">
+      {/* Save & Complete + New Incident buttons */}
+      <div className="flex flex-col items-center gap-3 print:hidden">
+        {!saveSuccess && (
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={isSaving}
+            className="bg-navy text-white px-6 py-3 rounded-full text-sm font-bold min-h-[44px] hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          >
+            {isSaving ? (
+              <>
+                <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                Wird gespeichert...
+              </>
+            ) : (
+              'Speichern & Abschliessen'
+            )}
+          </button>
+        )}
+        {saveSuccess && (
+          <p className="text-green-700 dark:text-green-400 text-sm font-medium">
+            Incident gespeichert
+          </p>
+        )}
         <button
           type="button"
           onClick={handleReset}
-          className="bg-siag-red text-white px-6 py-3 rounded-full text-sm font-bold min-h-[44px] hover:opacity-90 transition-opacity"
+          className="text-siag-red hover:underline text-sm font-medium min-h-[44px]"
         >
           Neuen Incident erfassen
         </button>
