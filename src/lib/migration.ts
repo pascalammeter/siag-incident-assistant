@@ -122,8 +122,14 @@ export function mapYesNoToInt(value?: string): 0 | 1 | null {
 /**
  * Transform entire v1.0 wizard state to v1.1 CreateIncidentInput
  * Validates required fields, sets defaults, preserves metadata
+ *
+ * @param context - 'migration' tags the record as migrated from v1.0 localStorage;
+ *                  'new_save' (default) omits migration metadata for fresh wizard saves.
  */
-export function mapIncidentState(v1State: LegacyWizardState): CreateIncidentInput | null {
+export function mapIncidentState(
+  v1State: LegacyWizardState,
+  context: 'migration' | 'new_save' = 'new_save'
+): CreateIncidentInput | null {
   // Extract nested data sections
   const klassifikation = v1State.klassifikation || {};
   const erfassen = v1State.erfassen || {};
@@ -172,17 +178,26 @@ export function mapIncidentState(v1State: LegacyWizardState): CreateIncidentInpu
         }
       : undefined,
 
-    // Metadata: preserve original state and regulatory flags
-    metadata: {
-      tags: ['v1.0-migrated'],
-      notes: 'Auto-migrated from v1.0 localStorage',
-      custom_fields: {
-        loesegeld_meldung: erfassen.loesegeld_meldung,
-        kritischeInfrastruktur: kommunikation.kritischeInfrastruktur,
-        personendatenBetroffen: kommunikation.personendatenBetroffen,
-        reguliertesUnternehmen: kommunikation.reguliertesUnternehmen,
-      },
-    },
+    // Metadata: context-dependent — only tag as migrated for actual v1.0 migrations
+    metadata: context === 'migration'
+      ? {
+          tags: ['v1.0-migrated'],
+          notes: 'Auto-migrated from v1.0 localStorage',
+          custom_fields: {
+            loesegeld_meldung: erfassen.loesegeld_meldung,
+            kritischeInfrastruktur: kommunikation.kritischeInfrastruktur,
+            personendatenBetroffen: kommunikation.personendatenBetroffen,
+            reguliertesUnternehmen: kommunikation.reguliertesUnternehmen,
+          },
+        }
+      : {
+          custom_fields: {
+            loesegeld_meldung: erfassen.loesegeld_meldung,
+            kritischeInfrastruktur: kommunikation.kritischeInfrastruktur,
+            personendatenBetroffen: kommunikation.personendatenBetroffen,
+            reguliertesUnternehmen: kommunikation.reguliertesUnternehmen,
+          },
+        },
   };
 
   // Build regulatorische_meldungen from kommunikation data
@@ -225,7 +240,7 @@ export function mapIncidentState(v1State: LegacyWizardState): CreateIncidentInpu
 export function migrateIncidents(v1State: LegacyWizardState): CreateIncidentInput[] {
   // Single v1.0 incident (the current wizard state)
   // In v1.1, this becomes one incident record in the database
-  const mapped = mapIncidentState(v1State);
+  const mapped = mapIncidentState(v1State, 'migration');
 
   if (!mapped) {
     console.warn('[Migration] Could not map v1.0 state to v1.1 schema');
