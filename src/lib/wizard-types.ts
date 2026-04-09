@@ -8,7 +8,26 @@ export interface ErfassenData {
   erkannt_durch: 'it-mitarbeiter' | 'nutzer' | 'externes-system' | 'angreifer-kontakt' | 'sonstiges'
   betroffene_systeme: string[]
   erste_auffaelligkeiten?: string
+  // Ransomware-specific
   loesegeld_meldung: boolean
+  // Phishing-specific
+  phishing_email_adresse?: string
+  phishing_url?: string
+  phishing_nutzer_anzahl?: string
+  phishing_credentials_eingegeben?: 'ja' | 'nein'
+  // DDoS-specific
+  ddos_betroffene_dienste?: string
+  ddos_beginn?: string
+  ddos_bandbreite?: string
+  // Datenverlust-specific
+  datenverlust_art_daten?: string
+  datenverlust_anzahl_datensaetze?: string
+  datenverlust_extern_uebermittelt?: 'ja' | 'nein'
+  // Unbefugter Zugriff-specific
+  zugriff_angriffsvektor?: 'brute-force' | 'gestohlene-credentials' | 'insider'
+  zugriff_betroffene_accounts?: string
+  // Sonstiges-specific
+  sonstiges_beschreibung?: string
 }
 
 export interface KlassifikationData {

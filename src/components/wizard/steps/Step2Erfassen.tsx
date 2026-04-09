@@ -1,8 +1,10 @@
 'use client'
 
+import { useWizard } from '../WizardContext'
 import { StepForm } from '../StepForm'
 import { erfassenSchema } from '@/lib/wizard-schemas'
 import type { ErfassenFormData } from '@/lib/wizard-schemas'
+import type { KlassifikationData } from '@/lib/wizard-types'
 
 const ERKANNT_DURCH_OPTIONS = [
   { value: 'it-mitarbeiter', label: 'IT-Mitarbeiter' },
@@ -22,13 +24,29 @@ const SYSTEME_OPTIONS = [
   { value: 'sonstiges', label: 'Sonstiges' },
 ] as const
 
+const inputClass =
+  'w-full border border-gray-300 rounded-lg px-4 py-3 text-base bg-white focus:ring-2 focus:ring-navy focus:border-navy outline-none min-h-[44px]'
+
+const selectClass =
+  'w-full border border-gray-300 rounded-lg px-4 py-3 text-base bg-white focus:ring-2 focus:ring-navy focus:border-navy outline-none min-h-[44px] appearance-none'
+
+const labelClass = 'text-sm font-normal text-navy mb-1 block'
+
 export function Step2Erfassen() {
+  const { state } = useWizard()
+  const incidentType = (state.klassifikation as Partial<KlassifikationData>)?.incidentType
+
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-navy">Vorfall erfassen</h2>
       <p className="text-base text-gray-600 leading-relaxed">
         Erfassen Sie die wichtigsten Informationen zum Vorfall. Diese Daten bilden die Grundlage fuer alle weiteren Schritte.
       </p>
+      {incidentType && (
+        <div className="bg-navy/10 border border-navy/20 rounded-lg px-4 py-2 text-sm text-navy font-medium">
+          Vorfall-Typ: <span className="font-bold capitalize">{incidentType}</span>
+        </div>
+      )}
       <StepForm<ErfassenFormData> stepKey="erfassen" schema={erfassenSchema}>
         {(form) => (
           <div className="space-y-6">
@@ -42,7 +60,7 @@ export function Step2Erfassen() {
 
             {/* Field 1: Erkennungszeitpunkt */}
             <div className="space-y-1">
-              <label className="text-sm font-normal text-navy mb-1 block">
+              <label className={labelClass}>
                 Wann wurde der Vorfall erkannt? <span className="text-red-600">*</span>
               </label>
               <div className="flex gap-2 items-end">
@@ -74,13 +92,13 @@ export function Step2Erfassen() {
 
             {/* Field 2: Erkannt durch */}
             <div className="space-y-1">
-              <label className="text-sm font-normal text-navy mb-1 block">
+              <label className={labelClass}>
                 Durch wen wurde der Vorfall erkannt? <span className="text-red-600">*</span>
               </label>
               <select
                 {...form.register('erkannt_durch')}
                 defaultValue=""
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 text-base bg-white focus:ring-2 focus:ring-navy focus:border-navy outline-none min-h-[44px] appearance-none"
+                className={selectClass}
               >
                 <option value="" disabled>Bitte waehlen...</option>
                 {ERKANNT_DURCH_OPTIONS.map((opt) => (
@@ -96,7 +114,7 @@ export function Step2Erfassen() {
 
             {/* Field 3: Betroffene Systeme */}
             <div className="space-y-1">
-              <label className="text-sm font-normal text-navy mb-1 block">
+              <label className={labelClass}>
                 Betroffene Systeme/Assets
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -116,7 +134,7 @@ export function Step2Erfassen() {
 
             {/* Field 4: Erste Auffaelligkeiten */}
             <div className="space-y-1">
-              <label className="text-sm font-normal text-navy mb-1 block">
+              <label className={labelClass}>
                 Erste Auffaelligkeiten / Beschreibung
               </label>
               <textarea
@@ -126,17 +144,169 @@ export function Step2Erfassen() {
               />
             </div>
 
-            {/* Field 5: Ransomware-Checkbox */}
-            <div className="border-l-4 border-amber bg-amber/10 rounded-r-lg p-4 flex items-start gap-3">
-              <input
-                type="checkbox"
-                {...form.register('loesegeld_meldung')}
-                className="w-5 h-5 rounded border-gray-300 accent-navy mt-0.5"
-              />
-              <span className="text-sm font-normal text-navy">
-                Ist ein Loesegeld-Schreiben oder eine Verschluesselungs-Meldung vorhanden?
-              </span>
-            </div>
+            {/* Ransomware-specific: Loesegeld-Meldung */}
+            {(!incidentType || incidentType === 'ransomware') && (
+              <div className="border-l-4 border-amber bg-amber/10 rounded-r-lg p-4 flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  {...form.register('loesegeld_meldung')}
+                  className="w-5 h-5 rounded border-gray-300 accent-navy mt-0.5"
+                />
+                <span className="text-sm font-normal text-navy">
+                  Ist ein Loesegeld-Schreiben oder eine Verschluesselungs-Meldung vorhanden?
+                </span>
+              </div>
+            )}
+
+            {/* Phishing-specific fields */}
+            {incidentType === 'phishing' && (
+              <div className="space-y-4 border-l-4 border-navy/30 pl-4">
+                <p className="text-sm font-bold text-navy">Phishing-spezifische Angaben</p>
+                <div className="space-y-1">
+                  <label className={labelClass}>Verdächtige E-Mail-Adresse</label>
+                  <input
+                    {...form.register('phishing_email_adresse')}
+                    type="email"
+                    placeholder="z.B. angreifer@fake-domain.com"
+                    className={inputClass}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className={labelClass}>Verdächtige URL / Link</label>
+                  <input
+                    {...form.register('phishing_url')}
+                    type="text"
+                    placeholder="z.B. https://fake-login.example.com"
+                    className={inputClass}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className={labelClass}>Anzahl betroffene Nutzer</label>
+                  <input
+                    {...form.register('phishing_nutzer_anzahl')}
+                    type="number"
+                    min="0"
+                    placeholder="z.B. 5"
+                    className={inputClass}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className={labelClass}>Wurden Credentials eingegeben?</label>
+                  <select {...form.register('phishing_credentials_eingegeben')} defaultValue="" className={selectClass}>
+                    <option value="" disabled>Bitte waehlen...</option>
+                    <option value="ja">Ja</option>
+                    <option value="nein">Nein</option>
+                  </select>
+                </div>
+              </div>
+            )}
+
+            {/* DDoS-specific fields */}
+            {incidentType === 'ddos' && (
+              <div className="space-y-4 border-l-4 border-navy/30 pl-4">
+                <p className="text-sm font-bold text-navy">DDoS-spezifische Angaben</p>
+                <div className="space-y-1">
+                  <label className={labelClass}>Betroffene Dienste</label>
+                  <input
+                    {...form.register('ddos_betroffene_dienste')}
+                    type="text"
+                    placeholder="z.B. Website, E-Mail-Server, VPN"
+                    className={inputClass}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className={labelClass}>Beginn des Angriffs</label>
+                  <input
+                    {...form.register('ddos_beginn')}
+                    type="datetime-local"
+                    className={inputClass}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className={labelClass}>Geschätzte Bandbreite / Intensität</label>
+                  <input
+                    {...form.register('ddos_bandbreite')}
+                    type="text"
+                    placeholder="z.B. 10 Gbps, Dienst komplett ausgefallen"
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Datenverlust-specific fields */}
+            {incidentType === 'datenverlust' && (
+              <div className="space-y-4 border-l-4 border-navy/30 pl-4">
+                <p className="text-sm font-bold text-navy">Datenverlust-spezifische Angaben</p>
+                <div className="space-y-1">
+                  <label className={labelClass}>Art der betroffenen Daten</label>
+                  <input
+                    {...form.register('datenverlust_art_daten')}
+                    type="text"
+                    placeholder="z.B. Kundendaten, Personendaten, Finanzdaten"
+                    className={inputClass}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className={labelClass}>Anzahl betroffene Datensätze (geschätzt)</label>
+                  <input
+                    {...form.register('datenverlust_anzahl_datensaetze')}
+                    type="number"
+                    min="0"
+                    placeholder="z.B. 1000"
+                    className={inputClass}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className={labelClass}>Wurden Daten extern übermittelt?</label>
+                  <select {...form.register('datenverlust_extern_uebermittelt')} defaultValue="" className={selectClass}>
+                    <option value="" disabled>Bitte waehlen...</option>
+                    <option value="ja">Ja</option>
+                    <option value="nein">Nein</option>
+                  </select>
+                </div>
+              </div>
+            )}
+
+            {/* Unbefugter Zugriff-specific fields */}
+            {incidentType === 'unbefugter-zugriff' && (
+              <div className="space-y-4 border-l-4 border-navy/30 pl-4">
+                <p className="text-sm font-bold text-navy">Angaben zum unbefugten Zugriff</p>
+                <div className="space-y-1">
+                  <label className={labelClass}>Angriffsvektor</label>
+                  <select {...form.register('zugriff_angriffsvektor')} defaultValue="" className={selectClass}>
+                    <option value="" disabled>Bitte waehlen...</option>
+                    <option value="brute-force">Brute Force</option>
+                    <option value="gestohlene-credentials">Gestohlene Credentials</option>
+                    <option value="insider">Insider</option>
+                  </select>
+                </div>
+                <div className="space-y-1">
+                  <label className={labelClass}>Betroffene Accounts / Systeme</label>
+                  <input
+                    {...form.register('zugriff_betroffene_accounts')}
+                    type="text"
+                    placeholder="z.B. admin@firma.ch, VPN-Zugang, Domain Controller"
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Sonstiges-specific fields */}
+            {incidentType === 'sonstiges' && (
+              <div className="space-y-4 border-l-4 border-navy/30 pl-4">
+                <p className="text-sm font-bold text-navy">Weitere Angaben</p>
+                <div className="space-y-1">
+                  <label className={labelClass}>Art des Vorfalls</label>
+                  <textarea
+                    {...form.register('sonstiges_beschreibung')}
+                    placeholder="Beschreiben Sie die Art des Vorfalls..."
+                    className="w-full border border-gray-300 rounded-lg px-4 py-3 text-base bg-white focus:ring-2 focus:ring-navy focus:border-navy outline-none min-h-[120px] resize-y"
+                  />
+                </div>
+              </div>
+            )}
 
             {/* Timestamp Display (conditional) */}
             {form.watch('erkennungszeitpunkt') && (

@@ -29,7 +29,26 @@ export const erfassenSchema = z.object({
   ),
   betroffene_systeme: z.array(z.string()).default([]),
   erste_auffaelligkeiten: z.string().optional(),
+  // Ransomware-specific
   loesegeld_meldung: z.boolean().default(false),
+  // Phishing-specific
+  phishing_email_adresse: z.string().optional(),
+  phishing_url: z.string().optional(),
+  phishing_nutzer_anzahl: z.string().optional(),
+  phishing_credentials_eingegeben: z.enum(['ja', 'nein']).optional(),
+  // DDoS-specific
+  ddos_betroffene_dienste: z.string().optional(),
+  ddos_beginn: z.string().optional(),
+  ddos_bandbreite: z.string().optional(),
+  // Datenverlust-specific
+  datenverlust_art_daten: z.string().optional(),
+  datenverlust_anzahl_datensaetze: z.string().optional(),
+  datenverlust_extern_uebermittelt: z.enum(['ja', 'nein']).optional(),
+  // Unbefugter Zugriff-specific
+  zugriff_angriffsvektor: z.enum(['brute-force', 'gestohlene-credentials', 'insider']).optional(),
+  zugriff_betroffene_accounts: z.string().optional(),
+  // Sonstiges-specific
+  sonstiges_beschreibung: z.string().optional(),
 })
 
 export const klassifikationSchema = z.object({

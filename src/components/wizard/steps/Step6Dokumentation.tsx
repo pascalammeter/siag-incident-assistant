@@ -119,6 +119,39 @@ export function Step6Dokumentation() {
         </div>
       )}
 
+      {/* Save & Complete — placed here so it's immediately visible */}
+      <div className="flex flex-col items-center gap-3 print:hidden">
+        {!saveSuccess && (
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={isSaving}
+            className="bg-navy text-white px-6 py-3 rounded-full text-sm font-bold min-h-[44px] hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          >
+            {isSaving ? (
+              <>
+                <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                Wird gespeichert...
+              </>
+            ) : (
+              'Speichern & Abschliessen'
+            )}
+          </button>
+        )}
+        {saveSuccess && (
+          <p className="text-green-700 dark:text-green-400 text-sm font-medium">
+            Incident gespeichert
+          </p>
+        )}
+        <button
+          type="button"
+          onClick={handleReset}
+          className="text-siag-red hover:underline text-sm font-medium min-h-[44px]"
+        >
+          Neuen Incident erfassen
+        </button>
+      </div>
+
       {/* Section 1: Was ist passiert */}
       <div className="bg-lightgray dark:bg-slate-800 rounded-lg p-4 space-y-3 print-section">
         <h3 className="text-base font-bold text-navy dark:text-white">Was ist passiert</h3>
@@ -362,39 +395,6 @@ export function Step6Dokumentation() {
         <p className="text-xs text-white/60">
           Bereitschaft: 24/7 — Antwortzeit: &lt; 1 Stunde bei kritischen Vorfällen
         </p>
-      </div>
-
-      {/* Save & Complete + New Incident buttons */}
-      <div className="flex flex-col items-center gap-3 print:hidden">
-        {!saveSuccess && (
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={isSaving}
-            className="bg-navy text-white px-6 py-3 rounded-full text-sm font-bold min-h-[44px] hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-          >
-            {isSaving ? (
-              <>
-                <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                Wird gespeichert...
-              </>
-            ) : (
-              'Speichern & Abschliessen'
-            )}
-          </button>
-        )}
-        {saveSuccess && (
-          <p className="text-green-700 dark:text-green-400 text-sm font-medium">
-            Incident gespeichert
-          </p>
-        )}
-        <button
-          type="button"
-          onClick={handleReset}
-          className="text-siag-red hover:underline text-sm font-medium min-h-[44px]"
-        >
-          Neuen Incident erfassen
-        </button>
       </div>
 
       {/* Navigation — final step, no forward button */}
