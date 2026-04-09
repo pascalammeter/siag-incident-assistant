@@ -3,27 +3,48 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Backend Integration & Design System
 status: executing
-last_updated: "2026-04-07T23:30:00Z"
+last_updated: "2026-04-08T16:30:00Z"
 progress:
   total_phases: 13
-  completed_phases: 12
-  total_plans: 27
-  completed_plans: 32
-  percent: 118
+  completed_phases: 13
+  total_plans: 31
+  completed_plans: 31
+  percent: 100
 ---
 
 # STATE.md — SIAG Incident Management Assistent v1.1
 
-*Stand: 2026-04-07 | Phase 12 Complete ✅ — Testing + Security (4/4 plans executed)*
+*Stand: 2026-04-09 | Post-UAT Bugfixes deployed ✅ — Re-UAT erforderlich vor v1.1.0-Tag*
 
 ## Current Position
 
-Phase: 12 (testing-security) — COMPLETE ✅
-Plans: 12-01 ✅ Complete (99 tests, >85% coverage), 12-02 ✅ Complete (k6 framework, SLA verified), 12-03 ✅ Complete (OWASP A-grade, 90/100), 12-04 ✅ Complete (85+ KB docs)
+Phase: 13 (deployment-polish) — POST-UAT FIXES DEPLOYED ✅
+Plans: 13-01–13-04 ✅ | UAT durchgeführt (PAM, 09.04.26) → NICHT BESTANDEN → Bugs gefixt → Re-UAT pending
 **Milestone:** v1.1 — Backend Integration, Design System, Multi-Type Support
-**Status:** Phase 7-12 complete (28 plans); Phase 13 ready for planning/execution
-**Phase:** 12 complete with comprehensive testing, security, and documentation; Next: Phase 13 (Deployment + Polish)
-**Next:** Plan and execute Phase 13 (Vercel deployment, Neon setup, performance tuning, UAT sign-off)
+**Status:** UAT-Bugs behoben (401 auth, Playbook-State, Dark Mode, Phishing-DE, Reset-Button); Re-UAT ausstehend
+**Commit:** 6e9e557 — fix(uat): address UAT findings
+**Next:** Re-UAT durchführen → SIGN-OFF.md ausfüllen → v1.1.0 tag
+
+## UAT-Befunde & Fixes (2026-04-09)
+
+| Bug | Fix | Status |
+|-----|-----|--------|
+| 401 auf /incidents | Same-origin bypass in _helpers.ts | ✅ |
+| "34 von 25" Playbook | completedSteps reset bei Typ-Wechsel | ✅ |
+| Kein Einreichen-Button | "Neuen Incident erfassen" in Step 6 | ✅ |
+| Phishing auf Englisch | 25 Schritte auf Deutsch übersetzt | ✅ |
+| Dark Mode Standard | defaultTheme="light" | ✅ |
+| ISG/FINMA zeigt nur "Ja" | Echte Deadline-Timestamps | ✅ |
+| Dark Mode Lesbarkeit | dark:text-* Klassen in Step 1/4/6 | ✅ |
+| Step1 rounded-lg | rounded-full | ✅ |
+| IncidentList Farben | SIAG Palette | ✅ |
+| aria-pressed fehlt | aria-pressed + role="group" | ✅ |
+
+## Backlog (nicht für v1.1.0 erforderlich)
+
+- PDF-Export: echter PDF-Generator statt window.print() → v1.1.1
+- Typ-spezifische Felder in Step 2 (Phishing/DDoS/Datenverlust) → v1.2
+- Playbook vollständig optionaler Fortschritt (nicht alle 25 Pflicht) → v1.1.1
 
 ## Milestone Overview
 
@@ -61,7 +82,7 @@ v1.1 transforms the v1.0 frontend MVP into a production-ready incident managemen
 | 10 | Motion + PDF + Dark Mode | Complete | 3/3 ✅ |
 | 11 | Multi-Type Playbooks + Forms | Complete | 4/4 ✅ |
 | 12 | Testing + Security | Complete | 4/4 ✅ |
-| 13 | Deployment + Polish | Pending | 0/4 |
+| 13 | Deployment + Polish | Code Complete ✅ (UAT pending) | 4/4 ✅ |
 
 **Total:** 32/27 plans | **Completed:** Phase 7-12 (28 plans); **Pending:** Phase 13 (4 plans) | **Estimate:** 1 week remaining (Phase 13 execution)
 
