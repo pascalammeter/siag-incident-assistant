@@ -35,6 +35,9 @@ export function Step6Dokumentation() {
     [playbook]
   )
   const completedCount = reaktion?.completedSteps?.length ?? 0
+  const progressPercent = totalSteps > 0
+    ? Math.round((completedCount / totalSteps) * 100)
+    : 0
 
   const fmt = (val: string | null | undefined): string => val ?? '—'
 
@@ -66,7 +69,7 @@ export function Step6Dokumentation() {
     } catch {
       showErrorToast('Fehler beim Speichern. Bitte versuchen Sie es erneut.', {
         label: 'Wiederholen',
-        onClick: () => handleSave(),
+        onClick: () => void handleSave(),
       })
     }
   }
@@ -142,7 +145,11 @@ export function Step6Dokumentation() {
         <div className="flex gap-2 text-sm">
           <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Lösegeld-Forderung</span>
           <span className="text-navy dark:text-slate-200">
-            {erfassen?.loesegeld_meldung ? 'Ja' : erfassen ? 'Nein' : '—'}
+            {erfassen?.loesegeld_meldung === true
+              ? 'Ja'
+              : erfassen?.loesegeld_meldung === false
+              ? 'Nein'
+              : '—'}
           </span>
         </div>
       </div>
@@ -182,13 +189,21 @@ export function Step6Dokumentation() {
         <div className="flex gap-2 text-sm">
           <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Kritische Systeme</span>
           <span className="text-navy dark:text-slate-200">
-            {klassifikation?.q1SystemeBetroffen === 'ja' ? 'Ja' : klassifikation ? 'Nein' : '—'}
+            {klassifikation?.q1SystemeBetroffen === 'ja'
+              ? 'Ja'
+              : klassifikation?.q1SystemeBetroffen === 'nein'
+              ? 'Nein'
+              : '—'}
           </span>
         </div>
         <div className="flex gap-2 text-sm">
           <span className="text-gray-500 dark:text-slate-400 w-40 shrink-0">Personendaten betroffen</span>
           <span className="text-navy dark:text-slate-200">
-            {klassifikation?.q2PdBetroffen === 'ja' ? 'Ja' : klassifikation ? 'Nein' : '—'}
+            {klassifikation?.q2PdBetroffen === 'ja'
+              ? 'Ja'
+              : klassifikation?.q2PdBetroffen === 'nein'
+              ? 'Nein'
+              : '—'}
           </span>
         </div>
         <div className="flex gap-2 text-sm">
@@ -215,11 +230,13 @@ export function Step6Dokumentation() {
         <div className="w-full bg-gray-200 h-2 rounded-full mt-1">
           <div
             className="bg-navy h-2 rounded-full"
-            style={{ width: `${Math.round((completedCount / totalSteps) * 100)}%` }}
+            style={{ width: `${progressPercent}%` }}
           />
         </div>
         <div className="text-sm">
-          {completedCount < totalSteps ? (
+          {totalSteps === 0 ? (
+            <span className="text-gray-500">Keine Massnahmen definiert</span>
+          ) : completedCount < totalSteps ? (
             <span className="text-amber-800 dark:text-amber-400">
               {totalSteps - completedCount} Massnahmen ausstehend
             </span>
