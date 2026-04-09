@@ -185,6 +185,31 @@ export function mapIncidentState(v1State: LegacyWizardState): CreateIncidentInpu
     },
   };
 
+  // Build regulatorische_meldungen from kommunikation data
+  // Populate structured regulatory deadlines alongside the metadata custom_fields copy
+  const erkannt = erfassen.erkennungszeitpunkt;
+  if (
+    kommunikation.kritischeInfrastruktur === 'ja' ||
+    kommunikation.personendatenBetroffen === 'ja' ||
+    kommunikation.reguliertesUnternehmen === 'ja'
+  ) {
+    incident.regulatorische_meldungen = {
+      isg_24h:
+        kommunikation.kritischeInfrastruktur === 'ja' && erkannt
+          ? new Date(new Date(erkannt).getTime() + 24 * 60 * 60 * 1000).toISOString()
+          : undefined,
+      dsg: kommunikation.personendatenBetroffen === 'ja',
+      finma_24h:
+        kommunikation.reguliertesUnternehmen === 'ja' && erkannt
+          ? new Date(new Date(erkannt).getTime() + 24 * 60 * 60 * 1000).toISOString()
+          : undefined,
+      finma_72h:
+        kommunikation.reguliertesUnternehmen === 'ja' && erkannt
+          ? new Date(new Date(erkannt).getTime() + 72 * 60 * 60 * 1000).toISOString()
+          : undefined,
+    };
+  }
+
   return incident;
 }
 
