@@ -324,21 +324,21 @@ describe('Incident Schemas', () => {
       expect(result.success).toBe(false);
     });
 
-    it('should reject limit above maximum (100)', () => {
+    it('should reject limit above maximum (50)', () => {
       const input = {
-        limit: 101,
+        limit: 51,
       };
       const result = ListIncidentsQuerySchema.safeParse(input);
       expect(result.success).toBe(false);
     });
 
-    it('should accept limit at maximum (100)', () => {
+    it('should accept limit at maximum (50)', () => {
       const input = {
-        limit: 100,
+        limit: 50,
       };
       const result = ListIncidentsQuerySchema.safeParse(input);
       expect(result.success).toBe(true);
-      expect(result.data?.limit).toBe(100);
+      expect(result.data?.limit).toBe(50);
     });
 
     it('should handle boundary values for page', () => {
