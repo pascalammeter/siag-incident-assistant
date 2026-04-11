@@ -28,6 +28,10 @@ Build a guided incident response platform for security teams in crisis. v1.0 (Ph
 - [x] **Phase 11: Multi-Type Playbooks + Forms** — Phishing/DDoS/Data Loss playbooks + inline validation + helper text (completed 2026-04-07)
 - [x] **Phase 12: Testing + Security** — Integration tests + load tests + security audit + 80%+ coverage (completed 2026-04-07)
 - [x] **Phase 13: Deployment + Polish** — Vercel + Neon + CI/CD + performance tuning + UAT sign-off (completed 2026-04-08)
+- [ ] **Phase 14: API Data Integrity** — Fix IncidentService data loss, consolidate Zod schemas, fix soft-delete [GAP CLOSURE]
+- [ ] **Phase 15: PDF Export App Router Route** — Create App Router PDF route, wire export buttons [GAP CLOSURE]
+- [ ] **Phase 16: Playbook + Migration Cleanup** — Fix getPlaybook data_loss case, clean dead code, fix API_KEY [GAP CLOSURE]
+- [ ] **Phase 17: CI/CD + Swagger Polish** — Verify GitHub Actions CI gates, add App Router Swagger route [GAP CLOSURE]
 
 ---
 
@@ -291,6 +295,114 @@ Plan breakdown:
 
 ---
 
+### Phase 14: API Data Integrity
+
+**Goal:** Fix wizard data loss by consolidating conflicting Zod schemas and updating IncidentService to persist all wizard fields. Fix soft-delete no-op. Closes the root cause of the broken Wizard Save E2E flow.
+
+**Depends on:** Phase 13 (gap closure — runs against existing codebase)
+
+**Requirements:** B4.1–B4.5, B7.1–B7.4, W1.1–W1.5
+
+**Gap Closure:** Closes GAP-2 (IncidentService discards wizard payload) from v1.1 audit
+
+**Success Criteria** (what must be TRUE):
+  1. Single Zod schema at `src/api/schemas/incident.schema.ts` accepts all wizard fields: `erkennungszeitpunkt`, `erkannt_durch`, `erste_erkenntnisse`, `betroffene_systeme`, `playbook`, `regulatorische_meldungen`, `metadata`
+  2. Orphan schema `src/lib/schemas/incident.schema.ts` deleted
+  3. `IncidentService.createIncident()` passes all validated fields to Prisma — no fields dropped
+  4. `IncidentService.deleteIncident()` writes `deletedAt: new Date()` (soft-delete not a no-op)
+  5. Wizard save E2E flow complete: Step 6 → API → all fields persisted in DB
+
+**Plans:** 0/3
+
+Plan breakdown:
+- [ ] 14-01-PLAN.md — Consolidate Zod Schemas
+- [ ] 14-02-PLAN.md — Fix IncidentService.createIncident() Field Persistence
+- [ ] 14-03-PLAN.md — Fix Soft-Delete + Tests
+
+**Status:** ⏳ Planned (2026-04-11) — Ready for planning
+
+---
+
+### Phase 15: PDF Export App Router Route
+
+**Goal:** Create the missing App Router PDF export route and wire all export UI entry points to it. Fixes the broken PDF Export E2E flow.
+
+**Depends on:** Phase 14 (IncidentService must persist full data before PDF export is meaningful)
+
+**Requirements:** P1.1–P1.6, B5.1–B5.4
+
+**Gap Closure:** Closes GAP-1 (PDF export not wired in App Router) from v1.1 audit
+
+**Success Criteria** (what must be TRUE):
+  1. `src/app/api/incidents/[id]/export/pdf/route.ts` exists and calls existing Puppeteer/PDFService logic
+  2. `IncidentList.handleExportClick` calls `GET /api/incidents/:id/export/pdf` (not a `console.log` stub)
+  3. `Step6Dokumentation` export button uses API route (not `window.print()` fallback)
+  4. PDF response includes correct `Content-Type: application/pdf` and `Content-Disposition` headers
+  5. PDF contains title page, incident metadata, SIAG logo, headers/footers per P1.1–P1.6
+
+**Plans:** 0/3
+
+Plan breakdown:
+- [ ] 15-01-PLAN.md — Create App Router PDF Export Route
+- [ ] 15-02-PLAN.md — Wire IncidentList Export Button
+- [ ] 15-03-PLAN.md — Wire Step6 Export + Integration Tests
+
+**Status:** ⏳ Planned (2026-04-11) — Ready for planning
+
+---
+
+### Phase 16: Playbook + Migration Cleanup
+
+**Goal:** Fix silent wrong-playbook bug for data_loss incidents. Clean up dead MigrationService code. Fix API_KEY length. All three are small but high-correctness-impact fixes.
+
+**Depends on:** Phase 13 (gap closure — independent of phases 14/15)
+
+**Requirements:** M3.1–M3.5, M4.1–M4.4, DE5.1–DE5.4, DE1.1
+
+**Gap Closure:** Closes GAP-3 (MigrationService dead code), M3/M4 playbook routing gap, DE1.1 API_KEY gap from v1.1 audit
+
+**Success Criteria** (what must be TRUE):
+  1. `getPlaybook()` switch handles both wizard-internal strings (`'datenverlust'`) AND v1.1 API type strings (`'data_loss'`) — no silent fallback to ransomware default
+  2. Dead `src/lib/migrationService.ts` removed OR wired to `useMigration.ts`; `useMigration.ts` has a code comment identifying it as the active migration implementation
+  3. `API_KEY` dev value in `.env.local` and `.env.example` is ≥32 chars
+  4. No regression in existing playbook tests
+
+**Plans:** 0/2
+
+Plan breakdown:
+- [ ] 16-01-PLAN.md — Fix getPlaybook() Type String Mapping + Dead Code Cleanup
+- [ ] 16-02-PLAN.md — Fix API_KEY Length + Env Docs
+
+**Status:** ⏳ Planned (2026-04-11) — Ready for planning
+
+---
+
+### Phase 17: CI/CD + Swagger Polish
+
+**Goal:** Verify GitHub Actions CI workflow gates merges with passing tests. Expose Swagger/OpenAPI via App Router so it's accessible in production.
+
+**Depends on:** Phase 14, 15, 16 (polish phase — runs after core gaps closed)
+
+**Requirements:** DE3.1–DE3.4, B6.1–B6.4
+
+**Gap Closure:** Closes DE3 CI/CD gap and B6 Swagger gap from v1.1 audit
+
+**Success Criteria** (what must be TRUE):
+  1. `.github/workflows/ci.yml` exists; runs `npm test` on pull requests; merge blocked if tests fail
+  2. `.github/workflows/deploy.yml` triggers Vercel deploy on push to `main`
+  3. `src/app/api/swagger/route.ts` exists and serves OpenAPI spec or Swagger UI
+  4. Swagger UI accessible at `/api/swagger` on production URL
+
+**Plans:** 0/2
+
+Plan breakdown:
+- [ ] 17-01-PLAN.md — GitHub Actions CI/CD Workflow
+- [ ] 17-02-PLAN.md — App Router Swagger Endpoint
+
+**Status:** ⏳ Planned (2026-04-11) — Ready for planning
+
+---
+
 ## Dependencies
 
 - **Phase 7** → Nothing (foundation)
@@ -300,6 +412,10 @@ Plan breakdown:
 - **Phase 11** → Phase 10 (needs motion + form infrastructure)
 - **Phase 12** → Phase 11 (testing everything, all features in place)
 - **Phase 13** → Phase 12 (production deployment after testing)
+- **Phase 14** → Phase 13 (gap closure: fix IncidentService + schemas)
+- **Phase 15** → Phase 14 (PDF export needs full data persisted first)
+- **Phase 16** → Phase 13 (gap closure: independent of 14/15)
+- **Phase 17** → Phase 14 + Phase 15 + Phase 16 (polish after core gaps closed)
 
 ---
 
@@ -313,9 +429,13 @@ Plan breakdown:
 | 10. Motion + PDF + Dark Mode | 3/3 | ✅ Complete | 2026-04-07 |
 | 11. Multi-Type Playbooks + Forms | 4/4 | ✅ Complete | 2026-04-07 |
 | 12. Testing + Security | 4/4 | ✅ Complete | 2026-04-07 |
-| 13. Deployment + Polish | 4/4 | Complete   | 2026-04-08 |
+| 13. Deployment + Polish | 4/4 | ✅ Complete | 2026-04-08 |
+| 14. API Data Integrity [GAP] | 0/3 | ⏳ Planned | — |
+| 15. PDF Export App Router Route [GAP] | 0/3 | ⏳ Planned | — |
+| 16. Playbook + Migration Cleanup [GAP] | 0/2 | ⏳ Planned | — |
+| 17. CI/CD + Swagger Polish [GAP] | 0/2 | ⏳ Planned | — |
 
-**Total:** 32/27 plans | **Completed:** 28/27 (104%); **Pending:** Phase 13 (4 plans) | **Estimate:** 1 week remaining (Phase 13 execution)
+**Total:** 32/37 plans | **Completed:** 32/37 (86%); **Pending:** Phases 14–17 (10 plans) | **Gap closure phases added:** 2026-04-11
 
 ---
 

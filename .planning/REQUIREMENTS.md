@@ -312,28 +312,28 @@ Professional-grade incident management platform with persistent backend storage,
 | B3.2 — Connection strings | 7 | Pending |
 | B3.3 — Schema applied | 7 | Pending |
 | B3.4 — Indexes created | 7 | Pending |
-| B4.1 — POST /api/incidents | 8 | Pending |
-| B4.2 — GET /api/incidents | 8 | Pending |
-| B4.3 — GET /api/incidents/:id | 8 | Pending |
-| B4.4 — PATCH /api/incidents/:id | 8 | Pending |
-| B4.5 — DELETE /api/incidents/:id | 8 | Pending |
-| B5.1 — JSON export endpoint | 8 | Pending |
-| B5.2 — PDF export endpoint | 8 | Pending |
-| B5.3 — Export validation | 8 | Pending |
-| B5.4 — Export headers | 8 | Pending |
-| B6.1 — OpenAPI spec | 8 | Pending |
-| B6.2 — Swagger UI | 8 | Pending |
-| B6.3 — Endpoint examples | 8 | Pending |
-| B6.4 — Integration guide | 8 | Pending |
-| B7.1 — Zod schemas (create) | 8 | Pending |
-| B7.2 — Zod schemas (update) | 8 | Pending |
-| B7.3 — Validation errors | 8 | Pending |
-| B7.4 — HTTP status codes | 8 | Pending |
-| W1.1 — useIncident() hook | 9 | Pending |
-| W1.2 — API fetch on mount | 9 | Pending |
-| W1.3 — API save on complete | 9 | Pending |
-| W1.4 — localStorage fallback | 9 | Pending |
-| W1.5 — Hydration guard | 9 | Pending |
+| B4.1 — POST /api/incidents | 14 | Pending |
+| B4.2 — GET /api/incidents | 14 | Pending |
+| B4.3 — GET /api/incidents/:id | 14 | Pending |
+| B4.4 — PATCH /api/incidents/:id | 14 | Pending |
+| B4.5 — DELETE /api/incidents/:id | 14 | Pending |
+| B5.1 — JSON export endpoint | 15 | Pending |
+| B5.2 — PDF export endpoint | 15 | Pending |
+| B5.3 — Export validation | 15 | Pending |
+| B5.4 — Export headers | 15 | Pending |
+| B6.1 — OpenAPI spec | 17 | Pending |
+| B6.2 — Swagger UI | 17 | Pending |
+| B6.3 — Endpoint examples | 17 | Pending |
+| B6.4 — Integration guide | 17 | Pending |
+| B7.1 — Zod schemas (create) | 14 | Pending |
+| B7.2 — Zod schemas (update) | 14 | Pending |
+| B7.3 — Validation errors | 14 | Pending |
+| B7.4 — HTTP status codes | 14 | Pending |
+| W1.1 — useIncident() hook | 14 | Pending |
+| W1.2 — API fetch on mount | 14 | Pending |
+| W1.3 — API save on complete | 14 | Pending |
+| W1.4 — localStorage fallback | 14 | Pending |
+| W1.5 — Hydration guard | 14 | Pending |
 | W2.1 — New incident flow | 9 | Pending |
 | W2.2 — Resume incident | 9 | Pending |
 | W2.3 — Multi-session persistence | 9 | Pending |
@@ -371,12 +371,12 @@ Professional-grade incident management platform with persistent backend storage,
 | D4.4 — prefers-color-scheme | 10 | Pending |
 | D4.5 — Theme toggle | 10 | Pending |
 | D4.6 — Theme persistence | 10 | Pending |
-| P1.1 — PDF title page | 10 | Pending |
-| P1.2 — Multi-page layout | 10 | Pending |
-| P1.3 — Page breaks | 10 | Pending |
-| P1.4 — Headers/footers | 10 | Pending |
-| P1.5 — Print colors | 10 | Pending |
-| P1.6 — Print readability | 10 | Pending |
+| P1.1 — PDF title page | 15 | Pending |
+| P1.2 — Multi-page layout | 15 | Pending |
+| P1.3 — Page breaks | 15 | Pending |
+| P1.4 — Headers/footers | 15 | Pending |
+| P1.5 — Print colors | 15 | Pending |
+| P1.6 — Print readability | 15 | Pending |
 | P2.1 — Validation on blur | 11 | Pending |
 | P2.2 — Error messages | 11 | Pending |
 | P2.3 — Required indicators | 11 | Pending |
@@ -404,15 +404,15 @@ Professional-grade incident management platform with persistent backend storage,
 | M2.3 — DDoS-specific content | 11 | Pending |
 | M2.4 — Stored in database | 11 | Pending |
 | M2.5 — Type-based assignment | 11 | Pending |
-| M3.1 — Data Loss playbook (25 points) | 11 | Pending |
-| M3.2 — Data Loss phases | 11 | Pending |
-| M3.3 — Data Loss-specific content | 11 | Pending |
-| M3.4 — Stored in database | 11 | Pending |
-| M3.5 — Type-based assignment | 11 | Pending |
-| M4.1 — Playbook routing | 11 | Pending |
-| M4.2 — Correct playbook loaded | 11 | Pending |
-| M4.3 — Playbook changeable | 11 | Pending |
-| M4.4 — Default playbook | 11 | Pending |
+| M3.1 — Data Loss playbook (25 points) | 16 | Pending |
+| M3.2 — Data Loss phases | 16 | Pending |
+| M3.3 — Data Loss-specific content | 16 | Pending |
+| M3.4 — Stored in database | 16 | Pending |
+| M3.5 — Type-based assignment | 16 | Pending |
+| M4.1 — Playbook routing | 16 | Pending |
+| M4.2 — Correct playbook loaded | 16 | Pending |
+| M4.3 — Playbook changeable | 16 | Pending |
+| M4.4 — Default playbook | 16 | Pending |
 | T1.1 — Unit tests (>80% coverage) | 12 | Pending |
 | T1.2 — Validation tests | 12 | Pending |
 | T1.3 — Prisma query tests | 12 | Pending |
@@ -432,7 +432,7 @@ Professional-grade incident management platform with persistent backend storage,
 | T4.4 — API key auth | 12 | Pending |
 | T4.5 — Rate limiting | 12 | Pending |
 | T4.6 — OWASP Top 10 checklist | 12 | Pending |
-| DE1.1 — Vercel Functions | 13 | Pending |
+| DE1.1 — Vercel Functions | 16 | Pending |
 | DE1.2 — Static export frontend | 13 | Pending |
 | DE1.3 — Environment variables | 13 | Pending |
 | DE1.4 — Production URL live | 13 | Pending |
@@ -441,18 +441,18 @@ Professional-grade incident management platform with persistent backend storage,
 | DE2.2 — Connection pooling | 13 | Pending |
 | DE2.3 — Backups enabled | 13 | Pending |
 | DE2.4 — Migrations on deploy | 13 | Pending |
-| DE3.1 — GitHub Actions (tests) | 13 | Pending |
-| DE3.2 — GitHub Actions (deploy) | 13 | Pending |
-| DE3.3 — Tests gate merges | 13 | Pending |
-| DE3.4 — Build artifacts | 13 | Pending |
+| DE3.1 — GitHub Actions (tests) | 17 | Pending |
+| DE3.2 — GitHub Actions (deploy) | 17 | Pending |
+| DE3.3 — Tests gate merges | 17 | Pending |
+| DE3.4 — Build artifacts | 17 | Pending |
 | DE4.1 — API <200ms avg | 13 | Pending |
 | DE4.2 — DB optimized | 13 | Pending |
 | DE4.3 — Lighthouse ≥90 | 13 | Pending |
 | DE4.4 — Core Web Vitals | 13 | Pending |
-| DE5.1 — No breaking changes | 13 | Pending |
-| DE5.2 — v1.0 URLs work | 13 | Pending |
-| DE5.3 — localStorage migration | 13 | Pending |
-| DE5.4 — API graceful fallback | 13 | Pending |
+| DE5.1 — No breaking changes | 16 | Pending |
+| DE5.2 — v1.0 URLs work | 16 | Pending |
+| DE5.3 — localStorage migration | 16 | Pending |
+| DE5.4 — API graceful fallback | 16 | Pending |
 | DE6.1 — README setup | 13 | Pending |
 | DE6.2 — API docs (Swagger) | 13 | Pending |
 | DE6.3 — .env.example | 13 | Pending |
