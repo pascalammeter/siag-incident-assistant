@@ -2,19 +2,19 @@
 
 **Version:** v1.1.0  
 **UAT-URL:** https://siag-incident-assistant.vercel.app  
-**Tester:** [Name des Beraters]  
-**Datum:** [Datum]  
-**Status:** [ ] In Bearbeitung  [ ] Abgeschlossen  [ ] Probleme gefunden
+**Tester:** [PAM]  
+**Datum:** [09.04.26]  
+**Status:** [ ] In Bearbeitung  [ ] Abgeschlossen  [x] Probleme gefunden
 
 ---
 
 ## Vorbereitung
 
-- [ ] https://siag-incident-assistant.vercel.app in einem neuen Browser-Tab öffnen (kein Inkognito-Modus)
-- [ ] Seite lädt ohne Fehler (Browser-Konsole auf rote Fehler prüfen)
-- [ ] "SIAG Incident Management Assistent" erscheint in der Kopfzeile
-- [ ] Dark-Mode-Schalter ist in der Kopfzeile sichtbar
-- [ ] Navigation zur Seite `/incidents` funktioniert (leere Liste oder vorhandene Incidents)
+- [x] https://siag-incident-assistant.vercel.app in einem neuen Browser-Tab öffnen (kein Inkognito-Modus)
+- [x] Seite lädt ohne Fehler (Browser-Konsole auf rote Fehler prüfen)
+- [x] "SIAG Incident Management Assistent" erscheint in der Kopfzeile
+- [x] Dark-Mode-Schalter ist in der Kopfzeile sichtbar: Ist bereits ausgewählt. Besser wäre default Whitemode.
+- [x] Navigation zur Seite `/incidents` funktioniert (leere Liste oder vorhandene Incidents), dann wieder Navigation zur Seite `/wizard`
 
 ---
 
@@ -22,70 +22,70 @@
 
 ### 1.1 Wizard-Ablauf
 
-- [ ] "Incident erfassen" oder entsprechenden Einstiegs-Button anklicken
-- [ ] **Schritt 0 (No-Go-Regeln):** Checkbox anklicken, "Weiter" klicken
-- [ ] **Schritt 1 (Einstieg):** "Shit Happens"-Button sichtbar und klickbar, dann "Weiter"
-- [ ] **Schritt 2 (Vorfall erfassen):**
-  - [ ] Incident-Typ: **Ransomware** auswählen
-  - [ ] "Jetzt" klicken, um Erkennungszeitpunkt zu setzen (Zeitstempel erscheint)
-  - [ ] Mindestens 2 betroffene Systeme auswählen
-  - [ ] "Erste Erkenntnisse" mit Testtext ausfüllen
-  - [ ] "Weiter" klicken
-- [ ] **Schritt 3 (Klassifikation):**
-  - [ ] Alle 3 Klassifikationsfragen mit "Ja" beantworten
-  - [ ] Schweregrad-Badge zeigt automatisch "Kritisch"
-  - [ ] "Weiter" klicken
-- [ ] **Schritt 4 (Reaktion / Playbook):**
-  - [ ] Ransomware-Playbook wird geladen (mindestens 20 Schritte sichtbar)
-  - [ ] 3–5 Schritte abhaken (Fortschrittsanzeige erhöht sich)
-  - [ ] Rollenbezeichnungen auf Schritten sichtbar (IT-Leiter, CISO, CEO, Forensik)
-  - [ ] "Weiter" klicken
-- [ ] **Schritt 5 (Meldepflichten / Kommunikation):**
-  - [ ] Compliance-Fragen beantworten
-  - [ ] ISG-Frist erscheint: Erkennungszeitpunkt + 24 Stunden
-  - [ ] DSG-Frist erscheint
-  - [ ] Mindestens 1 Kommunikationsvorlage öffnen (Inhalt vorhanden)
-  - [ ] "Weiter" klicken
-- [ ] **Schritt 6 (Dokumentation / Zusammenfassung):**
-  - [ ] Alle eingegebenen Daten in der Zusammenfassung sichtbar
-  - [ ] Incident-Typ zeigt "Ransomware"
-  - [ ] Alle betroffenen Systeme aufgeführt
-  - [ ] Schaltfläche "Bericht exportieren (PDF)" sichtbar
+- [x] **Schritt 0 (No-Go-Regeln):** Checkbox anklicken, "Weiter" klicken
+- [x] **Schritt 1 (Einstieg):**
+  - [x] Incident-Typ: **Ransomware** auswählen
+  - [x] "Shit Happens"-Button sichtbar und klickbar, dann "Weiter"
+- [x] **Schritt 2 (Vorfall erfassen):**
+  - [x] "Jetzt" klicken, um Erkennungszeitpunkt zu setzen (Zeitstempel erscheint)
+  - [x] Mindestens 2 betroffene Systeme auswählen
+  - [x] "Erste Erkenntnisse" mit Testtext ausfüllen
+  - [x] "Weiter" klicken
+- [x] **Schritt 3 (Klassifikation):**
+  - [x] Alle 3 Klassifikationsfragen mit "Ja" beantworten
+  - [x] Schweregrad-Badge zeigt automatisch "Kritisch"
+  - [x] "Weiter" klicken
+- [x] **Schritt 4 (Reaktion / Playbook):**
+  - [x] Ransomware-Playbook wird geladen (mindestens 20 Schritte sichtbar)
+  - [x] 3–5 Schritte abhaken (Fortschrittsanzeige erhöht sich)
+  - [x] Rollenbezeichnungen auf Schritten sichtbar (IT-Leiter, CISO, CEO, Forensik)
+  - [x] "Weiter" klicken: Alle Schritte mussten ausgewählt werden, damit auf "weiter" geklickt werden konnte.
+- [x] **Schritt 5 (Meldepflichten / Kommunikation):**
+  - [x] Compliance-Fragen beantworten
+  - [x] ISG-Frist erscheint: Erkennungszeitpunkt + 24 Stunden
+  - [x] DSG-Frist erscheint
+  - [x] Mindestens 1 Kommunikationsvorlage öffnen (Inhalt vorhanden)
+  - [x] "Weiter" klicken
+- [x] **Schritt 6 (Dokumentation / Zusammenfassung):**
+  - [x] Alle eingegebenen Daten in der Zusammenfassung sichtbar
+  - [x] Incident-Typ zeigt "Ransomware"
+  - [x] Alle betroffenen Systeme aufgeführt
+  - [x] Schaltfläche "Bericht exportieren (PDF)" sichtbar
 
 ### 1.2 PDF-Export
 
-- [ ] "Bericht exportieren (PDF)" in Schritt 6 anklicken
-- [ ] PDF wird innerhalb von 30 Sekunden heruntergeladen oder in neuem Tab geöffnet
-- [ ] PDF enthält:
-  - [ ] SIAG-Branding (Logo oder Kopfzeile)
+- [x] "Bericht exportieren (PDF)" in Schritt 6 anklicken
+- [ ] PDF wird innerhalb von 30 Sekunden heruntergeladen oder in neuem Tab geöffnet: Nein, es erscheint ein Pop-Up, identisch zu CTRL+P für Drucken/Print.
+- [ ] PDF enthält: Nein enthält nichts, ist kein Bericht sondern nur der Print des Schritt 6.
+  - [ ] SIAG-Branding (Logo oder Kopfzeile): nein enthält kein Logo
   - [ ] Incident-Typ: Ransomware
   - [ ] Erkennungszeitpunkt
   - [ ] Liste der betroffenen Systeme
   - [ ] Playbook-Schritte und abgehakte Punkte
-  - [ ] Compliance-Fristen (ISG 24h, DSG)
-  - [ ] Professionelle Formatierung (auf A4 druckbar)
+  - [ ] Compliance-Fristen (ISG 24h, DSG): Steht nur "Ja", nicht exakt wann.
+  - [ ] Professionelle Formatierung (auf A4 druckbar): nein nicht professionell
 - [ ] PDF druckbar ohne abgeschnittene Inhalte
 
 ### 1.3 Compliance-Fristen
 
-- [ ] ISG-Frist = Erkennungszeitpunkt + 24 Stunden (Berechnung prüfen)
-- [ ] DSG-Frist ist vorhanden und korrekt beschriftet
+- [x] ISG-Frist = Erkennungszeitpunkt + 24 Stunden (Berechnung prüfen)
+- [ ] DSG-Frist ist vorhanden und korrekt beschriftet: Steht nur "Ja", nicht exakt wann.
 - [ ] Fristen im Schweizer Zeitzonenformat angezeigt
 
 ### 1.4 Incident fortsetzen (Resume)
 
-- [ ] Neuen Ransomware-Incident starten, aber NICHT abschliessen — auf halber Strecke stoppen
-- [ ] Zur Seite `/incidents` navigieren
-- [ ] Laufender Incident erscheint in der Liste
-- [ ] Incident anklicken und fortsetzen
-- [ ] Wizard lädt mit zuvor eingegebenen Daten wieder
-- [ ] Incident abschliessen und einreichen
+- [x] Neuen Ransomware-Incident starten, aber NICHT abschliessen — auf halber Strecke stoppen
+- [x] Zur Seite `/incidents` navigieren
+- [ ] Laufender Incident erscheint in der Liste: Nein, es kommt Failed to list incidents: API request failed: 401 
+- [ ] Incident anklicken und fortsetzen: Nein, es kommt Failed to list incidents: API request failed: 401 
+- [ ] Wizard lädt mit zuvor eingegebenen Daten wieder: Nein, es kommt Failed to list incidents: API request failed: 401 
+- [ ] Incident abschliessen und einreichen: Nein, es kommt Failed to list incidents: API request failed: 401 
 
 ### 1.5 Incident bleibt nach Browser-Neustart erhalten
 
-- [ ] Nach dem Einreichen eines Ransomware-Incidents Seite neu laden
-- [ ] Zur Seite `/incidents` navigieren
-- [ ] Incident ist weiterhin sichtbar (in Datenbank gespeichert, nicht verloren)
+- [ ] Nach dem Einreichen eines Ransomware-Incidents Seite neu laden: Es fehlt ein "Einreichen"-Button. Schritt 5 hat button "Weiter", Schritt 6 hat keinen Button mehr. 
+- [ ] Zur Seite `/incidents` navigieren: Nein, es kommt Failed to list incidents: API request failed: 401 
+- [ ] Incident ist weiterhin sichtbar (in Datenbank gespeichert, nicht verloren): Nein, es kommt Failed to list incidents: API request failed: 401 
 
 ---
 
@@ -93,16 +93,16 @@
 
 ### 2.1 Wizard-Ablauf
 
-- [ ] Neuen Incident starten, Typ: **Phishing** auswählen
-- [ ] Schritt 2: Phishing-spezifische Felder ausfüllen:
-  - [ ] Absender-E-Mail oder Domain
-  - [ ] Betreffzeile oder Angriffsbeschreibung
-  - [ ] Anzahl betroffener Benutzer (falls vorhanden)
+- [ ] Neuen Incident starten, Typ: **Phishing** auswählen: Bisherige eingaben bleiben erhalten, musst anderen Browser nehmen. 
+- [ ] Schritt 2: Phishing-spezifische Felder ausfüllen: Keine Phishing spezifischen Felder sichtbar
+  - [ ] Absender-E-Mail oder Domain: nicht vorhanden
+  - [ ] Betreffzeile oder Angriffsbeschreibung: nicht vorhanden
+  - [ ] Anzahl betroffener Benutzer (falls vorhanden): nicht vorhanden
 - [ ] Schritt 3: Klassifikation abschliessen
-- [ ] **Schritt 4 (Phishing-Playbook):**
-  - [ ] Phishing-spezifische Schritte geladen (Erkennung/Eindämmung/Kommunikation)
+- [ ] **Schritt 4 (Phishing-Playbook):** Da die zuvor eingetragenen Informationen bestehen blieb, zeigte es mir bereits 25 von 25 erledigt an, obwohl nichts abgehakt wurde. Klickte ich mich durch waren dann z.b 34 von 25 erledigt. 
+  - [ ] Phishing-spezifische Schritte geladen (Erkennung/Eindämmung/Kommunikation). Gesamtes Playbook in Englisch, statt Deutsch mit den 4 Phasen: Detection & Analysis, Containment & Response, Investigation & Analysis, Communication & Recovery.
   - [ ] Schritte umfassen: E-Mail-Blockierung, Benutzerbenachrichtigung, Passwort-Reset
-  - [ ] Rollen: IT, CISO, HR, Legal (mindestens 1 Legal- oder HR-Schritt sichtbar)
+  - [ ] Rollen: IT, CISO, HR, Legal (mindestens 1 Legal- oder HR-Schritt sichtbar): 1x HR, Legal kam nicht vor.
   - [ ] 3–5 Schritte abhaken
 - [ ] Schritt 5: DSG-Meldepflicht erscheint (falls Personendaten betroffen)
 - [ ] Schritt 6: Zusammenfassung zeigt Incident-Typ "Phishing"
@@ -118,12 +118,12 @@
 
 ### 3.1 Wizard-Ablauf
 
-- [ ] Neuen Incident starten, Typ: **DDoS** auswählen
-- [ ] Schritt 2: DDoS-spezifische Felder ausfüllen:
+- [x] Neuen Incident starten, Typ: **DDoS** auswählen
+- [ ] Schritt 2: DDoS-spezifische Felder ausfüllen: Es erscheinen keine spezifischen DDoS Felder
   - [ ] Angriffseigenschaften (Quell-IPs, Angriffstyp)
   - [ ] Betroffene Dienste / Systeme
 - [ ] Schritt 3: Klassifikation abschliessen
-- [ ] **Schritt 4 (DDoS-Playbook):**
+- [ ] **Schritt 4 (DDoS-Playbook):** Da die zuvor eingetragenen Informationen bestehen blieb, zeigte es mir bereits 25 von 25 erledigt an, obwohl nichts abgehakt wurde. Klickte ich mich durch waren dann z.b 34 von 25 erledigt.
   - [ ] DDoS-spezifische Schritte geladen
   - [ ] Schritte umfassen: ISP-Benachrichtigung, Mitigation, Traffic-Filterung
   - [ ] 3–5 Schritte abhaken
@@ -141,8 +141,8 @@
 
 ### 4.1 Wizard-Ablauf
 
-- [ ] Neuen Incident starten, Typ: **Datenverlust** auswählen
-- [ ] Schritt 2: Datenverlust-spezifische Felder ausfüllen:
+- [x] Neuen Incident starten, Typ: **Datenverlust** auswählen
+- [ ] Schritt 2: Datenverlust-spezifische Felder ausfüllen: Es erscheinen keine spezifischen DDoS Felder
   - [ ] Datenklassifizierung (Personendaten? Finanzdaten? Gesundheitsdaten?)
   - [ ] Betroffene Systeme / Datenspeicher
   - [ ] Anzahl betroffener Personen (falls bekannt)
@@ -174,17 +174,17 @@
 
 ## Incident-Liste (/incidents)
 
-- [ ] Zur Seite `/incidents` navigieren
-- [ ] Alle 4 Test-Incidents erscheinen in der Liste
-- [ ] Filter nach Incident-Typ funktioniert (z.B. nur "Ransomware" anzeigen)
-- [ ] Filter nach Schweregrad funktioniert
-- [ ] Sortierung funktioniert (nach Datum, Typ oder Schweregrad)
-- [ ] Klick auf einen Incident öffnet Detail-Ansicht oder setzt Wizard fort
-- [ ] Löschen (soft-delete) funktioniert — Incident verschwindet nach Bestätigung aus der Liste
+- [x] Zur Seite `/incidents` navigieren
+- [ ] Alle 4 Test-Incidents erscheinen in der Liste: Nein, es kommt Failed to list incidents: API request failed: 401 
+- [ ] Filter nach Incident-Typ funktioniert (z.B. nur "Ransomware" anzeigen): Nein, es kommt Failed to list incidents: API request failed: 401 
+- [ ] Filter nach Schweregrad funktioniert: Nein, es kommt Failed to list incidents: API request failed: 401 
+- [ ] Sortierung funktioniert (nach Datum, Typ oder Schweregrad): Nein, es kommt Failed to list incidents: API request failed: 401 
+- [ ] Klick auf einen Incident öffnet Detail-Ansicht oder setzt Wizard fort: Nein, es kommt Failed to list incidents: API request failed: 401 
+- [ ] Löschen (soft-delete) funktioniert — Incident verschwindet nach Bestätigung aus der Liste: Nein, es kommt Failed to list incidents: API request failed: 401 
 
 ---
 
-## Mobil-Test
+## Mobil-Test (nicht durchgeführt)
 
 ### Gerät: [Mobilgerät des Testers — iPhone / Android]
 
@@ -211,12 +211,12 @@
 
 ### Tastaturnavigation
 
-- [ ] Tab-Taste durch alle Formularfelder in Wizard-Schritt 2 — alle erreichbar
-- [ ] Enter-Taste aktiviert fokussierte Schaltflächen (Weiter, Checkboxen)
-- [ ] Fokus-Ring (Outline) auf fokussierten Elementen sichtbar
-- [ ] Tab-Reihenfolge logisch (oben nach unten, links nach rechts)
+- [x] Tab-Taste durch alle Formularfelder in Wizard-Schritt 2 — alle erreichbar
+- [x] Enter-Taste aktiviert fokussierte Schaltflächen (Weiter, Checkboxen)
+- [x] Fokus-Ring (Outline) auf fokussierten Elementen sichtbar
+- [x] Tab-Reihenfolge logisch (oben nach unten, links nach rechts)
 
-### Screenreader (VoiceOver auf Mac: Cmd+F5, oder NVDA auf Windows)
+### Screenreader (VoiceOver auf Mac: Cmd+F5, oder NVDA auf Windows) (nicht durchgeführt)
 
 - [ ] Seitentitel wird vorgelesen: "SIAG Incident Management Assistent"
 - [ ] Formular-Labels sind mit Eingabefeldern verknüpft
@@ -226,22 +226,22 @@
 
 ### Farbkontrast (WebAIM Contrast Checker: https://webaim.org/resources/contrastchecker/)
 
-- [ ] Primärtext auf hellem Hintergrund: mindestens 4.5:1 Kontrastverhältnis
-- [ ] Primärtext im Dark Mode: mindestens 4.5:1 auf dunklem Hintergrund
-- [ ] SIAG Rot (#CC0033) auf Weiss: mindestens 3:1 für grossen Text (Logo)
-- [ ] Schweregrad-Badge "Kritisch" (rot): Text lesbar
-- [ ] Farben für Compliance-Fristen: bei normaler Textgrösse lesbar
+- [x] Primärtext auf hellem Hintergrund: mindestens 4.5:1 Kontrastverhältnis
+- [x] Primärtext im Dark Mode: mindestens 4.5:1 auf dunklem Hintergrund
+- [x] SIAG Rot (#CC0033) auf Weiss: mindestens 3:1 für grossen Text (Logo)
+- [x] Schweregrad-Badge "Kritisch" (rot): Text lesbar
+- [x] Farben für Compliance-Fristen: bei normaler Textgrösse lesbar
 
 ---
 
-## Dark Mode
+## Dark Mode: Kontrast ist nicht gut: Vorherige Blaue Bezeichnung sind beim Darkmode nicht mehr gut lesbar. 
 
-- [ ] Dark Mode über den Header-Schalter aktivieren
-- [ ] Alle Wizard-Schritte im Dark Mode korrekt dargestellt
-- [ ] PDF-Export erzeugt auch im Dark Mode ein helles Dokument
+- [x] Dark Mode über den Header-Schalter aktivieren
+- [x] Alle Wizard-Schritte im Dark Mode korrekt dargestellt
+- [x] PDF-Export erzeugt auch im Dark Mode ein helles Dokument
 - [ ] Playbook-Checkboxen im Dark Mode sichtbar
-- [ ] Incident-Liste im Dark Mode korrekt dargestellt
-- [ ] Dark Mode deaktivieren — Layout kehrt sauber zum hellen Modus zurück
+- [x] Incident-Liste im Dark Mode korrekt dargestellt
+- [x] Dark Mode deaktivieren — Layout kehrt sauber zum hellen Modus zurück
 
 ---
 
@@ -259,10 +259,10 @@ _Überspringen, falls keine v1.0 localStorage-Daten im Testbrowser vorhanden._
 
 ## Leistungs-Schnellprüfung
 
-- [ ] Initialer App-Aufruf: unter 3 Sekunden im Büro-WLAN
-- [ ] "Weiter" zwischen Wizard-Schritten: unter 1 Sekunde (Seitenübergänge sofort)
-- [ ] Laden der Incident-Liste (0–10 Incidents): unter 2 Sekunden
-- [ ] PDF-Generierung: unter 30 Sekunden für einen vollständigen Incident
+- [x] Initialer App-Aufruf: unter 3 Sekunden im Büro-WLAN
+- [x] "Weiter" zwischen Wizard-Schritten: unter 1 Sekunde (Seitenübergänge sofort)
+- [x] Laden der Incident-Liste (0–10 Incidents): unter 2 Sekunden
+- [x] PDF-Generierung: unter 30 Sekunden für einen vollständigen Incident
 
 ---
 
@@ -304,6 +304,6 @@ _Überspringen, falls keine v1.0 localStorage-Daten im Testbrowser vorhanden._
 
 - [ ] **BESTANDEN** — alle kritischen und wesentlichen Punkte bestanden; Produktivbetrieb v1.1.0 empfohlen
 - [ ] **BESTANDEN MIT AUFLAGEN** — [Auflagen unten auflisten]
-- [ ] **NICHT BESTANDEN** — kritische Probleme gefunden; Nachtest nach Behebung erforderlich
+- [x] **NICHT BESTANDEN** — kritische Probleme gefunden; Nachtest nach Behebung erforderlich
 
 **Abnahme des Beraters:** Siehe `SIGN-OFF.md` im Projektstamm.
