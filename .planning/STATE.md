@@ -3,27 +3,27 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Data Integrity & API Robustness
 status: in-progress
-last_updated: "2026-04-14T16:15:00Z"
+last_updated: "2026-04-14T22:15:00Z"
 progress:
-  total_phases: 14
-  completed_phases: 2
-  total_plans: 36
-  completed_plans: 5
-  percent: 14
+  total_phases: 17
+  completed_phases: 5
+  total_plans: 51
+  completed_plans: 13
+  percent: 25
 ---
 
 # STATE.md — SIAG Incident Management Assistent v1.2
 
-*Stand: 2026-04-14 | Phase 14 API Data Integrity — COMPLETE (5/5 plans executed, integration tests written)*
+*Stand: 2026-04-14 | Phase 16 Playbook + Migration Cleanup — COMPLETE (2/2 plans executed, getPlaybook() fixed, migrationService.ts deleted)*
 
 ## Current Position
 
-Phase: 14 (api-data-integrity) — COMPLETE ✅
-Plans: 14-01 ✅ Schema Consolidation, 14-02 ✅ Field Persistence, 14-03 ✅ Soft-Delete, 14-04 ✅ Playbook Routing, 14-05 ✅ Integration Tests
-**Milestone:** v1.2 — Data Integrity & API Robustness — IN PROGRESS (Phase 14 complete, Phase 15 pending)
-**Status:** All Phase 14 plans complete; API data integrity fully validated with 34 integration test cases covering 100% of 14 wizard fields
-**Phase:** 14 all work complete: schema consolidated, field persistence verified, soft-delete working, playbook routing validated, integration test suite created
-**Next:** Begin Phase 15 (pending determination in ROADMAP)
+Phase: 16 (playbook-migration-cleanup) — COMPLETE ✅
+Plans: 16-01 ✅ Fix getPlaybook() Type String Mapping + Dead Code Cleanup, 16-02 ✅ Fix API_KEY Length to ≥32 Characters
+**Milestone:** v1.2 — Data Integrity & API Robustness — IN PROGRESS (Phases 14–16 complete, Phase 17 pending)
+**Status:** Phase 16 complete. Fixed silent wrong-playbook bug for data_loss incidents. Removed dead migrationService.ts. Updated API_KEY to meet minimum 32-char security requirement.
+**Phase:** 16 all work complete: getPlaybook() explicitly handles both 'data_loss' and 'datenverlust' strings, migration code cleanup done, API security baseline established
+**Next:** Begin Phase 17 (Final Cleanup & Polish)
 
 ## Milestone Overview
 
@@ -62,8 +62,11 @@ v1.1 transforms the v1.0 frontend MVP into a production-ready incident managemen
 | 11 | Multi-Type Playbooks + Forms | Complete | 4/4 ✅ |
 | 12 | Testing + Security | Complete | 4/4 ✅ |
 | 13 | Deployment + Polish | Complete ✅ | 5/5 ✅ |
+| 14 | API Data Integrity | Complete ✅ | 5/5 ✅ |
+| 15 | PDF Export App Router | Complete ✅ | 3/3 ✅ |
+| 16 | Playbook + Migration Cleanup | Complete ✅ | 2/2 ✅ |
 
-**Total:** 32/32 plans | **Completed:** All phases 7-13 (32 plans) | **Milestone v1.1 SHIPPED 2026-04-09**
+**Total:** 40/51 plans | **Completed:** Phases 7-16 (40 plans) | **v1.1 SHIPPED 2026-04-09 | v1.2 Phase 14–16 COMPLETE 2026-04-14**
 
 ## Key Architecture Decisions
 
