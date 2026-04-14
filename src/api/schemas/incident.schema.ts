@@ -6,6 +6,7 @@ export const IncidentTypeSchema = z.enum([
   'phishing',
   'ddos',
   'data_loss',
+  'datenverlust',
   'other',
 ]);
 
@@ -18,9 +19,23 @@ export const SeveritySchema = z.enum([
 
 // Create Incident Input Schema
 export const CreateIncidentInputSchema = z.object({
+  // Core fields
   incident_type: IncidentTypeSchema,
   severity: SeveritySchema,
   description: z.string().min(10).max(5000).optional(),
+
+  // Wizard Recognition (Erkennung) fields
+  erkennungszeitpunkt: z.string().datetime().optional(),
+  erkannt_durch: z.string().min(1).max(255).optional(),
+  betroffene_systeme: z.array(z.string()).min(1).optional(),
+  erste_erkenntnisse: z.string().optional(),
+
+  // Wizard Classification (Klassifizierung) fields
+  q1: z.number().int().min(0).max(1).optional(),
+  q2: z.number().int().min(0).max(1).optional(),
+  q3: z.number().int().min(0).max(1).optional(),
+
+  // Playbook & metadata
   playbook: z.record(z.string(), z.unknown()).optional(),
   regulatorische_meldungen: z.record(z.string(), z.unknown()).optional(),
   metadata: z.record(z.string(), z.unknown()).optional(),

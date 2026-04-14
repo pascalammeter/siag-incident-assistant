@@ -10,7 +10,7 @@ import {
 describe('Incident Schemas', () => {
   describe('IncidentTypeSchema', () => {
     it('should accept valid incident types', () => {
-      const validTypes = ['ransomware', 'phishing', 'ddos', 'data_loss', 'other'];
+      const validTypes = ['ransomware', 'phishing', 'ddos', 'data_loss', 'datenverlust', 'other'];
       validTypes.forEach((type) => {
         expect(() => IncidentTypeSchema.parse(type)).not.toThrow();
       });
@@ -168,6 +168,92 @@ describe('Incident Schemas', () => {
       const result = CreateIncidentInputSchema.safeParse(input);
       // Zod by default allows extra fields unless .strict() is used
       expect(result.success).toBe(true);
+    });
+
+    it('should accept wizard recognition fields (erkennungszeitpunkt, erkannt_durch, betroffene_systeme, erste_erkenntnisse)', () => {
+      const input = {
+        incident_type: 'ransomware',
+        severity: 'critical',
+        erkennungszeitpunkt: '2026-04-14T10:30:00Z',
+        erkannt_durch: 'SIEM Alert',
+        betroffene_systeme: ['server-01', 'server-02'],
+        erste_erkenntnisse: 'Suspicious encryption activity detected',
+      };
+      expect(() => CreateIncidentInputSchema.parse(input)).not.toThrow();
+    });
+
+    it('should accept wizard classification fields (q1, q2, q3)', () => {
+      const input = {
+        incident_type: 'phishing',
+        severity: 'high',
+        q1: 1,
+        q2: 0,
+        q3: 1,
+      };
+      expect(() => CreateIncidentInputSchema.parse(input)).not.toThrow();
+    });
+
+    it('should accept all wizard fields together', () => {
+      const input = {
+        incident_type: 'data_loss',
+        severity: 'critical',
+        erkennungszeitpunkt: '2026-04-14T10:30:00Z',
+        erkannt_durch: 'Audit Trail',
+        betroffene_systeme: ['database-01', 'backup-server'],
+        erste_erkenntnisse: 'Unauthorized data export detected',
+        q1: 1,
+        q2: 1,
+        q3: 0,
+        description: 'Comprehensive incident description with all wizard fields',
+      };
+      expect(() => CreateIncidentInputSchema.parse(input)).not.toThrow();
+    });
+
+    it('should validate erkannt_durch length constraints (1-255)', () => {
+      const tooShort = {
+        incident_type: 'ransomware',
+        severity: 'critical',
+        erkannt_durch: '',
+      };
+      const result1 = CreateIncidentInputSchema.safeParse(tooShort);
+      expect(result1.success).toBe(false);
+
+      const tooLong = {
+        incident_type: 'ransomware',
+        severity: 'critical',
+        erkannt_durch: 'a'.repeat(256),
+      };
+      const result2 = CreateIncidentInputSchema.safeParse(tooLong);
+      expect(result2.success).toBe(false);
+    });
+
+    it('should validate betroffene_systeme requires at least 1 item', () => {
+      const input = {
+        incident_type: 'ransomware',
+        severity: 'critical',
+        betroffene_systeme: [],
+      };
+      const result = CreateIncidentInputSchema.safeParse(input);
+      expect(result.success).toBe(false);
+    });
+
+    it('should validate q1, q2, q3 as 0-1 integers', () => {
+      const validInput = {
+        incident_type: 'ddos',
+        severity: 'medium',
+        q1: 0,
+        q2: 1,
+        q3: 1,
+      };
+      expect(() => CreateIncidentInputSchema.parse(validInput)).not.toThrow();
+
+      const invalidInput = {
+        incident_type: 'ddos',
+        severity: 'medium',
+        q1: 2,
+      };
+      const result = CreateIncidentInputSchema.safeParse(invalidInput);
+      expect(result.success).toBe(false);
     });
   });
 
