@@ -1,29 +1,29 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Backend Integration & Design System
-status: complete
-last_updated: "2026-04-09T16:00:00Z"
+milestone: v1.2
+milestone_name: Data Integrity & API Robustness
+status: in-progress
+last_updated: "2026-04-14T13:44:00Z"
 progress:
-  total_phases: 13
-  completed_phases: 13
-  total_plans: 32
-  completed_plans: 32
-  percent: 100
+  total_phases: 14
+  completed_phases: 1
+  total_plans: 36
+  completed_plans: 1
+  percent: 3
 ---
 
-# STATE.md — SIAG Incident Management Assistent v1.1
+# STATE.md — SIAG Incident Management Assistent v1.2
 
-*Stand: 2026-04-09 | Phase 13 Complete ✅ — Deployment + Polish (5/5 plans executed, gap closure 13-05 done)*
+*Stand: 2026-04-14 | Phase 14 API Data Integrity — In Progress (1/4 plans executed, schema consolidation complete)*
 
 ## Current Position
 
-Phase: 13 (deployment-polish) — COMPLETE ✅
-Plans: 13-01 ✅ Vercel+Neon deploy, 13-02 ✅ Performance+Lighthouse, 13-03 ✅ Backwards compat+migration, 13-04 ✅ UAT, 13-05 ✅ Wizard→API save (gap closure)
-**Milestone:** v1.1 — Backend Integration, Design System, Multi-Type Support — COMPLETE
-**Status:** All 13 phases complete; milestone v1.1 shipped
-**Phase:** 13 complete with Vercel deployment, UAT sign-off, and critical wizard→API save integration
-**Next:** Milestone v1.1 complete — run /gsd-complete-milestone or plan v1.2
+Phase: 14 (api-data-integrity) — IN PROGRESS
+Plans: 14-01 ✅ Schema Consolidation (complete), 14-02 ⏳ Wizard Field Persistence, 14-03 ⏳ Data Validation, 14-04 ⏳ Integration Tests
+**Milestone:** v1.2 — Data Integrity & API Robustness — IN PROGRESS
+**Status:** Phase 14 Plan 01 complete; schema foundation established
+**Phase:** 14 started with successful schema consolidation; all 14 wizard fields now in CreateIncidentInputSchema
+**Next:** Execute 14-02 (Wizard Field Persistence)
 
 ## Milestone Overview
 
