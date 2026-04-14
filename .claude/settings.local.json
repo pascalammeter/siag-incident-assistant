@@ -28,7 +28,10 @@
       "Bash(python3 -c \"import sys, json; data = json.load\\(sys.stdin\\); print\\(f\\\\\"Status: {data['status']}\\\\\"\\); print\\(f\\\\\"Errors: {len\\(data['errors']\\)}\\\\\"\\); print\\(f\\\\\"Warnings: {len\\(data['warnings']\\)}\\\\\"\\); print\\(f\\\\\"Info: {len\\(data['info']\\)}\\\\\"\\)\")",
       "Read(//tmp/**)",
       "Skill(gsd-code-review)",
-      "Bash(npm test:*)"
+      "Bash(npm test:*)",
+      "Bash(vercel deploy:*)",
+      "mcp__plugin_vercel-plugin_vercel__web_fetch_vercel_url",
+      "Bash(vercel curl:*)"
     ]
   }
 }

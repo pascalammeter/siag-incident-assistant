@@ -17,6 +17,7 @@ import { IncidentActions } from './IncidentActions';
 export interface IncidentTableProps {
   incidents: Incident[];
   isLoading?: boolean;
+  isExportingId?: string | null;
   onViewClick: (id: string) => void;
   onExportClick: (id: string) => void;
   onDeleteClick: (id: string) => void;
@@ -72,11 +73,13 @@ function getTruncatedTitle(incident: Incident): string {
  */
 function IncidentTableRow({
   incident,
+  isExportingId,
   onViewClick,
   onExportClick,
   onDeleteClick,
 }: {
   incident: Incident;
+  isExportingId?: string | null;
   onViewClick: (id: string) => void;
   onExportClick: (id: string) => void;
   onDeleteClick: (id: string) => void;
@@ -137,6 +140,7 @@ function IncidentTableRow({
       <td className="px-4 py-3">
         <IncidentActions
           incidentId={incident.id}
+          isExporting={isExportingId === incident.id}
           onViewClick={() => onViewClick(incident.id)}
           onExportClick={() => onExportClick(incident.id)}
           onDeleteClick={() => onDeleteClick(incident.id)}
@@ -149,6 +153,7 @@ function IncidentTableRow({
 export function IncidentTable({
   incidents,
   isLoading: _isLoading,
+  isExportingId,
   onViewClick,
   onExportClick,
   onDeleteClick,
@@ -175,6 +180,7 @@ export function IncidentTable({
             <IncidentTableRow
               key={incident.id}
               incident={incident}
+              isExportingId={isExportingId}
               onViewClick={onViewClick}
               onExportClick={onExportClick}
               onDeleteClick={onDeleteClick}
