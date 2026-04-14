@@ -201,6 +201,7 @@ export const getPlaybook = (type: string): Playbook => {
     case 'datenverlust':
       return DATA_LOSS_PLAYBOOK
     default:
+      console.warn(`[getPlaybook] Unknown incident type "${type}", falling back to ransomware playbook`)
       return RANSOMWARE_PLAYBOOK
   }
 }

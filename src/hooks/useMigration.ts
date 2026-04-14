@@ -1,6 +1,11 @@
 /**
- * useMigration() Hook
+ * useMigration() Hook — ACTIVE IMPLEMENTATION
  * Orchestrates v1.0 → v1.1 data migration on app load
+ *
+ * NOTE: This is the active migration implementation.
+ * src/lib/migrationService.ts is deprecated and deleted.
+ * For v1.0 → v1.1 schema mapping, see src/lib/migration.ts.
+ *
  * Runs async, handles errors gracefully, shows user feedback
  */
 

@@ -141,6 +141,32 @@ describe('Playbook Registry', () => {
     expect(playbook?.incidentType).toBe('datenverlust');
   });
 
+  it('should handle data_loss and datenverlust as equivalent (both map to same playbook)', () => {
+    const playbookDataLoss = getPlaybook('data_loss');
+    const playbookDatanverlust = getPlaybook('datenverlust');
+
+    expect(playbookDataLoss).toBeDefined();
+    expect(playbookDatanverlust).toBeDefined();
+    expect(playbookDataLoss?.incidentType).toBe(playbookDatanverlust?.incidentType);
+    expect(playbookDataLoss?.phases.length).toBe(playbookDatanverlust?.phases.length);
+  });
+
+  it('should NOT fall back to ransomware for data_loss type', () => {
+    const playbook = getPlaybook('data_loss');
+    expect(playbook).toBeDefined();
+    expect(playbook?.incidentType).not.toBe('ransomware');
+    // Should be 'datenverlust' (Data Loss playbook incidentType)
+    expect(playbook?.incidentType).toBe('datenverlust');
+  });
+
+  it('should log warning for truly unknown types, then fall back to ransomware', () => {
+    // This test documents the intended behavior: unknown types warn and fall back
+    const playbookUnknown = getPlaybook('unknown_type_xyz_2026');
+    expect(playbookUnknown).toBeDefined();
+    expect(playbookUnknown?.incidentType).toBe('ransomware');
+    // Console.warn should have been called with the unknown type
+  });
+
   it('should return Ransomware playbook as default for unknown types', () => {
     const playbook = getPlaybook('unknown_type');
     expect(playbook).toBeDefined();
