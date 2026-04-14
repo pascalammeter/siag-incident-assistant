@@ -117,6 +117,30 @@ describe('Playbook Registry', () => {
     expect(totalSteps).toBe(25);
   });
 
+  it('should retrieve Ransomware playbook by type', () => {
+    const playbook = getPlaybook('ransomware');
+    expect(playbook).toBeDefined();
+    expect(playbook?.incidentType).toBe('ransomware');
+  });
+
+  it('should retrieve DDoS playbook by type', () => {
+    const playbook = getPlaybook('ddos');
+    expect(playbook).toBeDefined();
+    expect(playbook?.incidentType).toBe('ddos');
+  });
+
+  it('should retrieve Data Loss playbook by type (data_loss)', () => {
+    const playbook = getPlaybook('data_loss');
+    expect(playbook).toBeDefined();
+    expect(playbook?.incidentType).toBe('datenverlust');
+  });
+
+  it('should retrieve Data Loss playbook by legacy type (datenverlust)', () => {
+    const playbook = getPlaybook('datenverlust');
+    expect(playbook).toBeDefined();
+    expect(playbook?.incidentType).toBe('datenverlust');
+  });
+
   it('should return Ransomware playbook as default for unknown types', () => {
     const playbook = getPlaybook('unknown_type');
     expect(playbook).toBeDefined();
@@ -127,6 +151,9 @@ describe('Playbook Registry', () => {
     expect(typeof hasPlaybook).toBe('function');
     expect(hasPlaybook('phishing')).toBe(true);
     expect(hasPlaybook('ransomware')).toBe(true);
+    expect(hasPlaybook('ddos')).toBe(true);
+    expect(hasPlaybook('data_loss')).toBe(true);
+    expect(hasPlaybook('datenverlust')).toBe(true);
   });
 });
 

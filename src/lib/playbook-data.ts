@@ -196,6 +196,8 @@ export const getPlaybook = (type: string): Playbook => {
       return IMPORTED_PHISHING_PLAYBOOK
     case 'ddos':
       return DDOS_PLAYBOOK
+    case 'data_loss':
+      return DATA_LOSS_PLAYBOOK
     case 'datenverlust':
       return DATA_LOSS_PLAYBOOK
     default:
