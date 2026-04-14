@@ -170,6 +170,115 @@ describe('IncidentService', () => {
 
       expect(result).toEqual(mockIncident);
     });
+
+    it('should persist all 14 wizard fields from input', async () => {
+      const wizardTimestamp = '2026-04-14T10:30:00Z';
+      const mockIncident = {
+        id: 'uuid-123',
+        incident_type: 'ransomware',
+        severity: 'critical',
+        erkennungszeitpunkt: new Date(wizardTimestamp),
+        erkannt_durch: 'Security Team',
+        erste_erkenntnisse: 'Suspicious encryption activity detected',
+        betroffene_systeme: ['Server-01', 'Server-02', 'FileShare-01'],
+        q1: 1,
+        q2: 0,
+        q3: 1,
+        playbook: { started: true },
+        regulatorische_meldungen: { ISG_24h: true },
+        metadata: { reporter: 'admin' },
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        deletedAt: null,
+      };
+
+      vi.mocked(prisma.incident.create).mockResolvedValue(mockIncident);
+
+      const input = {
+        incident_type: 'ransomware',
+        severity: 'critical',
+        erkennungszeitpunkt: wizardTimestamp,
+        erkannt_durch: 'Security Team',
+        erste_erkenntnisse: 'Suspicious encryption activity detected',
+        betroffene_systeme: ['Server-01', 'Server-02', 'FileShare-01'],
+        q1: 1,
+        q2: 0,
+        q3: 1,
+        playbook: { started: true },
+        regulatorische_meldungen: { ISG_24h: true },
+        metadata: { reporter: 'admin' },
+      };
+
+      const result = await IncidentService.createIncident(input);
+
+      expect(prisma.incident.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            incident_type: 'ransomware',
+            severity: 'critical',
+            erkennungszeitpunkt: wizardTimestamp || null,
+            erkannt_durch: 'Security Team',
+            erste_erkenntnisse: 'Suspicious encryption activity detected',
+            betroffene_systeme: ['Server-01', 'Server-02', 'FileShare-01'],
+            q1: 1,
+            q2: 0,
+            q3: 1,
+            playbook: { started: true },
+            regulatorische_meldungen: { ISG_24h: true },
+            metadata: { reporter: 'admin' },
+          }),
+        })
+      );
+
+      expect(result.erkennungszeitpunkt).toEqual(new Date(wizardTimestamp));
+      expect(result.erkannt_durch).toBe('Security Team');
+      expect(result.erste_erkenntnisse).toBe('Suspicious encryption activity detected');
+      expect(result.betroffene_systeme).toEqual(['Server-01', 'Server-02', 'FileShare-01']);
+      expect(result.q1).toBe(1);
+      expect(result.q2).toBe(0);
+      expect(result.q3).toBe(1);
+    });
+
+    it('should not hardcode betroffene_systeme as empty array', async () => {
+      const mockIncident = {
+        id: 'uuid-123',
+        incident_type: 'phishing',
+        severity: 'high',
+        betroffene_systeme: ['Email-Server', 'AD'],
+        erkennungszeitpunkt: null,
+        erkannt_durch: null,
+        erste_erkenntnisse: null,
+        q1: null,
+        q2: null,
+        q3: null,
+        playbook: {},
+        regulatorische_meldungen: {},
+        metadata: {},
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        deletedAt: null,
+      };
+
+      vi.mocked(prisma.incident.create).mockResolvedValue(mockIncident);
+
+      const input = {
+        incident_type: 'phishing',
+        severity: 'high',
+        betroffene_systeme: ['Email-Server', 'AD'],
+      };
+
+      const result = await IncidentService.createIncident(input);
+
+      expect(prisma.incident.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            betroffene_systeme: ['Email-Server', 'AD'],
+          }),
+        })
+      );
+
+      expect(result.betroffene_systeme).toEqual(['Email-Server', 'AD']);
+    });
   });
 
   describe('getIncidentById', () => {
@@ -342,10 +451,154 @@ describe('IncidentService', () => {
       expect(result.severity).toBe('medium');
       expect(result.playbook).toEqual({ updated: true });
     });
+
+    it('should update optional wizard fields including recognition details', async () => {
+      const existingIncident = {
+        id: 'test-id',
+        incident_type: 'ransomware',
+        severity: 'critical',
+        playbook: {},
+        regulatorische_meldungen: {},
+        metadata: {},
+        betroffene_systeme: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        erkennungszeitpunkt: null,
+        erkannt_durch: null,
+        erste_erkenntnisse: null,
+        q1: null,
+        q2: null,
+        q3: null,
+        deletedAt: null,
+      };
+
+      const updatedIncident = {
+        ...existingIncident,
+        erkennungszeitpunkt: new Date('2026-04-14T10:30:00Z'),
+        erkannt_durch: 'Alert System',
+        erste_erkenntnisse: 'Encryption process detected on multiple servers',
+        betroffene_systeme: ['Server-A', 'Server-B'],
+      };
+
+      vi.mocked(prisma.incident.findFirst).mockResolvedValue(existingIncident);
+      vi.mocked(prisma.incident.update).mockResolvedValue(updatedIncident);
+
+      const result = await IncidentService.updateIncident('test-id', {
+        erkennungszeitpunkt: '2026-04-14T10:30:00Z',
+        erkannt_durch: 'Alert System',
+        erste_erkenntnisse: 'Encryption process detected on multiple servers',
+        betroffene_systeme: ['Server-A', 'Server-B'],
+      });
+
+      expect(prisma.incident.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            erkennungszeitpunkt: '2026-04-14T10:30:00Z',
+            erkannt_durch: 'Alert System',
+            erste_erkenntnisse: 'Encryption process detected on multiple servers',
+            betroffene_systeme: ['Server-A', 'Server-B'],
+          }),
+        })
+      );
+
+      expect(result.erkennungszeitpunkt).toEqual(new Date('2026-04-14T10:30:00Z'));
+      expect(result.erkannt_durch).toBe('Alert System');
+      expect(result.erste_erkenntnisse).toBe('Encryption process detected on multiple servers');
+      expect(result.betroffene_systeme).toEqual(['Server-A', 'Server-B']);
+    });
+
+    it('should update classification questions (q1, q2, q3) including zero values', async () => {
+      const existingIncident = {
+        id: 'test-id',
+        incident_type: 'phishing',
+        severity: 'high',
+        playbook: {},
+        regulatorische_meldungen: {},
+        metadata: {},
+        betroffene_systeme: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        erkennungszeitpunkt: null,
+        erkannt_durch: null,
+        erste_erkenntnisse: null,
+        q1: null,
+        q2: null,
+        q3: null,
+        deletedAt: null,
+      };
+
+      const updatedIncident = {
+        ...existingIncident,
+        q1: 0,
+        q2: 1,
+        q3: 0,
+      };
+
+      vi.mocked(prisma.incident.findFirst).mockResolvedValue(existingIncident);
+      vi.mocked(prisma.incident.update).mockResolvedValue(updatedIncident);
+
+      const result = await IncidentService.updateIncident('test-id', {
+        q1: 0,
+        q2: 1,
+        q3: 0,
+      });
+
+      expect(prisma.incident.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            q1: 0,
+            q2: 1,
+            q3: 0,
+          }),
+        })
+      );
+
+      expect(result.q1).toBe(0);
+      expect(result.q2).toBe(1);
+      expect(result.q3).toBe(0);
+    });
+
+    it('should handle undefined classification questions (should not update if not provided)', async () => {
+      const existingIncident = {
+        id: 'test-id',
+        incident_type: 'ddos',
+        severity: 'medium',
+        playbook: {},
+        regulatorische_meldungen: {},
+        metadata: {},
+        betroffene_systeme: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        erkennungszeitpunkt: null,
+        erkannt_durch: null,
+        erste_erkenntnisse: null,
+        q1: 1,
+        q2: 1,
+        q3: 0,
+        deletedAt: null,
+      };
+
+      vi.mocked(prisma.incident.findFirst).mockResolvedValue(existingIncident);
+      vi.mocked(prisma.incident.update).mockResolvedValue(existingIncident);
+
+      await IncidentService.updateIncident('test-id', {
+        severity: 'high',
+      });
+
+      expect(prisma.incident.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.not.objectContaining({
+            q1: expect.anything(),
+            q2: expect.anything(),
+            q3: expect.anything(),
+          }),
+        })
+      );
+    });
   });
 
   describe('deleteIncident', () => {
-    it('should return true when incident is deleted', async () => {
+    it('should soft-delete incident by setting deletedAt timestamp', async () => {
       const existingIncident = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         incident_type: 'ransomware',
@@ -365,11 +618,58 @@ describe('IncidentService', () => {
         deletedAt: null,
       };
 
+      const deletedIncident = {
+        ...existingIncident,
+        deletedAt: new Date('2026-04-14T12:00:00Z'),
+      };
+
       vi.mocked(prisma.incident.findFirst).mockResolvedValue(existingIncident);
+      vi.mocked(prisma.incident.update).mockResolvedValue(deletedIncident);
 
       const result = await IncidentService.deleteIncident('123e4567-e89b-12d3-a456-426614174000');
 
-      expect(result).toBe(true);
+      expect(result).toEqual(deletedIncident);
+      expect(result.deletedAt).not.toBeNull();
+    });
+
+    it('should call prisma.incident.update with deletedAt timestamp', async () => {
+      const existingIncident = {
+        id: 'test-id',
+        incident_type: 'ransomware',
+        severity: 'critical',
+        playbook: {},
+        regulatorische_meldungen: {},
+        metadata: {},
+        betroffene_systeme: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        erkennungszeitpunkt: null,
+        erkannt_durch: null,
+        erste_erkenntnisse: null,
+        q1: null,
+        q2: null,
+        q3: null,
+        deletedAt: null,
+      };
+
+      const deletedIncident = {
+        ...existingIncident,
+        deletedAt: new Date(),
+      };
+
+      vi.mocked(prisma.incident.findFirst).mockResolvedValue(existingIncident);
+      vi.mocked(prisma.incident.update).mockResolvedValue(deletedIncident);
+
+      await IncidentService.deleteIncident('test-id');
+
+      expect(prisma.incident.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { id: 'test-id' },
+          data: expect.objectContaining({
+            deletedAt: expect.any(Date),
+          }),
+        })
+      );
     });
 
     it('should return null if incident not found', async () => {
@@ -390,6 +690,43 @@ describe('IncidentService', () => {
           where: { id: 'test-id' },
         })
       );
+    });
+
+    it('should return the deleted incident object with all fields', async () => {
+      const existingIncident = {
+        id: 'test-id-123',
+        incident_type: 'phishing',
+        severity: 'high',
+        playbook: { started: true },
+        regulatorische_meldungen: { ISG: true },
+        metadata: { reporter: 'admin' },
+        betroffene_systeme: ['Email'],
+        createdAt: new Date('2026-04-07'),
+        updatedAt: new Date('2026-04-07'),
+        erkennungszeitpunkt: new Date('2026-04-07'),
+        erkannt_durch: 'User report',
+        erste_erkenntnisse: 'Suspicious email received',
+        q1: 1,
+        q2: 0,
+        q3: 1,
+        deletedAt: null,
+      };
+
+      const deletedIncident = {
+        ...existingIncident,
+        deletedAt: new Date('2026-04-14T12:00:00Z'),
+        updatedAt: new Date('2026-04-14T12:00:00Z'),
+      };
+
+      vi.mocked(prisma.incident.findFirst).mockResolvedValue(existingIncident);
+      vi.mocked(prisma.incident.update).mockResolvedValue(deletedIncident);
+
+      const result = await IncidentService.deleteIncident('test-id-123');
+
+      expect(result).toEqual(deletedIncident);
+      expect(result.id).toBe('test-id-123');
+      expect(result.incident_type).toBe('phishing');
+      expect(result.severity).toBe('high');
     });
   });
 
