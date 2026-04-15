@@ -426,7 +426,7 @@ Plan breakdown:
   3. GET `/api/incidents/:id` returns `404` for soft-deleted incidents
   4. PATCH `/api/incidents/:id` returns `404` for soft-deleted incidents
 
-**Plans:** 0/2 planned
+**Plans:** 2 plans
 
 Plan breakdown:
 - [ ] 18-01-PLAN.md — JSON Export App Router Route + description field (B5.1, B4.1)
