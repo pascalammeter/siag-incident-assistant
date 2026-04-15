@@ -19,7 +19,7 @@ Build a guided incident response platform for security teams in crisis. v1.0 (Ph
 
 **Status:** Shipped 2026-04-06 | Vercel: https://siag-incident-assistant.vercel.app | Tests: 74/74 passing
 
-### v1.1: Backend Integration + Design System (In Progress)
+### v1.1: Backend Integration + Design System (Completed 2026-04-08)
 
 - [x] **Phase 07: Backend Scaffold + Design System** — Express + Prisma + PostgreSQL + SIAG palette + typography (completed 2026-04-07)
 - [x] **Phase 08: API Implementation** — CRUD endpoints + export + validation + OpenAPI docs (completed 2026-04-07)
@@ -28,10 +28,13 @@ Build a guided incident response platform for security teams in crisis. v1.0 (Ph
 - [x] **Phase 11: Multi-Type Playbooks + Forms** — Phishing/DDoS/Data Loss playbooks + inline validation + helper text (completed 2026-04-07)
 - [x] **Phase 12: Testing + Security** — Integration tests + load tests + security audit + 80%+ coverage (completed 2026-04-07)
 - [x] **Phase 13: Deployment + Polish** — Vercel + Neon + CI/CD + performance tuning + UAT sign-off (completed 2026-04-08)
-- [ ] **Phase 14: API Data Integrity** — Fix IncidentService data loss, consolidate Zod schemas, fix soft-delete [GAP CLOSURE]
-- [ ] **Phase 15: PDF Export App Router Route** — Create App Router PDF route, wire export buttons [GAP CLOSURE]
-- [ ] **Phase 16: Playbook + Migration Cleanup** — Fix getPlaybook data_loss case, clean dead code, fix API_KEY [GAP CLOSURE]
-- [ ] **Phase 17: CI/CD + Swagger Polish** — Verify GitHub Actions CI gates, add App Router Swagger route [GAP CLOSURE]
+
+### v1.2: Data Integrity & API Robustness (In Progress)
+
+- [x] **Phase 14: API Data Integrity** — Fix IncidentService data loss, consolidate Zod schemas, fix soft-delete [COMPLETE 2026-04-14]
+- [x] **Phase 15: PDF Export App Router Route** — Create App Router PDF route, wire export buttons [COMPLETE 2026-04-14]
+- [x] **Phase 16: Playbook + Migration Cleanup** — Fix getPlaybook data_loss case, clean dead code, fix API_KEY [COMPLETE 2026-04-15]
+- [ ] **Phase 17: CI/CD + Swagger Polish** — Verify GitHub Actions CI gates, add App Router Swagger route [PLANNED 2026-04-15]
 
 ---
 
@@ -263,7 +266,6 @@ Plan breakdown:
 
 **UI Hint:** No
 
-
 ---
 
 ### Phase 13: Deployment + Polish
@@ -291,7 +293,7 @@ Plan breakdown:
 - [x] 13-03-PLAN.md — Backwards Compatibility & Migration
 - [x] 13-04-PLAN.md — UAT & Consultant Sign-off
 
-**Status:** ⏳ Planned (2026-04-07) — Ready for execution
+**Status:** ✅ Complete (2026-04-08)
 
 ---
 
@@ -312,14 +314,16 @@ Plan breakdown:
   4. `IncidentService.deleteIncident()` writes `deletedAt: new Date()` (soft-delete not a no-op)
   5. Wizard save E2E flow complete: Step 6 → API → all fields persisted in DB
 
-**Plans:** 0/3
+**Plans:** 5/5 complete
 
 Plan breakdown:
-- [ ] 14-01-PLAN.md — Consolidate Zod Schemas
-- [ ] 14-02-PLAN.md — Fix IncidentService.createIncident() Field Persistence
-- [ ] 14-03-PLAN.md — Fix Soft-Delete + Tests
+- [x] 14-01-PLAN.md — Consolidate Zod Schemas
+- [x] 14-02-PLAN.md — Fix IncidentService.createIncident() Field Persistence
+- [x] 14-03-PLAN.md — Fix Soft-Delete + Tests
+- [x] 14-04-PLAN.md — Verify E2E Wizard→API→DB Flow + Regression Testing
+- [x] 14-05-PLAN.md — Integration Tests + UAT Sign-off
 
-**Status:** ⏳ Planned (2026-04-11) — Ready for planning
+**Status:** ✅ Complete (2026-04-14)
 
 ---
 
@@ -340,14 +344,14 @@ Plan breakdown:
   4. PDF response includes correct `Content-Type: application/pdf` and `Content-Disposition` headers
   5. PDF contains title page, incident metadata, SIAG logo, headers/footers per P1.1–P1.6
 
-**Plans:** 0/3
+**Plans:** 3/3 complete
 
 Plan breakdown:
-- [ ] 15-01-PLAN.md — Create App Router PDF Export Route
-- [ ] 15-02-PLAN.md — Wire IncidentList Export Button
-- [ ] 15-03-PLAN.md — Wire Step6 Export + Integration Tests
+- [x] 15-01-PLAN.md — Create App Router PDF Export Route
+- [x] 15-02-PLAN.md — Wire IncidentList Export Button
+- [x] 15-03-PLAN.md — Wire Step6 Export + Integration Tests
 
-**Status:** ⏳ Planned (2026-04-11) — Ready for planning
+**Status:** ✅ Complete (2026-04-14)
 
 ---
 
@@ -367,13 +371,13 @@ Plan breakdown:
   3. `API_KEY` dev value in `.env.local` and `.env.example` is ≥32 chars
   4. No regression in existing playbook tests
 
-**Plans:** 0/2
+**Plans:** 2/2 complete
 
 Plan breakdown:
-- [ ] 16-01-PLAN.md — Fix getPlaybook() Type String Mapping + Dead Code Cleanup
-- [ ] 16-02-PLAN.md — Fix API_KEY Length + Env Docs
+- [x] 16-01-PLAN.md — Fix getPlaybook() Type String Mapping + Dead Code Cleanup
+- [x] 16-02-PLAN.md — Fix API_KEY Length + Env Docs
 
-**Status:** ⏳ Planned (2026-04-11) — Ready for planning
+**Status:** ✅ Complete (2026-04-15)
 
 ---
 
@@ -393,13 +397,13 @@ Plan breakdown:
   3. `src/app/api/swagger/route.ts` exists and serves OpenAPI spec or Swagger UI
   4. Swagger UI accessible at `/api/swagger` on production URL
 
-**Plans:** 0/2
+**Plans:** 2/2 complete
 
 Plan breakdown:
-- [ ] 17-01-PLAN.md — GitHub Actions CI/CD Workflow
-- [ ] 17-02-PLAN.md — App Router Swagger Endpoint
+- [x] 17-01-PLAN.md — GitHub Actions CI/CD Workflow
+- [x] 17-02-PLAN.md — App Router Swagger Endpoint
 
-**Status:** ⏳ Planned (2026-04-11) — Ready for planning
+**Status:** ✅ Complete (2026-04-15)
 
 ---
 
@@ -423,6 +427,12 @@ Plan breakdown:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
+| 1. Design + Research | 1/1 | ✅ Complete | 2026-03-20 |
+| 2. Frontend Scaffold | 1/1 | ✅ Complete | 2026-03-22 |
+| 3. Core Wizard + Ransomware | 1/1 | ✅ Complete | 2026-03-24 |
+| 4. Swiss Compliance | 1/1 | ✅ Complete | 2026-03-26 |
+| 5. Screen 6 + Polish | 1/1 | ✅ Complete | 2026-04-02 |
+| 6. Deployment Review + Smoke Testing | 1/1 | ✅ Complete | 2026-04-06 |
 | 7. Backend Scaffold + Design System | 6/6 | ✅ Complete | 2026-04-07 |
 | 8. API Implementation | 4/4 | ✅ Complete | 2026-04-07 |
 | 9. Wizard ↔ Backend Integration | 3/3 | ✅ Complete | 2026-04-07 |
@@ -430,12 +440,12 @@ Plan breakdown:
 | 11. Multi-Type Playbooks + Forms | 4/4 | ✅ Complete | 2026-04-07 |
 | 12. Testing + Security | 4/4 | ✅ Complete | 2026-04-07 |
 | 13. Deployment + Polish | 4/4 | ✅ Complete | 2026-04-08 |
-| 14. API Data Integrity [GAP] | 0/3 | ⏳ Planned | — |
-| 15. PDF Export App Router Route [GAP] | 0/3 | ⏳ Planned | — |
-| 16. Playbook + Migration Cleanup [GAP] | 0/2 | ⏳ Planned | — |
-| 17. CI/CD + Swagger Polish [GAP] | 0/2 | ⏳ Planned | — |
+| 14. API Data Integrity [GAP] | 5/5 | ✅ Complete | 2026-04-14 |
+| 15. PDF Export App Router Route [GAP] | 3/3 | ✅ Complete | 2026-04-14 |
+| 16. Playbook + Migration Cleanup [GAP] | 2/2 | ✅ Complete | 2026-04-15 |
+| 17. CI/CD + Swagger Polish [GAP] | 2/2 | ✅ Complete | 2026-04-15 |
 
-**Total:** 32/37 plans | **Completed:** 32/37 (86%); **Pending:** Phases 14–17 (10 plans) | **Gap closure phases added:** 2026-04-11
+**Total:** 51/51 plans | **Completed:** 51/51 (100%) | **v1.2 MILESTONE COMPLETE 2026-04-15**
 
 ---
 
