@@ -204,7 +204,7 @@ export const swaggerOptions = {
       },
     ],
   },
-  apis: ['./src/api/**/*.ts'], // Scan for JSDoc @swagger blocks
+  apis: ['./src/api/**/*.ts', './src/app/api/**/*.ts'], // Scan Express + App Router routes
 };
 
 export const swaggerSpec = swaggerJsdoc(swaggerOptions);

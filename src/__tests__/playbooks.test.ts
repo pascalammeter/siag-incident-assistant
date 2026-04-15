@@ -10,14 +10,14 @@ import type { PlaybookStep, PlaybookPhase } from '@/types/playbook';
 
 describe('Playbook Structure', () => {
   describe('Phishing Playbook', () => {
-    it('should have 4 phases: detection, containment, investigation, communication', () => {
+    it('should have 4 phases: erkennung, eindaemmung, untersuchung, kommunikation', () => {
       expect(PHISHING_PLAYBOOK.phases).toHaveLength(4);
       const phaseIds = PHISHING_PLAYBOOK.phases.map((p) => p.id);
       expect(phaseIds).toEqual([
-        'detection',
-        'containment',
-        'investigation',
-        'communication',
+        'erkennung',
+        'eindaemmung',
+        'untersuchung',
+        'kommunikation',
       ]);
     });
 
@@ -27,22 +27,22 @@ describe('Playbook Structure', () => {
     });
 
     it('should have 7 detection steps', () => {
-      const detection = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'detection');
+      const detection = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'erkennung');
       expect(detection?.steps).toHaveLength(7);
     });
 
     it('should have 7 containment steps', () => {
-      const containment = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'containment');
+      const containment = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'eindaemmung');
       expect(containment?.steps).toHaveLength(7);
     });
 
     it('should have 7 investigation steps', () => {
-      const investigation = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'investigation');
+      const investigation = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'untersuchung');
       expect(investigation?.steps).toHaveLength(7);
     });
 
     it('should have 4 communication steps', () => {
-      const communication = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'communication');
+      const communication = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'kommunikation');
       expect(communication?.steps).toHaveLength(4);
     });
 
@@ -204,9 +204,9 @@ describe('Step Type Selection Integration', () => {
 
   it('playbook phases should be in correct order', () => {
     const phaseIds = PHISHING_PLAYBOOK.phases.map((p) => p.id);
-    expect(phaseIds[0]).toBe('detection');
-    expect(phaseIds[1]).toBe('containment');
-    expect(phaseIds[2]).toBe('investigation');
-    expect(phaseIds[3]).toBe('communication');
+    expect(phaseIds[0]).toBe('erkennung');
+    expect(phaseIds[1]).toBe('eindaemmung');
+    expect(phaseIds[2]).toBe('untersuchung');
+    expect(phaseIds[3]).toBe('kommunikation');
   });
 });
