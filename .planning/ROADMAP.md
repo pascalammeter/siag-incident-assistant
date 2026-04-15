@@ -34,7 +34,10 @@ Build a guided incident response platform for security teams in crisis. v1.0 (Ph
 - [x] **Phase 14: API Data Integrity** — Fix IncidentService data loss, consolidate Zod schemas, fix soft-delete [COMPLETE 2026-04-14]
 - [x] **Phase 15: PDF Export App Router Route** — Create App Router PDF route, wire export buttons [COMPLETE 2026-04-14]
 - [x] **Phase 16: Playbook + Migration Cleanup** — Fix getPlaybook data_loss case, clean dead code, fix API_KEY [COMPLETE 2026-04-15]
-- [ ] **Phase 17: CI/CD + Swagger Polish** — Verify GitHub Actions CI gates, add App Router Swagger route [PLANNED 2026-04-15]
+- [x] **Phase 17: CI/CD + Swagger Polish** — Verify GitHub Actions CI gates, add App Router Swagger route [COMPLETE 2026-04-15]
+- [ ] **Phase 18: API Data Layer Fixes** — JSON export App Router route (B5.1), description field persistence (B4.1), soft-delete guards (B4.3/B4.4) [GAP CLOSURE]
+- [ ] **Phase 19: Wizard Resume from API** — Extend WizardContext with incidentId param + API fetch on mount (W1.2) [GAP CLOSURE]
+- [ ] **Phase 20: Swagger Annotation Fix** — Add @swagger JSDoc to App Router routes, fix PDF method mismatch (B6.1/B6.3) [GAP CLOSURE]
 
 ---
 
@@ -407,6 +410,81 @@ Plan breakdown:
 
 ---
 
+### Phase 18: API Data Layer Fixes
+
+**Goal:** Close the two remaining correctness gaps in the API data layer: create the missing JSON export App Router route (B5.1 — returns 404 in production), persist the `description` field through IncidentService (B4.1 — silently dropped), and add soft-delete guards to prevent returning/updating deleted records (B4.3/B4.4).
+
+**Depends on:** Phase 14, Phase 15 (App Router pattern established)
+
+**Requirements:** B5.1, B4.1, B4.3, B4.4
+
+**Gap Closure:** Closes B5.1 (unsatisfied) and B4.1/B4.3/B4.4 (partial) from v1.2 audit
+
+**Success Criteria** (what must be TRUE):
+  1. GET `/api/incidents/:id/export/json` returns `200` with `Content-Disposition: attachment; filename=incident-{id}.json`
+  2. `description` field written to DB on POST `/api/incidents` and returned in GET responses
+  3. GET `/api/incidents/:id` returns `404` for soft-deleted incidents
+  4. PATCH `/api/incidents/:id` returns `404` for soft-deleted incidents
+
+**Plans:** 0/2 planned
+
+Plan breakdown:
+- [ ] 18-01-PLAN.md — JSON Export App Router Route + description field (B5.1, B4.1)
+- [ ] 18-02-PLAN.md — Soft-Delete Guards in IncidentService (B4.3, B4.4)
+
+**Status:** 📋 Planned
+
+---
+
+### Phase 19: Wizard Resume from API
+
+**Goal:** Implement W1.2 — when the wizard is opened with an existing `incidentId`, fetch the incident from the API on mount so the user can resume editing from the last saved state rather than from localStorage only.
+
+**Depends on:** Phase 14 (useIncident hook), Phase 18 (description field persisted)
+
+**Requirements:** W1.2
+
+**Gap Closure:** Closes W1.2 (unsatisfied) from v1.2 audit
+
+**Success Criteria** (what must be TRUE):
+  1. Wizard route accepts optional `?id=` URL param (or `/wizard/:id`)
+  2. WizardContext calls `useIncident().getIncident(id)` on mount when `incidentId` is present
+  3. Fetched incident data hydrates wizard steps (not just localStorage)
+  4. IncidentList "Resume" button opens wizard with the incident's `id`
+
+**Plans:** 0/1 planned
+
+Plan breakdown:
+- [ ] 19-01-PLAN.md — Wizard Resume API Fetch (W1.2)
+
+**Status:** 📋 Planned
+
+---
+
+### Phase 20: Swagger Annotation Fix
+
+**Goal:** Add `@swagger` JSDoc blocks to the App Router PDF export route so the generated spec documents the correct HTTP method (GET, not POST) and includes the App Router endpoint path. Closes B6.1/B6.3 partial gaps.
+
+**Depends on:** Phase 17 (Swagger glob fix already applied in 446df44)
+
+**Requirements:** B6.1, B6.3
+
+**Gap Closure:** Closes B6.1/B6.3 (partial) from v1.2 audit
+
+**Success Criteria** (what must be TRUE):
+  1. `src/app/api/incidents/[id]/export/pdf/route.ts` has `@swagger` JSDoc documenting GET method
+  2. Generated OpenAPI spec includes `/api/incidents/{id}/export/pdf` as a GET endpoint
+  3. No duplicate POST entry for PDF export in the spec (Express JSDoc removed or replaced)
+
+**Plans:** 0/1 planned
+
+Plan breakdown:
+- [ ] 20-01-PLAN.md — Swagger JSDoc for App Router Routes (B6.1, B6.3)
+
+**Status:** 📋 Planned
+
+---
+
 ## Dependencies
 
 - **Phase 7** → Nothing (foundation)
@@ -420,6 +498,9 @@ Plan breakdown:
 - **Phase 15** → Phase 14 (PDF export needs full data persisted first)
 - **Phase 16** → Phase 13 (gap closure: independent of 14/15)
 - **Phase 17** → Phase 14 + Phase 15 + Phase 16 (polish after core gaps closed)
+- **Phase 18** → Phase 14 + Phase 15 (App Router pattern + IncidentService foundation)
+- **Phase 19** → Phase 14 + Phase 18 (useIncident hook + description field persisted)
+- **Phase 20** → Phase 17 (Swagger glob fix already applied)
 
 ---
 
@@ -444,8 +525,11 @@ Plan breakdown:
 | 15. PDF Export App Router Route [GAP] | 3/3 | ✅ Complete | 2026-04-14 |
 | 16. Playbook + Migration Cleanup [GAP] | 2/2 | ✅ Complete | 2026-04-15 |
 | 17. CI/CD + Swagger Polish [GAP] | 2/2 | ✅ Complete | 2026-04-15 |
+| 18. API Data Layer Fixes [GAP] | 0/2 | 📋 Planned | — |
+| 19. Wizard Resume from API [GAP] | 0/1 | 📋 Planned | — |
+| 20. Swagger Annotation Fix [GAP] | 0/1 | 📋 Planned | — |
 
-**Total:** 51/51 plans | **Completed:** 51/51 (100%) | **v1.2 MILESTONE COMPLETE 2026-04-15**
+**Total:** 51/55 plans | **Completed:** 51/55 (93%) | **v1.2 gaps open — run /gsd-plan-phase 18 next**
 
 ---
 

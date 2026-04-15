@@ -312,25 +312,25 @@ Professional-grade incident management platform with persistent backend storage,
 | B3.2 — Connection strings | 7 | Pending |
 | B3.3 — Schema applied | 7 | Pending |
 | B3.4 — Indexes created | 7 | Pending |
-| B4.1 — POST /api/incidents | 14 | Pending |
+| B4.1 — POST /api/incidents | 18 | Pending |
 | B4.2 — GET /api/incidents | 14 | Pending |
-| B4.3 — GET /api/incidents/:id | 14 | Pending |
-| B4.4 — PATCH /api/incidents/:id | 14 | Pending |
+| B4.3 — GET /api/incidents/:id | 18 | Pending |
+| B4.4 — PATCH /api/incidents/:id | 18 | Pending |
 | B4.5 — DELETE /api/incidents/:id | 14 | Pending |
-| B5.1 — JSON export endpoint | 15 | Pending |
+| B5.1 — JSON export endpoint | 18 | Pending |
 | B5.2 — PDF export endpoint | 15 | Pending |
 | B5.3 — Export validation | 15 | Pending |
 | B5.4 — Export headers | 15 | Pending |
-| B6.1 — OpenAPI spec | 17 | Pending |
+| B6.1 — OpenAPI spec | 20 | Pending |
 | B6.2 — Swagger UI | 17 | Pending |
-| B6.3 — Endpoint examples | 17 | Pending |
+| B6.3 — Endpoint examples | 20 | Pending |
 | B6.4 — Integration guide | 17 | Pending |
 | B7.1 — Zod schemas (create) | 14 | Pending |
 | B7.2 — Zod schemas (update) | 14 | Pending |
 | B7.3 — Validation errors | 14 | Pending |
 | B7.4 — HTTP status codes | 14 | Pending |
 | W1.1 — useIncident() hook | 14 | Pending |
-| W1.2 — API fetch on mount | 14 | Pending |
+| W1.2 — API fetch on mount | 19 | Pending |
 | W1.3 — API save on complete | 14 | Pending |
 | W1.4 — localStorage fallback | 14 | Pending |
 | W1.5 — Hydration guard | 14 | Pending |
