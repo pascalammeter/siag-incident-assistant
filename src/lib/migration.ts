@@ -266,8 +266,13 @@ export function mapApiSeverityToWizardSeverity(apiSeverity?: Severity | null): '
 }
 
 /**
- * Map integer (0/1) back to 'ja'/'nein'
- * Inverse of mapYesNoToInt() for binary fields (q1, q2)
+ * Map integer (0/1/null) back to 'ja'/'nein'.
+ * Inverse of mapYesNoToInt() for binary fields (q1, q2).
+ *
+ * NOTE: null/undefined are intentionally treated as 'nein' because the wizard's
+ * q1/q2 fields are strictly binary (no 'unbekannt' state). This is a lossy
+ * mapping — a null stored value will resume as an explicit 'nein' answer.
+ * Use mapIntToYesNoUnbekannt() for fields that support three states (e.g. q3).
  */
 export function mapIntToYesNo(val?: number | null): 'ja' | 'nein' {
   return val === 1 ? 'ja' : 'nein'
