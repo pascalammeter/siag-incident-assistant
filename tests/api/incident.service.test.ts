@@ -403,7 +403,7 @@ describe('IncidentService', () => {
 
       expect(prisma.incident.findFirst).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: { id: 'test-id-123' },
+          where: { id: 'test-id-123', deletedAt: null },
         })
       );
     });
@@ -433,6 +433,34 @@ describe('IncidentService', () => {
       const result = await IncidentService.getIncidentById('test-id');
 
       expect(result?.description).toBe('Test description of the incident');
+    });
+
+    it('should return null for soft-deleted incident (deletedAt set)', async () => {
+      // findFirst returns null because the where clause now includes deletedAt: null
+      vi.mocked(prisma.incident.findFirst).mockResolvedValue(null);
+
+      const result = await IncidentService.getIncidentById('soft-deleted-id');
+
+      expect(result).toBeNull();
+      expect(prisma.incident.findFirst).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { id: 'soft-deleted-id', deletedAt: null },
+        })
+      );
+    });
+
+    it('should include deletedAt: null in findFirst where clause', async () => {
+      vi.mocked(prisma.incident.findFirst).mockResolvedValue(null);
+
+      await IncidentService.getIncidentById('any-id');
+
+      expect(prisma.incident.findFirst).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            deletedAt: null,
+          }),
+        })
+      );
     });
   });
 
@@ -697,6 +725,30 @@ describe('IncidentService', () => {
             q1: expect.anything(),
             q2: expect.anything(),
             q3: expect.anything(),
+          }),
+        })
+      );
+    });
+
+    it('should return null for soft-deleted incident (deletedAt set)', async () => {
+      // findFirst returns null because the where clause now includes deletedAt: null
+      vi.mocked(prisma.incident.findFirst).mockResolvedValue(null);
+
+      const result = await IncidentService.updateIncident('soft-deleted-id', { severity: 'high' });
+
+      expect(result).toBeNull();
+      expect(prisma.incident.update).not.toHaveBeenCalled();
+    });
+
+    it('should include deletedAt: null in findFirst where clause for update', async () => {
+      vi.mocked(prisma.incident.findFirst).mockResolvedValue(null);
+
+      await IncidentService.updateIncident('any-id', { severity: 'high' });
+
+      expect(prisma.incident.findFirst).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            deletedAt: null,
           }),
         })
       );
