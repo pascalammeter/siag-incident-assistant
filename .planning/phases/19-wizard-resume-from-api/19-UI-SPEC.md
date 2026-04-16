@@ -51,9 +51,8 @@ Exceptions: none
 |------|------|--------|-------------|
 | Body | 16px (text-base) | 400 (regular) | 1.6 |
 | Label | 14px (text-sm) | 500 (medium) | 1.5 |
-| Heading | 20px (text-xl) | 600 (semibold) | 1.2 |
 
-**Phase scope:** No new typography roles introduced. Loading state uses Body role. Toast messages use the sonner library defaults (14px semibold for title, 14px regular for description), which are already configured in the project.
+**Phase scope:** No new typography roles introduced. Loading state uses Body role. Toast messages use the sonner library defaults (already configured in the project). The Heading role is not exercised by any new UI element in this phase and is therefore omitted from this contract.
 
 ---
 
