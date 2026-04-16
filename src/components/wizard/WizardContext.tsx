@@ -60,7 +60,7 @@ export function WizardProvider({ children, incidentId }: { children: ReactNode; 
         try {
           const incident = await apiClient.get<Incident>(`/api/incidents/${incidentId}`)
           const mapped = mapIncidentToWizardState(incident)
-          dispatch({ type: 'HYDRATE', data: { ...mapped, currentStep: 1 } as WizardState })
+          dispatch({ type: 'HYDRATE', data: { ...mapped, currentStep: 1 } })
           setIsHydrated(true)
           return
         } catch (err) {
@@ -83,11 +83,11 @@ export function WizardProvider({ children, incidentId }: { children: ReactNode; 
               } else {
                 // No localStorage data either (D-12)
                 showErrorToast('Vorfall konnte nicht geladen werden. Bitte versuchen Sie es erneut.')
-                dispatch({ type: 'HYDRATE', data: { ...initialState, currentStep: 1 } as WizardState })
+                dispatch({ type: 'HYDRATE', data: { ...initialState, currentStep: 1 } })
               }
             } catch {
               showErrorToast('Vorfall konnte nicht geladen werden. Bitte versuchen Sie es erneut.')
-              dispatch({ type: 'HYDRATE', data: { ...initialState, currentStep: 1 } as WizardState })
+              dispatch({ type: 'HYDRATE', data: { ...initialState, currentStep: 1 } })
             }
           } else {
             // Other client errors (400, 403, etc.)
