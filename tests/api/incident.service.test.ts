@@ -10,6 +10,7 @@ vi.mock('../../src/api/config/prisma', () => ({
       findFirst: vi.fn(),
       findMany: vi.fn(),
       update: vi.fn(),
+      updateMany: vi.fn(),
       count: vi.fn(),
       deleteMany: vi.fn(),
     },
@@ -469,7 +470,7 @@ describe('IncidentService', () => {
       const existingIncident = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         incident_type: 'ransomware',
-        severity: 'critical',
+        severity: 'high',
         playbook: {},
         regulatorische_meldungen: {},
         metadata: {},
@@ -485,23 +486,18 @@ describe('IncidentService', () => {
         deletedAt: null,
       };
 
-      const updatedIncident = {
-        ...existingIncident,
-        severity: 'high',
-      };
-
+      vi.mocked(prisma.incident.updateMany).mockResolvedValue({ count: 1 });
       vi.mocked(prisma.incident.findFirst).mockResolvedValue(existingIncident);
-      vi.mocked(prisma.incident.update).mockResolvedValue(updatedIncident);
 
       const result = await IncidentService.updateIncident('123e4567-e89b-12d3-a456-426614174000', {
         severity: 'high',
       });
 
-      expect(result.severity).toBe('high');
+      expect(result?.severity).toBe('high');
     });
 
     it('should return null if incident not found', async () => {
-      vi.mocked(prisma.incident.findFirst).mockResolvedValue(null);
+      vi.mocked(prisma.incident.updateMany).mockResolvedValue({ count: 0 });
 
       const result = await IncidentService.updateIncident('non-existent-id', { severity: 'high' });
 
@@ -509,10 +505,10 @@ describe('IncidentService', () => {
     });
 
     it('should only update provided fields', async () => {
-      const existingIncident = {
+      const updatedIncident = {
         id: 'test-id',
         incident_type: 'phishing',
-        severity: 'high',
+        severity: 'low',
         playbook: { old: 'data' },
         regulatorische_meldungen: {},
         metadata: {},
@@ -528,29 +524,25 @@ describe('IncidentService', () => {
         deletedAt: null,
       };
 
-      const updatedIncident = {
-        ...existingIncident,
-        severity: 'low',
-      };
-
-      vi.mocked(prisma.incident.findFirst).mockResolvedValue(existingIncident);
-      vi.mocked(prisma.incident.update).mockResolvedValue(updatedIncident);
+      vi.mocked(prisma.incident.updateMany).mockResolvedValue({ count: 1 });
+      vi.mocked(prisma.incident.findFirst).mockResolvedValue(updatedIncident);
 
       await IncidentService.updateIncident('test-id', { severity: 'low' });
 
-      expect(prisma.incident.update).toHaveBeenCalledWith(
+      expect(prisma.incident.updateMany).toHaveBeenCalledWith(
         expect.objectContaining({
+          where: expect.objectContaining({ id: 'test-id', deletedAt: null }),
           data: expect.objectContaining({ severity: 'low' }),
         })
       );
     });
 
     it('should update multiple fields', async () => {
-      const existingIncident = {
+      const updatedIncident = {
         id: 'test-id',
-        incident_type: 'ransomware',
-        severity: 'critical',
-        playbook: {},
+        incident_type: 'phishing',
+        severity: 'medium',
+        playbook: { updated: true },
         regulatorische_meldungen: {},
         metadata: {},
         betroffene_systeme: [],
@@ -565,15 +557,8 @@ describe('IncidentService', () => {
         deletedAt: null,
       };
 
-      const updatedIncident = {
-        ...existingIncident,
-        incident_type: 'phishing',
-        severity: 'medium',
-        playbook: { updated: true },
-      };
-
-      vi.mocked(prisma.incident.findFirst).mockResolvedValue(existingIncident);
-      vi.mocked(prisma.incident.update).mockResolvedValue(updatedIncident);
+      vi.mocked(prisma.incident.updateMany).mockResolvedValue({ count: 1 });
+      vi.mocked(prisma.incident.findFirst).mockResolvedValue(updatedIncident);
 
       const result = await IncidentService.updateIncident('test-id', {
         incident_type: 'phishing',
@@ -581,41 +566,33 @@ describe('IncidentService', () => {
         playbook: { updated: true },
       });
 
-      expect(result.incident_type).toBe('phishing');
-      expect(result.severity).toBe('medium');
-      expect(result.playbook).toEqual({ updated: true });
+      expect(result?.incident_type).toBe('phishing');
+      expect(result?.severity).toBe('medium');
+      expect(result?.playbook).toEqual({ updated: true });
     });
 
     it('should update optional wizard fields including recognition details', async () => {
-      const existingIncident = {
+      const updatedIncident = {
         id: 'test-id',
         incident_type: 'ransomware',
         severity: 'critical',
         playbook: {},
         regulatorische_meldungen: {},
         metadata: {},
-        betroffene_systeme: [],
+        betroffene_systeme: ['Server-A', 'Server-B'],
         createdAt: new Date(),
         updatedAt: new Date(),
-        erkennungszeitpunkt: null,
-        erkannt_durch: null,
-        erste_erkenntnisse: null,
+        erkennungszeitpunkt: new Date('2026-04-14T10:30:00Z'),
+        erkannt_durch: 'Alert System',
+        erste_erkenntnisse: 'Encryption process detected on multiple servers',
         q1: null,
         q2: null,
         q3: null,
         deletedAt: null,
       };
 
-      const updatedIncident = {
-        ...existingIncident,
-        erkennungszeitpunkt: new Date('2026-04-14T10:30:00Z'),
-        erkannt_durch: 'Alert System',
-        erste_erkenntnisse: 'Encryption process detected on multiple servers',
-        betroffene_systeme: ['Server-A', 'Server-B'],
-      };
-
-      vi.mocked(prisma.incident.findFirst).mockResolvedValue(existingIncident);
-      vi.mocked(prisma.incident.update).mockResolvedValue(updatedIncident);
+      vi.mocked(prisma.incident.updateMany).mockResolvedValue({ count: 1 });
+      vi.mocked(prisma.incident.findFirst).mockResolvedValue(updatedIncident);
 
       const result = await IncidentService.updateIncident('test-id', {
         erkennungszeitpunkt: '2026-04-14T10:30:00Z',
@@ -624,7 +601,7 @@ describe('IncidentService', () => {
         betroffene_systeme: ['Server-A', 'Server-B'],
       });
 
-      expect(prisma.incident.update).toHaveBeenCalledWith(
+      expect(prisma.incident.updateMany).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({
             erkennungszeitpunkt: '2026-04-14T10:30:00Z',
@@ -635,14 +612,14 @@ describe('IncidentService', () => {
         })
       );
 
-      expect(result.erkennungszeitpunkt).toEqual(new Date('2026-04-14T10:30:00Z'));
-      expect(result.erkannt_durch).toBe('Alert System');
-      expect(result.erste_erkenntnisse).toBe('Encryption process detected on multiple servers');
-      expect(result.betroffene_systeme).toEqual(['Server-A', 'Server-B']);
+      expect(result?.erkennungszeitpunkt).toEqual(new Date('2026-04-14T10:30:00Z'));
+      expect(result?.erkannt_durch).toBe('Alert System');
+      expect(result?.erste_erkenntnisse).toBe('Encryption process detected on multiple servers');
+      expect(result?.betroffene_systeme).toEqual(['Server-A', 'Server-B']);
     });
 
     it('should update classification questions (q1, q2, q3) including zero values', async () => {
-      const existingIncident = {
+      const updatedIncident = {
         id: 'test-id',
         incident_type: 'phishing',
         severity: 'high',
@@ -655,21 +632,14 @@ describe('IncidentService', () => {
         erkennungszeitpunkt: null,
         erkannt_durch: null,
         erste_erkenntnisse: null,
-        q1: null,
-        q2: null,
-        q3: null,
-        deletedAt: null,
-      };
-
-      const updatedIncident = {
-        ...existingIncident,
         q1: 0,
         q2: 1,
         q3: 0,
+        deletedAt: null,
       };
 
-      vi.mocked(prisma.incident.findFirst).mockResolvedValue(existingIncident);
-      vi.mocked(prisma.incident.update).mockResolvedValue(updatedIncident);
+      vi.mocked(prisma.incident.updateMany).mockResolvedValue({ count: 1 });
+      vi.mocked(prisma.incident.findFirst).mockResolvedValue(updatedIncident);
 
       const result = await IncidentService.updateIncident('test-id', {
         q1: 0,
@@ -677,7 +647,7 @@ describe('IncidentService', () => {
         q3: 0,
       });
 
-      expect(prisma.incident.update).toHaveBeenCalledWith(
+      expect(prisma.incident.updateMany).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({
             q1: 0,
@@ -687,16 +657,16 @@ describe('IncidentService', () => {
         })
       );
 
-      expect(result.q1).toBe(0);
-      expect(result.q2).toBe(1);
-      expect(result.q3).toBe(0);
+      expect(result?.q1).toBe(0);
+      expect(result?.q2).toBe(1);
+      expect(result?.q3).toBe(0);
     });
 
     it('should handle undefined classification questions (should not update if not provided)', async () => {
       const existingIncident = {
         id: 'test-id',
         incident_type: 'ddos',
-        severity: 'medium',
+        severity: 'high',
         playbook: {},
         regulatorische_meldungen: {},
         metadata: {},
@@ -712,14 +682,14 @@ describe('IncidentService', () => {
         deletedAt: null,
       };
 
+      vi.mocked(prisma.incident.updateMany).mockResolvedValue({ count: 1 });
       vi.mocked(prisma.incident.findFirst).mockResolvedValue(existingIncident);
-      vi.mocked(prisma.incident.update).mockResolvedValue(existingIncident);
 
       await IncidentService.updateIncident('test-id', {
         severity: 'high',
       });
 
-      expect(prisma.incident.update).toHaveBeenCalledWith(
+      expect(prisma.incident.updateMany).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.not.objectContaining({
             q1: expect.anything(),
@@ -730,22 +700,22 @@ describe('IncidentService', () => {
       );
     });
 
-    it('should return null for soft-deleted incident (deletedAt set)', async () => {
-      // findFirst returns null because the where clause now includes deletedAt: null
-      vi.mocked(prisma.incident.findFirst).mockResolvedValue(null);
+    it('should return null for soft-deleted incident (updateMany count is 0)', async () => {
+      // updateMany returns count: 0 when where: { id, deletedAt: null } matches nothing
+      vi.mocked(prisma.incident.updateMany).mockResolvedValue({ count: 0 });
 
       const result = await IncidentService.updateIncident('soft-deleted-id', { severity: 'high' });
 
       expect(result).toBeNull();
-      expect(prisma.incident.update).not.toHaveBeenCalled();
+      expect(prisma.incident.findFirst).not.toHaveBeenCalled();
     });
 
-    it('should include deletedAt: null in findFirst where clause for update', async () => {
-      vi.mocked(prisma.incident.findFirst).mockResolvedValue(null);
+    it('should include deletedAt: null in updateMany where clause', async () => {
+      vi.mocked(prisma.incident.updateMany).mockResolvedValue({ count: 0 });
 
       await IncidentService.updateIncident('any-id', { severity: 'high' });
 
-      expect(prisma.incident.findFirst).toHaveBeenCalledWith(
+      expect(prisma.incident.updateMany).toHaveBeenCalledWith(
         expect.objectContaining({
           where: expect.objectContaining({
             deletedAt: null,

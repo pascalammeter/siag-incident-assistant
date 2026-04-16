@@ -37,17 +37,6 @@ export class IncidentService {
 
   // Update incident
   static async updateIncident(id: string, input: UpdateIncidentInput) {
-    const incident = await prisma.incident.findFirst({
-      where: {
-        id,
-        deletedAt: null,
-      },
-    });
-
-    if (!incident) {
-      return null;
-    }
-
     const data: any = {};
     if (input.incident_type) data.incident_type = input.incident_type;
     if (input.severity) data.severity = input.severity;
@@ -63,12 +52,16 @@ export class IncidentService {
     if (input.regulatorische_meldungen) data.regulatorische_meldungen = input.regulatorische_meldungen;
     if (input.metadata) data.metadata = input.metadata;
 
-    const updated = await prisma.incident.update({
-      where: { id },
+    // Atomic update with soft-delete guard — eliminates the TOCTOU race window
+    const result = await prisma.incident.updateMany({
+      where: { id, deletedAt: null },
       data,
     });
 
-    return updated;
+    if (result.count === 0) return null;
+
+    // Fetch and return the updated record for the response body
+    return prisma.incident.findFirst({ where: { id } });
   }
 
   // Soft delete incident by setting deletedAt timestamp
