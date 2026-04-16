@@ -1036,5 +1036,35 @@ describe('IncidentService', () => {
         })
       );
     });
+
+    it('should ignore invalid type filter values', async () => {
+      vi.mocked(prisma.incident.findMany).mockResolvedValue([]);
+      vi.mocked(prisma.incident.count).mockResolvedValue(0);
+
+      await IncidentService.listIncidents({ type: 'invalid-type' });
+
+      expect(prisma.incident.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.not.objectContaining({
+            incident_type: expect.anything(),
+          }),
+        })
+      );
+    });
+
+    it('should ignore invalid severity filter values', async () => {
+      vi.mocked(prisma.incident.findMany).mockResolvedValue([]);
+      vi.mocked(prisma.incident.count).mockResolvedValue(0);
+
+      await IncidentService.listIncidents({ severity: 'extreme' });
+
+      expect(prisma.incident.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.not.objectContaining({
+            severity: expect.anything(),
+          }),
+        })
+      );
+    });
   });
 });

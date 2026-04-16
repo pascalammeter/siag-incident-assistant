@@ -1,5 +1,8 @@
 import { prisma } from '../config/prisma';
-import { CreateIncidentInput, UpdateIncidentInput } from '../schemas/incident.schema';
+import { CreateIncidentInput, UpdateIncidentInput, IncidentTypeSchema, SeveritySchema } from '../schemas/incident.schema';
+
+const VALID_INCIDENT_TYPES = new Set(IncidentTypeSchema.options);
+const VALID_SEVERITIES = new Set(SeveritySchema.options);
 
 export class IncidentService {
   // Create incident
@@ -107,10 +110,10 @@ export class IncidentService {
       deletedAt: null,
     };
 
-    if (filters?.type) {
+    if (filters?.type && VALID_INCIDENT_TYPES.has(filters.type)) {
       where.incident_type = filters.type;
     }
-    if (filters?.severity) {
+    if (filters?.severity && VALID_SEVERITIES.has(filters.severity)) {
       where.severity = filters.severity;
     }
 
