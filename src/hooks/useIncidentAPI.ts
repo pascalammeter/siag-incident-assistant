@@ -47,14 +47,8 @@ export class IncidentAPI {
    * @throws APIError if server error (5xx)
    */
   static async getIncident(id: string): Promise<Incident> {
-    try {
-      const incident = await apiClient.get<Incident>(`/api/incidents/${id}`);
-      return incident;
-    } catch (error) {
-      throw new Error(
-        `Failed to fetch incident: ${error instanceof Error ? error.message : String(error)}`
-      );
-    }
+    const incident = await apiClient.get<Incident>(`/api/incidents/${id}`);
+    return incident;
   }
 
   /**
