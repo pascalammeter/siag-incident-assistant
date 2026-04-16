@@ -447,15 +447,20 @@ Plan breakdown:
 **Gap Closure:** Closes W1.2 (unsatisfied) from v1.2 audit
 
 **Success Criteria** (what must be TRUE):
-  1. Wizard route accepts optional `?id=` URL param (or `/wizard/:id`)
-  2. WizardContext calls `useIncident().getIncident(id)` on mount when `incidentId` is present
-  3. Fetched incident data hydrates wizard steps (not just localStorage)
-  4. IncidentList "Resume" button opens wizard with the incident's `id`
+  1. `/wizard?incident=<uuid>` route reads the incident ID from the URL query parameter
+  2. WizardProvider calls `apiClient.get()` on mount when `incidentId` is present, dispatches HYDRATE with reverse-mapped data
+  3. Fetched incident data hydrates wizard steps (Erfassen, Klassifikation, Reaktion, Kommunikation) -- not just localStorage
+  4. IncidentList "Weiterbearbeiten" button opens wizard with the incident's `id` and wizard loads at Step 1
 
-**Plans:** 0/1 planned
+**Plans:** 2 plans
 
 Plan breakdown:
-- [ ] 19-01-PLAN.md — Wizard Resume API Fetch (W1.2)
+- [ ] 19-01-PLAN.md — Reverse mapping functions + test file (Wave 0 + data layer)
+- [ ] 19-02-PLAN.md — WizardProvider API fetch + /wizard route + WizardShell prop threading
+
+**Wave Structure:**
+- Wave 1: 19-01 (reverse mapping + tests)
+- Wave 2: 19-02 (integration: route + provider + shell) — depends on 19-01
 
 **Status:** 📋 Planned
 
@@ -526,10 +531,10 @@ Plan breakdown:
 | 16. Playbook + Migration Cleanup [GAP] | 2/2 | ✅ Complete | 2026-04-15 |
 | 17. CI/CD + Swagger Polish [GAP] | 2/2 | ✅ Complete | 2026-04-15 |
 | 18. API Data Layer Fixes [GAP] | 2/2 | Complete    | 2026-04-16 |
-| 19. Wizard Resume from API [GAP] | 0/1 | 📋 Planned | — |
+| 19. Wizard Resume from API [GAP] | 0/2 | 📋 Planned | — |
 | 20. Swagger Annotation Fix [GAP] | 0/1 | 📋 Planned | — |
 
-**Total:** 51/55 plans | **Completed:** 51/55 (93%) | **v1.2 gaps open — run /gsd-plan-phase 18 next**
+**Total:** 51/56 plans | **Completed:** 51/56 (91%) | **v1.2 gaps open — run /gsd-execute-phase 19 next**
 
 ---
 
@@ -567,7 +572,7 @@ Plan breakdown:
 
 **Hintergrund:** App wurde vor dem siag-design Skill gebaut. Das Design weicht in allen zentralen Punkten vom App Design System ab.
 
-**Schulden-Posten (nach Priorität):**
+**Schulden-Posten (nach Prioritaet):**
 - [KRITISCH] Floating Red Pill Navbar fehlt — aktuell klassischer Navy-Header
 - [HOCH] Font: Source Sans 3 statt Inter (Source Sans = Marketing-Font, nicht App-Font)
 - [HOCH] Page Background: `#FFFFFF` statt `#f0f2f5`
@@ -583,12 +588,12 @@ Plan breakdown:
 
 **Akzeptanzkriterien:**
 - Floating Red Pill Navbar auf allen Seiten sichtbar
-- Inter als primärer App-Font geladen
+- Inter als primaerer App-Font geladen
 - Page Background `#f0f2f5`, Cards `#fff` mit Shadow-only
 - Alle Buttons Pill-Form
-- Badge-System mit Pastell-Hintergründen + dunklem Text
+- Badge-System mit Pastell-Hintergruenden + dunklem Text
 - siag-design Pre-Delivery Checklist zu 100% bestanden
 
-**Geschätzter Aufwand:** 1 Phase, 2 Pläne
-**Requirements:** Keine Funktionsänderungen — rein visuell
+**Geschaetzter Aufwand:** 1 Phase, 2 Plaene
+**Requirements:** Keine Funktionsaenderungen — rein visuell
 **Plans:** 0 plans (promote with /gsd-review-backlog when ready)
