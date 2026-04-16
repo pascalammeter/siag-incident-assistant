@@ -35,7 +35,7 @@ Build a guided incident response platform for security teams in crisis. v1.0 (Ph
 - [x] **Phase 15: PDF Export App Router Route** — Create App Router PDF route, wire export buttons [COMPLETE 2026-04-14]
 - [x] **Phase 16: Playbook + Migration Cleanup** — Fix getPlaybook data_loss case, clean dead code, fix API_KEY [COMPLETE 2026-04-15]
 - [x] **Phase 17: CI/CD + Swagger Polish** — Verify GitHub Actions CI gates, add App Router Swagger route [COMPLETE 2026-04-15]
-- [ ] **Phase 18: API Data Layer Fixes** — JSON export App Router route (B5.1), description field persistence (B4.1), soft-delete guards (B4.3/B4.4) [GAP CLOSURE]
+- [x] **Phase 18: API Data Layer Fixes** — JSON export App Router route (B5.1), description field persistence (B4.1), soft-delete guards (B4.3/B4.4) [GAP CLOSURE] (completed 2026-04-16)
 - [ ] **Phase 19: Wizard Resume from API** — Extend WizardContext with incidentId param + API fetch on mount (W1.2) [GAP CLOSURE]
 - [ ] **Phase 20: Swagger Annotation Fix** — Add @swagger JSDoc to App Router routes, fix PDF method mismatch (B6.1/B6.3) [GAP CLOSURE]
 
@@ -426,11 +426,11 @@ Plan breakdown:
   3. GET `/api/incidents/:id` returns `404` for soft-deleted incidents
   4. PATCH `/api/incidents/:id` returns `404` for soft-deleted incidents
 
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plan breakdown:
-- [ ] 18-01-PLAN.md — JSON Export App Router Route + description field (B5.1, B4.1)
-- [ ] 18-02-PLAN.md — Soft-Delete Guards in IncidentService (B4.3, B4.4)
+- [x] 18-01-PLAN.md — JSON Export App Router Route + description field (B5.1, B4.1)
+- [x] 18-02-PLAN.md — Soft-Delete Guards in IncidentService (B4.3, B4.4)
 
 **Status:** 📋 Planned
 
@@ -525,7 +525,7 @@ Plan breakdown:
 | 15. PDF Export App Router Route [GAP] | 3/3 | ✅ Complete | 2026-04-14 |
 | 16. Playbook + Migration Cleanup [GAP] | 2/2 | ✅ Complete | 2026-04-15 |
 | 17. CI/CD + Swagger Polish [GAP] | 2/2 | ✅ Complete | 2026-04-15 |
-| 18. API Data Layer Fixes [GAP] | 0/2 | 📋 Planned | — |
+| 18. API Data Layer Fixes [GAP] | 2/2 | Complete    | 2026-04-16 |
 | 19. Wizard Resume from API [GAP] | 0/1 | 📋 Planned | — |
 | 20. Swagger Annotation Fix [GAP] | 0/1 | 📋 Planned | — |
 
