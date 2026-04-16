@@ -29,6 +29,7 @@ export class IncidentService {
     const incident = await prisma.incident.findFirst({
       where: {
         id,
+        deletedAt: null,
       },
     });
     return incident;
@@ -39,6 +40,7 @@ export class IncidentService {
     const incident = await prisma.incident.findFirst({
       where: {
         id,
+        deletedAt: null,
       },
     });
 
