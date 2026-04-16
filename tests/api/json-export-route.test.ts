@@ -27,8 +27,10 @@ import { IncidentService } from '../../src/api/services/incident.service';
 import { GET, OPTIONS } from '../../src/app/api/incidents/[id]/export/json/route';
 import { NextRequest } from 'next/server';
 
+const VALID_UUID = '123e4567-e89b-12d3-a456-426614174000';
+
 const mockIncident = {
-  id: 'test-incident-id',
+  id: VALID_UUID,
   incident_type: 'ransomware',
   severity: 'critical',
   description: 'Ransomware attack detected on file servers',
@@ -72,8 +74,8 @@ describe('GET /api/incidents/:id/export/json', () => {
     it('returns 200 with JSON body for a valid incident', async () => {
       vi.mocked(IncidentService.getIncidentById).mockResolvedValue(mockIncident as any);
 
-      const request = makeRequest('test-incident-id');
-      const params = Promise.resolve({ id: 'test-incident-id' });
+      const request = makeRequest(VALID_UUID);
+      const params = Promise.resolve({ id: VALID_UUID });
       const response = await GET(request, { params });
 
       expect(response.status).toBe(200);
@@ -82,8 +84,8 @@ describe('GET /api/incidents/:id/export/json', () => {
     it('returns Content-Type application/json', async () => {
       vi.mocked(IncidentService.getIncidentById).mockResolvedValue(mockIncident as any);
 
-      const request = makeRequest('test-incident-id');
-      const params = Promise.resolve({ id: 'test-incident-id' });
+      const request = makeRequest(VALID_UUID);
+      const params = Promise.resolve({ id: VALID_UUID });
       const response = await GET(request, { params });
 
       expect(response.headers.get('Content-Type')).toContain('application/json');
@@ -92,20 +94,20 @@ describe('GET /api/incidents/:id/export/json', () => {
     it('returns Content-Disposition attachment header with correct filename', async () => {
       vi.mocked(IncidentService.getIncidentById).mockResolvedValue(mockIncident as any);
 
-      const request = makeRequest('test-incident-id');
-      const params = Promise.resolve({ id: 'test-incident-id' });
+      const request = makeRequest(VALID_UUID);
+      const params = Promise.resolve({ id: VALID_UUID });
       const response = await GET(request, { params });
 
       const contentDisposition = response.headers.get('Content-Disposition');
       expect(contentDisposition).toContain('attachment');
-      expect(contentDisposition).toContain('incident-test-incident-id.json');
+      expect(contentDisposition).toContain(`incident-${VALID_UUID}.json`);
     });
 
     it('returns JSON body containing all incident fields', async () => {
       vi.mocked(IncidentService.getIncidentById).mockResolvedValue(mockIncident as any);
 
-      const request = makeRequest('test-incident-id');
-      const params = Promise.resolve({ id: 'test-incident-id' });
+      const request = makeRequest(VALID_UUID);
+      const params = Promise.resolve({ id: VALID_UUID });
       const response = await GET(request, { params });
 
       const body = await response.json();
@@ -115,14 +117,41 @@ describe('GET /api/incidents/:id/export/json', () => {
       expect(body.description).toBe(mockIncident.description);
     });
 
-    it('calls IncidentService.getIncidentById with correct ID', async () => {
+    it('calls IncidentService.getIncidentById with correct UUID', async () => {
+      const anotherUuid = 'aaaabbbb-cccc-dddd-eeee-ffffffffffff';
       vi.mocked(IncidentService.getIncidentById).mockResolvedValue(mockIncident as any);
 
-      const request = makeRequest('my-special-id');
-      const params = Promise.resolve({ id: 'my-special-id' });
+      const request = makeRequest(anotherUuid);
+      const params = Promise.resolve({ id: anotherUuid });
       await GET(request, { params });
 
-      expect(IncidentService.getIncidentById).toHaveBeenCalledWith('my-special-id');
+      expect(IncidentService.getIncidentById).toHaveBeenCalledWith(anotherUuid);
+    });
+  });
+
+  describe('400 for non-UUID incident ID', () => {
+    it('returns 400 when ID is not a valid UUID', async () => {
+      vi.mocked(errorResponse).mockReturnValue(
+        new Response(JSON.stringify({ error: 'Invalid incident ID format' }), { status: 400 })
+      );
+
+      const request = makeRequest('not-a-uuid');
+      const params = Promise.resolve({ id: 'not-a-uuid' });
+      const response = await GET(request, { params });
+
+      expect(response.status).toBe(400);
+    });
+
+    it('does not call IncidentService when ID is invalid', async () => {
+      vi.mocked(errorResponse).mockReturnValue(
+        new Response(JSON.stringify({ error: 'Invalid incident ID format' }), { status: 400 })
+      );
+
+      const request = makeRequest('../../../etc/passwd');
+      const params = Promise.resolve({ id: '../../../etc/passwd' });
+      await GET(request, { params });
+
+      expect(IncidentService.getIncidentById).not.toHaveBeenCalled();
     });
   });
 
@@ -133,8 +162,8 @@ describe('GET /api/incidents/:id/export/json', () => {
         new Response(JSON.stringify({ error: 'Incident not found' }), { status: 404 })
       );
 
-      const request = makeRequest('non-existent-id');
-      const params = Promise.resolve({ id: 'non-existent-id' });
+      const request = makeRequest(VALID_UUID);
+      const params = Promise.resolve({ id: VALID_UUID });
       const response = await GET(request, { params });
 
       expect(response.status).toBe(404);
@@ -147,8 +176,8 @@ describe('GET /api/incidents/:id/export/json', () => {
         new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 })
       );
 
-      const request = makeRequest('test-incident-id', 'https://evil.example.com', 'wrong-key');
-      const params = Promise.resolve({ id: 'test-incident-id' });
+      const request = makeRequest(VALID_UUID, 'https://evil.example.com', 'wrong-key');
+      const params = Promise.resolve({ id: VALID_UUID });
       const response = await GET(request, { params });
 
       expect(response.status).toBe(401);
@@ -159,8 +188,8 @@ describe('GET /api/incidents/:id/export/json', () => {
         new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 })
       );
 
-      const request = makeRequest('test-incident-id', 'https://evil.example.com', 'wrong-key');
-      const params = Promise.resolve({ id: 'test-incident-id' });
+      const request = makeRequest(VALID_UUID, 'https://evil.example.com', 'wrong-key');
+      const params = Promise.resolve({ id: VALID_UUID });
       await GET(request, { params });
 
       expect(IncidentService.getIncidentById).not.toHaveBeenCalled();
@@ -174,8 +203,8 @@ describe('GET /api/incidents/:id/export/json', () => {
         new Response(JSON.stringify({ error: 'Failed to export incident' }), { status: 500 })
       );
 
-      const request = makeRequest('test-incident-id');
-      const params = Promise.resolve({ id: 'test-incident-id' });
+      const request = makeRequest(VALID_UUID);
+      const params = Promise.resolve({ id: VALID_UUID });
       const response = await GET(request, { params });
 
       expect(response.status).toBe(500);

@@ -25,12 +25,19 @@ export function OPTIONS() {
 // ============================================================================
 // GET /api/incidents/:id/export/json
 // ============================================================================
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export async function GET(request: NextRequest, { params }: RouteParams) {
   const authError = validateApiKey(request);
   if (authError) return authError;
 
   try {
     const { id } = await params;
+
+    if (!UUID_REGEX.test(id)) {
+      return errorResponse('Invalid incident ID format', 400);
+    }
+
     const incident = await IncidentService.getIncidentById(id);
 
     if (!incident) {
