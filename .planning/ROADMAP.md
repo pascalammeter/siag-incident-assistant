@@ -556,3 +556,39 @@ Plan breakdown:
 - 85+ KB comprehensive documentation
 - OWASP A-grade security assessment (90/100)
 - Production-ready API documentation
+
+---
+
+## Backlog
+
+### Phase 999.1: Design-Alignment SIAG App Design System (BACKLOG)
+
+**Goal:** App visuell auf das verbindliche SIAG App Design System alignieren — 7 identifizierte Abweichungen beheben.
+
+**Hintergrund:** App wurde vor dem siag-design Skill gebaut. Das Design weicht in allen zentralen Punkten vom App Design System ab.
+
+**Schulden-Posten (nach Priorität):**
+- [KRITISCH] Floating Red Pill Navbar fehlt — aktuell klassischer Navy-Header
+- [HOCH] Font: Source Sans 3 statt Inter (Source Sans = Marketing-Font, nicht App-Font)
+- [HOCH] Page Background: `#FFFFFF` statt `#f0f2f5`
+- [MITTEL] Card-Borders vorhanden — soll Shadow-only sein
+- [MITTEL] Buttons `rounded-lg` statt Pill-Form (`border-radius: 9999px`)
+- [NIEDRIG] Badge-System: Solid statt Pastell
+- [NIEDRIG] CSS Token-Namen nicht aligniert mit Skill-Variablen
+
+**Scope:**
+- `globals.css`: Font + Background + Token-Namen + Button border-radius + Card-Borders + Badge-System
+- `Header.tsx`: Kompletter Umbau zu Floating Red Pill Navbar
+- `layout.tsx`: Font-Import Inter statt Source Sans 3
+
+**Akzeptanzkriterien:**
+- Floating Red Pill Navbar auf allen Seiten sichtbar
+- Inter als primärer App-Font geladen
+- Page Background `#f0f2f5`, Cards `#fff` mit Shadow-only
+- Alle Buttons Pill-Form
+- Badge-System mit Pastell-Hintergründen + dunklem Text
+- siag-design Pre-Delivery Checklist zu 100% bestanden
+
+**Geschätzter Aufwand:** 1 Phase, 2 Pläne
+**Requirements:** Keine Funktionsänderungen — rein visuell
+**Plans:** 0 plans (promote with /gsd-review-backlog when ready)
