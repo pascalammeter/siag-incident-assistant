@@ -8,6 +8,7 @@ export class IncidentService {
       data: {
         incident_type: input.incident_type,
         severity: input.severity,
+        description: input.description ?? null,
         erkennungszeitpunkt: input.erkennungszeitpunkt ?? null,
         erkannt_durch: input.erkannt_durch ?? null,
         erste_erkenntnisse: input.erste_erkenntnisse ?? null,
@@ -48,6 +49,7 @@ export class IncidentService {
     const data: any = {};
     if (input.incident_type) data.incident_type = input.incident_type;
     if (input.severity) data.severity = input.severity;
+    if (input.description !== undefined) data.description = input.description;
     if (input.erkennungszeitpunkt) data.erkennungszeitpunkt = input.erkennungszeitpunkt;
     if (input.erkannt_durch) data.erkannt_durch = input.erkannt_durch;
     if (input.erste_erkenntnisse) data.erste_erkenntnisse = input.erste_erkenntnisse;

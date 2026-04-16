@@ -239,6 +239,85 @@ describe('IncidentService', () => {
       expect(result.q3).toBe(1);
     });
 
+    it('should pass description field to prisma.incident.create when provided', async () => {
+      const mockIncident = {
+        id: 'uuid-desc',
+        incident_type: 'phishing',
+        severity: 'high',
+        description: 'Suspicious phishing campaign targeting employees',
+        betroffene_systeme: [],
+        erkennungszeitpunkt: null,
+        erkannt_durch: null,
+        erste_erkenntnisse: null,
+        q1: null,
+        q2: null,
+        q3: null,
+        playbook: {},
+        regulatorische_meldungen: {},
+        metadata: {},
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        deletedAt: null,
+      };
+
+      vi.mocked(prisma.incident.create).mockResolvedValue(mockIncident);
+
+      const input = {
+        incident_type: 'phishing',
+        severity: 'high',
+        description: 'Suspicious phishing campaign targeting employees',
+      };
+
+      await IncidentService.createIncident(input);
+
+      expect(prisma.incident.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            description: 'Suspicious phishing campaign targeting employees',
+          }),
+        })
+      );
+    });
+
+    it('should default description to null when not provided', async () => {
+      const mockIncident = {
+        id: 'uuid-no-desc',
+        incident_type: 'ddos',
+        severity: 'medium',
+        description: null,
+        betroffene_systeme: [],
+        erkennungszeitpunkt: null,
+        erkannt_durch: null,
+        erste_erkenntnisse: null,
+        q1: null,
+        q2: null,
+        q3: null,
+        playbook: {},
+        regulatorische_meldungen: {},
+        metadata: {},
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        deletedAt: null,
+      };
+
+      vi.mocked(prisma.incident.create).mockResolvedValue(mockIncident);
+
+      const input = {
+        incident_type: 'ddos',
+        severity: 'medium',
+      };
+
+      await IncidentService.createIncident(input);
+
+      expect(prisma.incident.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            description: null,
+          }),
+        })
+      );
+    });
+
     it('should not hardcode betroffene_systeme as empty array', async () => {
       const mockIncident = {
         id: 'uuid-123',
@@ -327,6 +406,33 @@ describe('IncidentService', () => {
           where: { id: 'test-id-123' },
         })
       );
+    });
+
+    it('should return description field when present', async () => {
+      const mockIncident = {
+        id: 'test-id',
+        incident_type: 'ransomware',
+        severity: 'critical',
+        description: 'Test description of the incident',
+        betroffene_systeme: [],
+        erkennungszeitpunkt: null,
+        erkannt_durch: null,
+        erste_erkenntnisse: null,
+        q1: null,
+        q2: null,
+        q3: null,
+        playbook: {},
+        regulatorische_meldungen: {},
+        metadata: {},
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        deletedAt: null,
+      };
+      vi.mocked(prisma.incident.findFirst).mockResolvedValue(mockIncident as any);
+
+      const result = await IncidentService.getIncidentById('test-id');
+
+      expect(result?.description).toBe('Test description of the incident');
     });
   });
 
