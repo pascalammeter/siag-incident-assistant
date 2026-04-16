@@ -36,7 +36,7 @@ Build a guided incident response platform for security teams in crisis. v1.0 (Ph
 - [x] **Phase 16: Playbook + Migration Cleanup** — Fix getPlaybook data_loss case, clean dead code, fix API_KEY [COMPLETE 2026-04-15]
 - [x] **Phase 17: CI/CD + Swagger Polish** — Verify GitHub Actions CI gates, add App Router Swagger route [COMPLETE 2026-04-15]
 - [x] **Phase 18: API Data Layer Fixes** — JSON export App Router route (B5.1), description field persistence (B4.1), soft-delete guards (B4.3/B4.4) [GAP CLOSURE] (completed 2026-04-16)
-- [ ] **Phase 19: Wizard Resume from API** — Extend WizardContext with incidentId param + API fetch on mount (W1.2) [GAP CLOSURE]
+- [x] **Phase 19: Wizard Resume from API** — Extend WizardContext with incidentId param + API fetch on mount (W1.2) [GAP CLOSURE] (completed 2026-04-16)
 - [ ] **Phase 20: Swagger Annotation Fix** — Add @swagger JSDoc to App Router routes, fix PDF method mismatch (B6.1/B6.3) [GAP CLOSURE]
 
 ---
@@ -452,11 +452,11 @@ Plan breakdown:
   3. Fetched incident data hydrates wizard steps (Erfassen, Klassifikation, Reaktion, Kommunikation) -- not just localStorage
   4. IncidentList "Weiterbearbeiten" button opens wizard with the incident's `id` and wizard loads at Step 1
 
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plan breakdown:
-- [ ] 19-01-PLAN.md — Reverse mapping functions + test file (Wave 0 + data layer)
-- [ ] 19-02-PLAN.md — WizardProvider API fetch + /wizard route + WizardShell prop threading
+- [x] 19-01-PLAN.md — Reverse mapping functions + test file (Wave 0 + data layer)
+- [x] 19-02-PLAN.md — WizardProvider API fetch + /wizard route + WizardShell prop threading
 
 **Wave Structure:**
 - Wave 1: 19-01 (reverse mapping + tests)
@@ -531,7 +531,7 @@ Plan breakdown:
 | 16. Playbook + Migration Cleanup [GAP] | 2/2 | ✅ Complete | 2026-04-15 |
 | 17. CI/CD + Swagger Polish [GAP] | 2/2 | ✅ Complete | 2026-04-15 |
 | 18. API Data Layer Fixes [GAP] | 2/2 | Complete    | 2026-04-16 |
-| 19. Wizard Resume from API [GAP] | 0/2 | 📋 Planned | — |
+| 19. Wizard Resume from API [GAP] | 2/2 | Complete   | 2026-04-16 |
 | 20. Swagger Annotation Fix [GAP] | 0/1 | 📋 Planned | — |
 
 **Total:** 51/56 plans | **Completed:** 51/56 (91%) | **v1.2 gaps open — run /gsd-execute-phase 19 next**
