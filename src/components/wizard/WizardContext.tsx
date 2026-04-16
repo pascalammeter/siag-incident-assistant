@@ -61,6 +61,8 @@ export function WizardProvider({ children, incidentId }: { children: ReactNode; 
           const incident = await apiClient.get<Incident>(`/api/incidents/${incidentId}`)
           const mapped = mapIncidentToWizardState(incident)
           dispatch({ type: 'HYDRATE', data: { ...mapped, currentStep: 1 } as WizardState })
+          setIsHydrated(true)
+          return
         } catch (err) {
           // 404: incident not found or soft-deleted (D-13)
           if (err instanceof APIError && err.isNotFound()) {
