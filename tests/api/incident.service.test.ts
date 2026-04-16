@@ -808,14 +808,14 @@ describe('IncidentService', () => {
       expect(result).toBeNull();
     });
 
-    it('should call findFirst to check if incident exists', async () => {
+    it('should call findFirst with deletedAt: null to prevent double-deletion', async () => {
       vi.mocked(prisma.incident.findFirst).mockResolvedValue(null);
 
       await IncidentService.deleteIncident('test-id');
 
       expect(prisma.incident.findFirst).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: { id: 'test-id' },
+          where: { id: 'test-id', deletedAt: null },
         })
       );
     });
