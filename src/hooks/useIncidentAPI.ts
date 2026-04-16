@@ -27,14 +27,7 @@ export class IncidentAPI {
    * @throws APIError if validation fails (400) or server error (5xx)
    */
   static async createIncident(input: CreateIncidentInput): Promise<Incident> {
-    try {
-      const incident = await apiClient.post<Incident>('/api/incidents', input);
-      return incident;
-    } catch (error) {
-      throw new Error(
-        `Failed to create incident: ${error instanceof Error ? error.message : String(error)}`
-      );
-    }
+    return apiClient.post<Incident>('/api/incidents', input);
   }
 
   /**
@@ -62,17 +55,7 @@ export class IncidentAPI {
    * @throws APIError if validation fails (400) or server error (5xx)
    */
   static async updateIncident(id: string, input: UpdateIncidentInput): Promise<Incident> {
-    try {
-      const incident = await apiClient.patch<Incident>(
-        `/api/incidents/${id}`,
-        input
-      );
-      return incident;
-    } catch (error) {
-      throw new Error(
-        `Failed to update incident: ${error instanceof Error ? error.message : String(error)}`
-      );
-    }
+    return apiClient.patch<Incident>(`/api/incidents/${id}`, input);
   }
 
   /**
@@ -85,13 +68,7 @@ export class IncidentAPI {
    * @throws APIError if server error (5xx)
    */
   static async deleteIncident(id: string): Promise<void> {
-    try {
-      await apiClient.delete(`/api/incidents/${id}`);
-    } catch (error) {
-      throw new Error(
-        `Failed to delete incident: ${error instanceof Error ? error.message : String(error)}`
-      );
-    }
+    return apiClient.delete(`/api/incidents/${id}`);
   }
 
   /**
@@ -103,31 +80,24 @@ export class IncidentAPI {
    * @throws APIError if validation fails (400) or server error (5xx)
    */
   static async listIncidents(filters?: ListIncidentsFilters): Promise<ListIncidentsResponse> {
-    try {
-      // Build query string from filters
-      const params = new URLSearchParams();
-      if (filters?.type) {
-        params.append('type', filters.type);
-      }
-      if (filters?.severity) {
-        params.append('severity', filters.severity);
-      }
-      if (filters?.page) {
-        params.append('page', String(filters.page));
-      }
-      if (filters?.limit) {
-        params.append('limit', String(filters.limit));
-      }
-
-      const queryString = params.toString();
-      const url = `/api/incidents${queryString ? `?${queryString}` : ''}`;
-
-      const response = await apiClient.get<ListIncidentsResponse>(url);
-      return response;
-    } catch (error) {
-      throw new Error(
-        `Failed to list incidents: ${error instanceof Error ? error.message : String(error)}`
-      );
+    // Build query string from filters
+    const params = new URLSearchParams();
+    if (filters?.type) {
+      params.append('type', filters.type);
     }
+    if (filters?.severity) {
+      params.append('severity', filters.severity);
+    }
+    if (filters?.page) {
+      params.append('page', String(filters.page));
+    }
+    if (filters?.limit) {
+      params.append('limit', String(filters.limit));
+    }
+
+    const queryString = params.toString();
+    const url = `/api/incidents${queryString ? `?${queryString}` : ''}`;
+
+    return apiClient.get<ListIncidentsResponse>(url);
   }
 }
