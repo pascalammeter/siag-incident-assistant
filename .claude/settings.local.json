@@ -29,7 +29,8 @@
       "Bash(claude mcp *)",
       "Bash(xargs grep *)",
       "Bash(curl -v --head \"https://ep-wandering-dream-a9ir4yrk-pooler.gwc.azure.neon.tech\")",
-      "Bash(npm ls *)"
+      "Bash(npm ls *)",
+      "Skill(gsd-fast)"
     ]
   }
 }
