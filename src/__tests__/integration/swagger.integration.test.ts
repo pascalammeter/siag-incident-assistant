@@ -201,6 +201,41 @@ describe('Swagger Endpoint Integration Tests', () => {
       expect(incidentSchema.required).toContain('incident_type');
       expect(incidentSchema.required).toContain('severity');
     });
+
+    it('should document PDF export endpoint with GET method and application/pdf content-type', async () => {
+      if (!serverAvailable) return;
+
+      const response = await fetch(`${BASE_URL}/api/swagger/openapi.json`);
+      const spec = await response.json();
+
+      const pdfEndpoint = spec.paths['/api/incidents/{id}/export/pdf'];
+      expect(pdfEndpoint).toBeDefined();
+      expect(pdfEndpoint.get).toBeDefined();
+      expect(pdfEndpoint.get.responses['200']).toBeDefined();
+      expect(pdfEndpoint.get.responses['200'].content).toBeDefined();
+      expect(pdfEndpoint.get.responses['200'].content['application/pdf']).toBeDefined();
+      expect(pdfEndpoint.get.responses['404']).toBeDefined();
+      expect(pdfEndpoint.get.responses['500']).toBeDefined();
+    });
+
+    it('should document JSON export endpoint with GET method and application/json content-type', async () => {
+      if (!serverAvailable) return;
+
+      const response = await fetch(`${BASE_URL}/api/swagger/openapi.json`);
+      const spec = await response.json();
+
+      const jsonEndpoint = spec.paths['/api/incidents/{id}/export/json'];
+      expect(jsonEndpoint).toBeDefined();
+      expect(jsonEndpoint.get).toBeDefined();
+      expect(jsonEndpoint.get.responses['200']).toBeDefined();
+      expect(jsonEndpoint.get.responses['200'].content).toBeDefined();
+      expect(jsonEndpoint.get.responses['200'].content['application/json']).toBeDefined();
+      expect(jsonEndpoint.get.responses['200'].content['application/json'].schema).toBeDefined();
+      expect(jsonEndpoint.get.responses['200'].content['application/json'].schema['$ref']).toBe('#/components/schemas/Incident');
+      expect(jsonEndpoint.get.responses['400']).toBeDefined();
+      expect(jsonEndpoint.get.responses['404']).toBeDefined();
+      expect(jsonEndpoint.get.responses['500']).toBeDefined();
+    });
   });
 
   describe('Error handling', () => {
