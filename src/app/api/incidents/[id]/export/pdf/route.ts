@@ -7,6 +7,50 @@
  * Generates professional PDF with title page, incident metadata, and headers/footers.
  * Reuses Phase 10 PDF templates (generateCompletePDF).
  */
+
+/**
+ * @swagger
+ * /api/incidents/{id}/export/pdf:
+ *   get:
+ *     summary: Export incident as PDF report
+ *     description: Generate and download a professional PDF report for the incident, including title page, metadata, and headers/footers
+ *     tags: [Incidents]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: Unique incident identifier
+ *     responses:
+ *       200:
+ *         description: PDF file generated and ready for download
+ *         content:
+ *           application/pdf:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       404:
+ *         description: Incident not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: PDF generation failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *     x-curl-examples:
+ *       - description: Export incident as PDF
+ *         command: |
+ *           curl -X GET http://localhost:3000/api/incidents/550e8400-e29b-41d4-a716-446655440000/export/pdf \
+ *             -H "X-API-Key: sk_test_abc123..." \
+ *             -o incident-report.pdf
+ */
+
 import { NextRequest } from 'next/server';
 import { getBrowserInstance } from '@/lib/puppeteer-singleton';
 import { generateCompletePDF } from '@/lib/pdf-templates';
