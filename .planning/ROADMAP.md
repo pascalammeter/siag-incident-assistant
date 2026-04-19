@@ -490,6 +490,32 @@ Plan breakdown:
 
 ---
 
+### Phase 21: Tech Debt — Swagger Annotations
+
+**Goal:** Add `@swagger` JSDoc blocks to App Router routes so the generated OpenAPI spec documents correct HTTP methods and includes all App Router endpoint paths. Completes v1.2 Swagger documentation gaps (B6.1/B6.3).
+
+**Depends on:** Phase 20 (GitHub Secrets & Branch Protection established)
+
+**Requirements:** B6.1, B6.3
+
+**Success Criteria** (what must be TRUE):
+  1. `src/app/api/incidents/[id]/export/pdf/route.ts` has `@swagger` JSDoc documenting GET method with 200/404 responses
+  2. `src/app/api/incidents/[id]/export/json/route.ts` has `@swagger` JSDoc documenting GET method
+  3. Generated OpenAPI spec at `src/lib/openapi.json` includes all App Router endpoint paths with correct methods
+  4. No duplicate POST/GET entries for PDF/JSON export in the spec
+  5. Swagger UI at `/api/swagger` displays all endpoints correctly
+
+**Plans:** 1/1 planned
+
+Plan breakdown:
+- [ ] 21-01-PLAN.md — @swagger JSDoc on App Router Export Routes (B6.1, B6.3)
+
+**Status:** 📋 Planned
+
+**UI Hint:** No
+
+---
+
 ## Dependencies
 
 - **Phase 7** → Nothing (foundation)
