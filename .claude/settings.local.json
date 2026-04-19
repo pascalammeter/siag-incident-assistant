@@ -27,7 +27,9 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "Skill(gsd-audit-milestone)",
       "Bash(claude mcp *)",
-      "Bash(xargs grep *)"
+      "Bash(xargs grep *)",
+      "Bash(curl -v --head \"https://ep-wandering-dream-a9ir4yrk-pooler.gwc.azure.neon.tech\")",
+      "Bash(npm ls *)"
     ]
   }
 }

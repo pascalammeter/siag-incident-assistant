@@ -6,10 +6,16 @@ const globalForPrisma = global as unknown as { prisma: PrismaClient };
 export const prisma =
   globalForPrisma.prisma ||
   (() => {
-    // PrismaNeon v7+ accepts PoolConfig directly (not a Pool instance).
-    // See: https://www.prisma.io/docs/guides/database/neon
+    // Test environment: Use DIRECT_URL (direct PostgreSQL endpoint) instead of pooled endpoint
+    // This avoids WebSocket connection issues with Neon pooler in test environments
+    // App/Prod: Use DATABASE_URL (pooled endpoint for better performance)
+    const isTestEnvironment = process.env.VITEST_POOL_ID !== undefined;
+    const connectionString = isTestEnvironment
+      ? process.env.DIRECT_URL || process.env.DATABASE_URL
+      : process.env.DATABASE_URL;
+
     const adapter = new PrismaNeon({
-      connectionString: process.env.DATABASE_URL,
+      connectionString,
     });
 
     return new PrismaClient({
