@@ -7,6 +7,55 @@
  * Returns the full incident object as a downloadable JSON attachment.
  * Closes gap B5.1: JSON export was missing from App Router (only Express POST existed).
  */
+
+/**
+ * @swagger
+ * /api/incidents/{id}/export/json:
+ *   get:
+ *     summary: Export incident as JSON
+ *     description: Download the full incident object as a JSON attachment. Useful for data export, archiving, or integration with external systems.
+ *     tags: [Incidents]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: Unique incident identifier
+ *     responses:
+ *       200:
+ *         description: JSON file with complete incident data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Incident'
+ *       400:
+ *         description: Invalid incident ID format
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       404:
+ *         description: Incident not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Export failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *     x-curl-examples:
+ *       - description: Export incident as JSON
+ *         command: |
+ *           curl -X GET http://localhost:3000/api/incidents/550e8400-e29b-41d4-a716-446655440000/export/json \
+ *             -H "X-API-Key: sk_test_abc123..." \
+ *             -o incident-data.json
+ */
+
 import { NextRequest } from 'next/server';
 import { IncidentService } from '@/api/services/incident.service';
 import {
