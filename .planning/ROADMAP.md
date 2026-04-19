@@ -597,3 +597,28 @@ Plan breakdown:
 **Geschaetzter Aufwand:** 1 Phase, 2 Plaene
 **Requirements:** Keine Funktionsaenderungen — rein visuell
 **Plans:** 0 plans (promote with /gsd-review-backlog when ready)
+
+---
+
+## v1.3: Design Modernization & Tech Debt Cleanup (Planned)
+
+See `v1.3-ROADMAP.md` for full v1.3 milestone planning (Phases 20–28).
+
+**Status:** 📋 Planned (Phases 20–28)
+
+**Phases:**
+- [ ] **Phase 20: Tech Debt — GitHub Secrets & Branch Protection** — .env.example, GitHub Secrets, branch protection rules
+- [ ] **Phase 21: Tech Debt — Swagger Annotations** — @swagger JSDoc on App Router routes
+- [ ] **Phase 22: Design System Setup — CSS Tokens** — Design tokens, typography scale, color palette
+- [ ] **Phase 23: Dashboard Redesign** — Stat cards, charts, incident overview
+- [ ] **Phase 24: Incident Details & Slide-in Panel** — Slide-in UI, badges, status indicators
+- [ ] **Phase 25: Wizard Redesign** — Step-by-step improvements, modal report, toasts
+- [ ] **Phase 26: Settings & Navigation Overhaul** — Floating Red Pill Navbar, settings sidebar
+- [ ] **Phase 27: Mobile Responsiveness & Polish** — Viewport tests, touch-friendly UX
+- [ ] **Phase 28: Design System Validation & E2E QA** — WCAG AA audit, UAT, release
+
+**Dependency Chain:** 20,22 (parallel foundation) → 21,23 (depends 20,22) → 24,25,26 (depends 22,23,25) → 27 (depends all design phases) → 28 (final QA, depends all)
+
+**Estimated Duration:** 4–6 weeks
+
+---
