@@ -47,7 +47,7 @@
  *       - description: Export incident as PDF
  *         command: |
  *           curl -X GET http://localhost:3000/api/incidents/550e8400-e29b-41d4-a716-446655440000/export/pdf \
- *             -H "X-API-Key: sk_test_abc123..." \
+ *             -H "X-API-Key: your_api_key_here" \
  *             -o incident-report.pdf
  */
 
@@ -84,6 +84,13 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       return errorResponse('Incident not found', 404);
     }
 
+    // TODO: Add permission check to verify user can access this incident
+    // Currently no authorization layer exists; full access assumed for API key holders
+    // const hasAccess = await checkIncidentAccess(request, incident);
+    // if (!hasAccess) {
+    //   return errorResponse('Forbidden: No access to this incident', 403);
+    // }
+
     let page;
     try {
       // Get browser instance (reused across invocations for performance)
@@ -94,11 +101,23 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       const htmlContent = generateCompletePDF(incident);
 
       // Render HTML to PDF
-      await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-      const pdfBuffer = await page.pdf({
-        format: 'A4',
-        margin: { top: 20, right: 20, bottom: 20, left: 20 },
-      });
+      try {
+        await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+      } catch (htmlError) {
+        console.error('[PDF setContent] HTML rendering failed:', htmlError);
+        return errorResponse('Failed to render incident data as PDF', 500);
+      }
+
+      let pdfBuffer: Buffer;
+      try {
+        pdfBuffer = await page.pdf({
+          format: 'A4',
+          margin: { top: 20, right: 20, bottom: 20, left: 20 },
+        });
+      } catch (pdfError) {
+        console.error('[PDF generation] Puppeteer PDF creation failed:', pdfError);
+        return errorResponse('Failed to generate PDF document', 500);
+      }
 
       // Build filename from incident ID and creation date
       const createdDate = new Date(incident.createdAt)
@@ -123,7 +142,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     }
   } catch (error) {
     console.error(
-      '[GET /api/incidents/:id/export/pdf] Failed to generate PDF:',
+      '[GET /api/incidents/:id/export/pdf] Unexpected error:',
       error
     );
     return errorResponse('Failed to generate PDF', 500);

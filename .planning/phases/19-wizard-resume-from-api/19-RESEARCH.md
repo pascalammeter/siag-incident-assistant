@@ -423,22 +423,25 @@ try {
 
 **Note on A1:** Examining `useIncidentAPI.ts` line 53-58, `IncidentAPI.getIncident()` catches errors and re-throws as `new Error('Failed to fetch incident: ...')`. This wrapping means the original `APIError` with `.isNotFound()` is lost. The `useIncident().getIncident()` hook (lines 172-206) does check for `APIError.isNotFound()`, but only if the error is an `APIError` instance. Since `IncidentAPI` wraps it in a plain `Error`, the 404 detection in `useIncident` may not work correctly. **This is a pre-existing bug** that should be addressed in implementation. The fix: remove the try/catch wrapping in `IncidentAPI.getIncident()` or re-throw the original error.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **IncidentAPI Error Wrapping Bug**
    - What we know: `IncidentAPI.getIncident()` catches all errors and re-throws as `new Error(...)`, losing the `APIError` type information. `useIncident().getIncident()` then can't detect 404 vs 5xx.
    - What's unclear: Whether this is an intentional design choice or an oversight from Phase 14.
    - Recommendation: Fix during this phase by removing the try/catch in `IncidentAPI.getIncident()` (let the original error propagate). Alternatively, use `IncidentAPI` directly in WizardProvider with raw `fetch` and proper error handling. The direct approach avoids the bug entirely.
+   - **RESOLVED:** Plan 19-02 Task 1 (Part A) fixes the error-wrapping bug in `useIncidentAPI.ts` and uses `apiClient.get()` directly in WizardProvider to bypass the issue during hydration.
 
 2. **description Field in Incident TypeScript Type**
    - What we know: `description` exists in Prisma schema (Phase 18) but NOT in `src/lib/incident-types.ts` Incident interface.
    - What's unclear: Whether Phase 18 execution has added it to the TypeScript type yet (Phase 18 is listed as "EXECUTING" in memory).
    - Recommendation: If Phase 18 hasn't added it yet, ignore for now -- the mapping function just won't include `description`. It's a non-critical field.
+   - **RESOLVED:** `description` is excluded from the reverse mapping function. Non-critical field; omission is safe.
 
 3. **erkennungszeitpunkt Format (datetime-local vs ISO)**
    - What we know: The API stores `erkennungszeitpunkt` as ISO 8601 DateTime. The wizard's `<input type="datetime-local">` expects `YYYY-MM-DDTHH:mm` format (no seconds, no timezone).
    - What's unclear: Exact format stored and how Step2Erfassen reads it.
    - Recommendation: In the reverse mapping, use `.toISOString().slice(0, 16)` to truncate to datetime-local format.
+   - **RESOLVED:** Plan 19-01 Task 2 implements `.toISOString().slice(0, 16)` in the `mapIncidentToWizardState` function.
 
 ## Validation Architecture
 

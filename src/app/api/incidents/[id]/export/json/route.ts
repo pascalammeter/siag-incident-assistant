@@ -52,7 +52,7 @@
  *       - description: Export incident as JSON
  *         command: |
  *           curl -X GET http://localhost:3000/api/incidents/550e8400-e29b-41d4-a716-446655440000/export/json \
- *             -H "X-API-Key: sk_test_abc123..." \
+ *             -H "X-API-Key: your_api_key_here" \
  *             -o incident-data.json
  */
 
