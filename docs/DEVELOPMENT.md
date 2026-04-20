@@ -1,153 +1,51 @@
-<!-- gsd:generated -->
-# Development
+# Development Guide
 
-## Tech Stack
+## Setup
 
-| Technology | Version | Role |
-|-----------|---------|------|
-| Next.js | 16.2.2 | Framework (App Router, static export) |
-| React | 19.x | UI |
-| TypeScript | 5.x | Language |
-| Tailwind CSS | v4 | Styling |
-| react-hook-form | 7.x | Form state management |
-| Zod | 4.x | Schema validation |
-| @hookform/resolvers | 5.x | Connects Zod to react-hook-form |
-| Vitest | 4.x | Test framework |
-
-## Available Scripts
+Follow [GETTING-STARTED.md](GETTING-STARTED.md) first. Then:
 
 ```bash
-npm run dev      # Start development server (http://localhost:3000)
-npm run build    # Build static export to out/
-npm run start    # Serve the Next.js production build (not static — use after next build without output:export)
-npm run lint     # Run ESLint
-npm test         # Run Vitest in watch mode
+npm install
+npm run dev
 ```
 
-## Code Conventions
+Development server runs on **http://localhost:3000**
 
-### Path Alias
+## Project Structure
 
-All imports from `src/` must use the `@/` alias:
-
-```ts
-// Correct
-import { useWizard } from '@/components/wizard/WizardContext'
-import type { WizardState } from '@/lib/wizard-types'
-
-// Incorrect — use alias instead
-import { useWizard } from '../../components/wizard/WizardContext'
 ```
+src/
+├── app/
+│   ├── api/                    # Next.js API routes
+│   │   ├── health/route.ts     # Health check endpoint
+│   │   ├── incidents/route.ts  # List, create incidents
+│   │   ├── [id]/route.ts       # Get, update, delete incident
+│   │   ├── [id]/export/        # PDF & JSON export endpoints
+│   │   └── swagger/            # OpenAPI documentation
+│   ├── (wizard)/               # Main wizard UI routes
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   └── layout.tsx              # Root layout
+├── components/
+│   ├── incidents/              # Incident list & detail components
+│   ├── wizard/                 # Wizard step components
+│   └── ui/                     # Reusable UI components (button, card, etc.)
+├── lib/
+│   ├── migration.ts            # v1.0 → v1.1 localStorage migration
+│   ├── wizard-types.ts         # TypeScript type definitions
+│   └── utils.ts                # Utility functions
+├── hooks/
+│   └── useMigration.ts         # React hook for data migration
+└── api/
+    ├── schemas/                # Zod validation schemas
+    ├── services/               # Business logic (incident.service.ts)
+    └── types/                  # API response types
 
-### Client Components
+prisma/
+├── schema.prisma               # Database schema (Prisma ORM)
+└── migrations/                 # Database migration files
 
-Because the project uses `output: 'export'`, all components that use React hooks (`useState`, `useEffect`, `useContext`, `useReducer`) must have `'use client'` at the top. The wizard step components, the context provider, and all form wrappers are Client Components.
-
-```ts
-'use client'
-
-import { useWizard } from '@/components/wizard/WizardContext'
-```
-
-### TypeScript
-
-Strict mode is enabled. Avoid `any` casts. Use the types exported from `src/lib/wizard-types.ts` and the Zod inference helpers from `src/lib/wizard-schemas.ts`:
-
-```ts
-import type { WizardState, StepKey, ErfassenData } from '@/lib/wizard-types'
-import type { ErfassenFormData } from '@/lib/wizard-schemas'
-```
-
-### Tailwind v4
-
-Tailwind v4 uses CSS `@theme {}` in `globals.css` — there is no `tailwind.config.js`. Use the SIAG brand tokens:
-
-```tsx
-// SIAG colors
-<div className="bg-navy text-white">          // Dark blue header
-<div className="bg-lightgray">               // Light background
-<span className="text-amber font-bold">      // Warning / highlight
-```
-
-Do not use `bg-siag-navy` or similar namespaced variants — the token prefix is just the color name.
-
-## Adding a New Wizard Step
-
-1. Create `src/components/wizard/steps/StepN{Name}.tsx` as a Client Component.
-2. Add the step key to `StepKey` union in `wizard-types.ts` and add the corresponding data interface.
-3. Add a Zod schema in `wizard-schemas.ts` and export the inferred type.
-4. Add initial state (`null`) for the new step in `initialState` and `WizardState` in `wizard-types.ts`.
-5. Handle the new `stepKey` in `wizardReducer` (`UPDATE_STEP` switch — no changes needed if using the generic `[action.stepKey]: action.data` pattern).
-6. Register the step component in `WizardShell.tsx`'s `stepComponents` map.
-7. Update `MAX_STEP` in `wizard-types.ts`.
-8. Update `STEP_LABELS` array in `wizard-types.ts`.
-
-## Adding a New Playbook
-
-Playbooks are defined in `src/lib/playbook-data.ts`. Each playbook implements the `Playbook` interface:
-
-```ts
-export const MY_PLAYBOOK: Playbook = {
-  incidentType: 'phishing',
-  phases: [
-    {
-      id: 'sofort',
-      title: 'Phase 1: Sofortmassnahmen',
-      steps: [
-        {
-          id: 'sofort-01',
-          text: 'Step description',
-          role: 'IT-Leiter',
-          noGoWarning: 'Optional warning displayed prominently',
-        },
-      ],
-    },
-  ],
-}
-```
-
-`noGoWarning` is optional — include it only for steps where doing the wrong thing causes irreversible damage (e.g., rebooting a compromised system).
-
-## Modifying Communication Templates
-
-Templates are generated in `src/lib/communication-templates.ts`. Each template function receives the full `WizardState` and returns a string. Dynamic placeholders use live state values; static placeholders like `[Firmenname]` are left for the user to fill in.
-
-To add a new template:
-1. Add a new generator function `generateXTemplate(state: WizardState): string`.
-2. Export it from `communication-templates.ts`.
-3. Consume it in `Step5Kommunikation.tsx`.
-
-## Severity Logic
-
-The severity calculation is in `calculateSeverity()` in `wizard-schemas.ts`. The rules implement the Swiss incident triage logic per decision D-01:
-
-```ts
-calculateSeverity('ja', 'nein', 'nein')        // → 'KRITISCH' (Q1: critical systems)
-calculateSeverity('nein', 'ja', 'nein')        // → 'HOCH' (Q2: personal data)
-calculateSeverity('nein', 'nein', 'unbekannt') // → 'KRITISCH' (Q3: unknown = worst case)
-calculateSeverity('nein', 'nein', 'nein')      // → 'MITTEL'
-```
-
-Any change to this logic requires updating the corresponding tests in `src/__tests__/severity.test.ts`.
-
-## localStorage Persistence
-
-The wizard state key is `STORAGE_KEY = 'siag-wizard-state'` (exported constant from `WizardContext.tsx`). The `HYDRATE` action replaces the full state from a parsed JSON object. The hydration guard (`isHydrated`) prevents writing `initialState` over existing saved state on mount.
-
-To clear state programmatically: `dispatch({ type: 'RESET' })`.
-
-## Linting
-
-ESLint is configured via `eslint.config.mjs` using `eslint-config-next`. Run:
-
-```bash
-npm run lint
-```
-
-## Building for Deployment
-
-```bash
-npm run build
-```
-
-The output lands in `out/`. Vercel picks this up automatically via the `output: 'export'` setting — no `vercel.json` needed. Do not commit the `out/` directory (it is in `.gitignore`).
+tests/
+├── api/                        # API endpoint tests
+├── components/                 # Component render tests
+└── security/                   # Auth & security tests

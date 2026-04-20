@@ -1,4 +1,9 @@
 {
+  "project_root": "C:\Users\PascalAmmeter\ClaudeCode\siag-incident-assistant",
+  "project_type": "saas",
+  "doc_writer_model": "opus",
+  "commit_docs": true,
+  "created_at": "2026-04-21T01:10:00Z",
   "canonical_queue": [
     {
       "type": "readme",
@@ -6,7 +11,7 @@
       "mode": "supplement",
       "preservation_mode": "supplement",
       "wave": 1,
-      "status": "completed"
+      "status": "pending"
     },
     {
       "type": "architecture",
@@ -14,7 +19,7 @@
       "mode": "supplement",
       "preservation_mode": "supplement",
       "wave": 1,
-      "status": "completed"
+      "status": "pending"
     },
     {
       "type": "configuration",
@@ -22,7 +27,7 @@
       "mode": "supplement",
       "preservation_mode": "supplement",
       "wave": 1,
-      "status": "completed"
+      "status": "pending"
     },
     {
       "type": "getting_started",
@@ -30,7 +35,7 @@
       "mode": "supplement",
       "preservation_mode": "supplement",
       "wave": 2,
-      "status": "completed"
+      "status": "pending"
     },
     {
       "type": "development",
@@ -38,7 +43,7 @@
       "mode": "supplement",
       "preservation_mode": "supplement",
       "wave": 2,
-      "status": "completed"
+      "status": "pending"
     },
     {
       "type": "testing",
@@ -46,20 +51,48 @@
       "mode": "supplement",
       "preservation_mode": "supplement",
       "wave": 2,
-      "status": "completed"
+      "status": "pending"
     },
     {
       "type": "api",
       "resolved_path": "docs/API.md",
+      "mode": "update",
+      "preservation_mode": null,
+      "wave": 2,
+      "status": "pending"
+    },
+    {
+      "type": "deployment",
+      "resolved_path": "docs/DEPLOYMENT.md",
       "mode": "create",
       "preservation_mode": null,
       "wave": 2,
-      "status": "completed"
+      "status": "pending"
     }
   ],
-  "review_queue": [],
+  "review_queue": [
+    {"path": "CHANGELOG.md", "type": "hand-written", "preservation_decision": "preserve", "status": "skipped"},
+    {"path": "CLAUDE.md", "type": "hand-written", "preservation_decision": "preserve", "status": "skipped"},
+    {"path": "docs/API_ERROR_CODES.md", "type": "hand-written", "preservation_decision": "preserve", "status": "skipped"},
+    {"path": "docs/DATABASE_SCHEMA.md", "type": "hand-written", "preservation_decision": "preserve", "status": "skipped"},
+    {"path": "docs/INTEGRATION_GUIDE.md", "type": "hand-written", "preservation_decision": "preserve", "status": "skipped"},
+    {"path": "docs/OWASP_CHECKLIST.md", "type": "hand-written", "preservation_decision": "preserve", "status": "skipped"},
+    {"path": "docs/PERFORMANCE_BENCHMARKS.md", "type": "hand-written", "preservation_decision": "preserve", "status": "skipped"},
+    {"path": "docs/SECURITY_AUDIT.md", "type": "hand-written", "preservation_decision": "review", "status": "pending_review"},
+    {"path": "docs/TEST_COVERAGE.md", "type": "hand-written", "preservation_decision": "review", "status": "pending_review"},
+    {"path": "docs/lighthouse/LIGHTHOUSE_BASELINE.md", "type": "hand-written", "preservation_decision": "preserve", "status": "skipped"},
+    {"path": "docs/lighthouse/LIGHTHOUSE_FINAL.md", "type": "hand-written", "preservation_decision": "preserve", "status": "skipped"},
+    {"path": "docs/uat/UAT_CHECKLIST.md", "type": "hand-written", "preservation_decision": "review", "status": "pending_review"},
+    {"path": "docs/uat/UAT_CHECKLISTE.md", "type": "hand-written", "preservation_decision": "review", "status": "pending_review"},
+    {"path": "docs/uat/UAT_SETUP.md", "type": "hand-written", "preservation_decision": "review", "status": "pending_review"},
+    {"path": "docs/v1.1/DATA_COEXISTENCE.md", "type": "hand-written", "preservation_decision": "review", "status": "pending_review"},
+    {"path": "docs/v1.1/DATA_MODEL_COMPATIBILITY.md", "type": "hand-written", "preservation_decision": "review", "status": "pending_review"},
+    {"path": "docs/v1.1/MIGRATION_GUIDE.md", "type": "hand-written", "preservation_decision": "review", "status": "pending_review"},
+    {"path": "docs/v1.1/URL_ROUTING_AUDIT.md", "type": "hand-written", "preservation_decision": "review", "status": "pending_review"},
+    {"path": "docs/v1.1/WIZARD_WORKFLOW_COMPATIBILITY.md", "type": "hand-written", "preservation_decision": "review", "status": "pending_review"},
+    {"path": "SECURITY.md", "type": "hand-written", "preservation_decision": "review", "status": "pending_review"},
+    {"path": "SIGN-OFF.md", "type": "hand-written", "preservation_decision": "review", "status": "pending_review"}
+  ],
   "gap_queue": [],
-  "created_at": "2026-04-05T00:00:00Z",
-  "updated_at": "2026-04-09T00:00:00Z",
-  "completed_at": "2026-04-09T00:00:00Z"
+  "preservation_summary": {"preserve": 10, "supplement": 6, "review": 11}
 }

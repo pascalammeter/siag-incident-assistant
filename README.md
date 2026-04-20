@@ -208,4 +208,40 @@ v1.1.0-rc is currently in User Acceptance Testing with the SIAG consultant.
 
 ---
 
+## Usage
+
+### Wizard Flow (End Users)
+
+The primary interface is the step-by-step incident wizard at `/wizard`.
+
+1. Open the app at http://localhost:3000 (or the deployed URL).
+2. Click **Neuer Vorfall** on the landing page to launch the wizard.
+3. Select an incident type (Ransomware, Phishing, DDoS, or Data Loss).
+4. Progress through the 7 wizard screens: classification → impact assessment → playbook steps → compliance deadlines → communications → documentation → export.
+5. Export the finished incident as a PDF report or return to `/incidents` to review the full incident list.
+
+### API Examples (Integrations)
+
+All mutation endpoints require the `X-API-Key` header.
+
+```bash
+# Health check — no auth required
+curl https://siag-incident-assistant.vercel.app/api/health
+
+# List incidents
+curl -H "X-API-Key: sk_live_..." \
+  https://siag-incident-assistant.vercel.app/api/incidents
+
+# Create a new incident
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: sk_live_..." \
+  -d '{"type":"RANSOMWARE","title":"Ransomware Vorfall X","severity":"HIGH"}' \
+  https://siag-incident-assistant.vercel.app/api/incidents
+```
+
+Full request/response schemas are documented in [`docs/INTEGRATION_GUIDE.md`](docs/INTEGRATION_GUIDE.md) and in the live OpenAPI spec at `/api/swagger`.
+
+---
+
 _Fragen oder Feedback: pascalammeter (GitHub: pascalammeter/siag-incident-assistant)_

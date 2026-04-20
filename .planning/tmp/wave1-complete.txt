@@ -1,0 +1,4 @@
+Wave 1 completion summary:
+- README.md: 237 lines (supplement)
+- ARCHITECTURE.md: 279 lines (supplement)
+- CONFIGURATION.md: 308 lines (supplement)
