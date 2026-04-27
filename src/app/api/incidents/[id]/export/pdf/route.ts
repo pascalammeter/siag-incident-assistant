@@ -54,6 +54,7 @@
 import { NextRequest } from 'next/server';
 import { getBrowserInstance } from '@/lib/puppeteer-singleton';
 import { generateCompletePDF } from '@/lib/pdf-templates';
+import { Incident } from '@/lib/incident-types';
 import { IncidentService } from '@/api/services/incident.service';
 import {
   validateApiKey,
@@ -98,7 +99,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       page = await browser.newPage();
 
       // Generate complete HTML with title page, details, headers, and footers
-      const htmlContent = generateCompletePDF(incident);
+      const htmlContent = generateCompletePDF(incident as unknown as Incident);
 
       // Render HTML to PDF
       try {
