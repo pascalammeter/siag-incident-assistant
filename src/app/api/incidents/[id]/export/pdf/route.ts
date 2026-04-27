@@ -60,7 +60,7 @@ import {
   handleOptions,
   errorResponse,
   getCorsHeaders,
-} from '../../_helpers';
+} from '../../../../_helpers';
 
 type RouteParams = { params: Promise<{ id: string }> };
 
