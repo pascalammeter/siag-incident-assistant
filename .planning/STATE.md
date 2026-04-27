@@ -1,42 +1,62 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Backend Integration & Design System
-status: complete
-last_updated: "2026-04-09T16:00:00Z"
+milestone: v1.0
+milestone_name: MVP Frontend
+status: executing
+last_updated: "2026-04-19T19:13:55.167Z"
 progress:
-  total_phases: 13
-  completed_phases: 13
-  total_plans: 32
-  completed_plans: 32
+  total_phases: 23
+  completed_phases: 21
+  total_plans: 72
+  completed_plans: 82
   percent: 100
 ---
 
-# STATE.md — SIAG Incident Management Assistent v1.1
+# STATE.md — SIAG Incident Management Assistent v1.3
 
-*Stand: 2026-04-09 | Phase 13 Complete ✅ — Deployment + Polish (5/5 plans executed, gap closure 13-05 done)*
+*Stand: 2026-04-19 | Phase 20 Complete — GitHub Secrets & Branch Protection Established*
 
 ## Current Position
 
-Phase: 13 (deployment-polish) — COMPLETE ✅
-Plans: 13-01 ✅ Vercel+Neon deploy, 13-02 ✅ Performance+Lighthouse, 13-03 ✅ Backwards compat+migration, 13-04 ✅ UAT, 13-05 ✅ Wizard→API save (gap closure)
-**Milestone:** v1.1 — Backend Integration, Design System, Multi-Type Support — COMPLETE
-**Status:** All 13 phases complete; milestone v1.1 shipped
-**Phase:** 13 complete with Vercel deployment, UAT sign-off, and critical wizard→API save integration
-**Next:** Milestone v1.1 complete — run /gsd-complete-milestone or plan v1.2
+Phase: 21 (Tech Debt — Swagger Annotations) — ✅ COMPLETE
+**Milestone:** v1.3 — Design Modernization & Tech Debt Cleanup (Phases 20–28)
+**Status:** Ready to execute
+**Next:** `/gsd-plan-phase 21` to start Phase 21 planning (Swagger annotations on App Router routes)
 
-## Milestone Overview
+## v1.3 Milestone Overview
 
-v1.1 transforms the v1.0 frontend MVP into a production-ready incident management platform with:
+v1.3 modernizes the v1.2 production platform with a comprehensive design refresh and tech debt cleanup:
 
-- **Backend**: Express.js + Prisma + PostgreSQL (Neon) for persistent incident storage
-- **Design System**: SIAG color palette (#CC0033 red, #003B5E navy, #D44E17 orange), Stone Sans + Source Sans typography, 150-300ms motion
-- **Multi-Type**: Ransomware, Phishing, DDoS, Data Loss playbooks (25-point checklists each)
-- **API**: 5 CRUD endpoints + export functionality, OpenAPI/Swagger docs
-- **UX Polish**: Dark mode, inline form validation, professional PDF export, loading states
-- **Deployment**: Vercel Functions + Neon, CI/CD, performance optimization (Lighthouse ≥90)
+**Design-First (70%):**
 
-**Target:** Early June 2026 (7 weeks execution)
+- **Design System Implementation**: All UI components (Dashboard, Incident Details, Wizard, Settings) conform to Design-Prompt spec
+  - Inter Font, #f0f2f5 background, #CC0033 Swiss Red accents
+  - Floating Red Pill Navbar as signature navigation element
+  - Box-shadow only (no borders), pill-shaped buttons, responsive layouts
+  - Severity badges, Platform badges, Status indicators (green/amber/red dots)
+  - Toast notifications, Slide-in detail panels, Modal dialogs
+
+**Mobile-First UX (Part of D1–D4):**
+
+- Responsive layouts: 1-col mobile, 2-col tablet, 3-col desktop
+- Touch-friendly tap targets (min 44px)
+- Table scrolling & collapsing on small screens
+- Floating navbar stacking/collapsing
+
+**Tech Debt Cleanup (30%):**
+
+- **GitHub Secrets**: .env.example template + local .env.local + CI/CD secrets
+- **Branch Protection**: PR reviews required, status checks enforced on main
+- **Swagger Annotations**: @swagger TypeDoc comments on App Router routes
+
+**Deliverables:**
+
+- All 9 phases planned and ready for execution
+- Requirements locked (v1.3-REQUIREMENTS.md)
+- Roadmap defined (v1.3-ROADMAP.md)
+- Design prompt integrated into Phase 22–27 specs
+
+**Target:** 4–6 weeks (Phases 20–28)
 
 ## v1.0 (Completed)
 
@@ -51,19 +71,21 @@ v1.1 transforms the v1.0 frontend MVP into a production-ready incident managemen
 
 **Shipped:** 2026-04-06 | **Tests:** 74/74 passing | **URL:** https://siag-incident-assistant.vercel.app
 
-## v1.1 Phase Status (Current Milestone)
+## v1.3 Phase Status (Current Milestone — Planning Phase)
 
-| Phase | Title | Status | Plans |
+| Phase | Title | Status | Scope |
 |-------|-------|--------|-------|
-| 7 | Backend Scaffold + Design System | Complete | 6/6 ✅ |
-| 8 | API Implementation | Complete | 4/4 ✅ |
-| 9 | Wizard ↔ Backend Integration | Complete | 3/3 ✅ |
-| 10 | Motion + PDF + Dark Mode | Complete | 3/3 ✅ |
-| 11 | Multi-Type Playbooks + Forms | Complete | 4/4 ✅ |
-| 12 | Testing + Security | Complete | 4/4 ✅ |
-| 13 | Deployment + Polish | Complete ✅ | 5/5 ✅ |
+| 20 | Tech Debt — GitHub Secrets & Branch Protection | ✅ Complete | .env template, GitHub Secrets, Branch protection rules |
+| 21 | Tech Debt — Swagger Annotations | 📋 Pending | @swagger docs on App Router routes, OpenAPI spec |
+| 22 | Design System Setup — CSS Tokens | 📋 Pending | CSS custom properties, typography scale, color tokens |
+| 23 | Dashboard Redesign | 📋 Pending | Stat cards, charts, incident overview, responsive grids |
+| 24 | Incident Details & Slide-in Panel | 📋 Pending | Slide-in panel, dt/dd rows, badges, smooth transitions |
+| 25 | Wizard Redesign | 📋 Pending | Step-by-step visuals, modal report, toast notifications |
+| 26 | Settings & Navigation Overhaul | 📋 Pending | Floating Pill Navbar, Settings sidebar, sub-tabs |
+| 27 | Mobile Responsiveness & Polish | 📋 Pending | Viewport tests, touch-friendly, responsive tables |
+| 28 | Design System Validation & E2E QA | 📋 Pending | WCAG AA testing, design spec compliance, UAT |
 
-**Total:** 32/32 plans | **Completed:** All phases 7-13 (32 plans) | **Milestone v1.1 SHIPPED 2026-04-09**
+**Total Phases:** 9 | **Total Plans:** TBD (estimated 18–24) | **Completed:** Phase 20/v1.3 (Governance foundation) + Phases 14–19 (v1.2 shipped 2026-04-19)
 
 ## Key Architecture Decisions
 

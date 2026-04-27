@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 export interface IncidentActionsProps {
   incidentId: string;
+  isExporting?: boolean;
   onViewClick: () => void;
   onExportClick: () => void;
   onDeleteClick: () => void;
@@ -55,8 +56,9 @@ function DeleteConfirmationModal({
 
 export function IncidentActions({
   incidentId: _incidentId,
+  isExporting = false,
   onViewClick,
-  onExportClick: _onExportClick,
+  onExportClick,
   onDeleteClick,
 }: IncidentActionsProps) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -81,16 +83,28 @@ export function IncidentActions({
           View
         </button>
 
-        {/* Export Button (Disabled) */}
+        {/* Export Button */}
         <button
-          disabled
+          disabled={isExporting}
           onClick={(e) => {
             e.stopPropagation();
+            onExportClick();
           }}
-          className="px-3 py-1 bg-gray-300 text-gray-600 text-xs rounded opacity-50 cursor-not-allowed"
-          title="PDF export coming soon"
+          className={`px-3 py-1 text-xs rounded transition-colors ${
+            isExporting
+              ? 'bg-gray-300 text-gray-600 opacity-50 cursor-not-allowed'
+              : 'bg-blue-600 text-white hover:bg-blue-700'
+          }`}
+          title={isExporting ? 'Exporting PDF...' : 'Export as PDF'}
         >
-          Export
+          {isExporting ? (
+            <span className="inline-flex items-center gap-1">
+              <span className="inline-block w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              Exporting
+            </span>
+          ) : (
+            'Export'
+          )}
         </button>
 
         {/* Delete Button */}

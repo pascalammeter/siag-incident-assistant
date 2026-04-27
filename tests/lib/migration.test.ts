@@ -157,7 +157,10 @@ describe('migration.ts', () => {
         } as LegacyReaktionData,
       };
 
-      const result = mapIncidentState(v1State);
+      // Use 'migration' context so the v1.0-migrated tag is populated.
+      // Default context ('new_save') omits migration metadata by design —
+      // see mapIncidentState implementation in src/lib/migration.ts.
+      const result = mapIncidentState(v1State, 'migration');
 
       expect(result).not.toBeNull();
       expect(result?.incident_type).toBe('ransomware');

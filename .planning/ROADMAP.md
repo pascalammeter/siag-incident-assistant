@@ -19,7 +19,7 @@ Build a guided incident response platform for security teams in crisis. v1.0 (Ph
 
 **Status:** Shipped 2026-04-06 | Vercel: https://siag-incident-assistant.vercel.app | Tests: 74/74 passing
 
-### v1.1: Backend Integration + Design System (In Progress)
+### v1.1: Backend Integration + Design System (Completed 2026-04-08)
 
 - [x] **Phase 07: Backend Scaffold + Design System** — Express + Prisma + PostgreSQL + SIAG palette + typography (completed 2026-04-07)
 - [x] **Phase 08: API Implementation** — CRUD endpoints + export + validation + OpenAPI docs (completed 2026-04-07)
@@ -28,6 +28,16 @@ Build a guided incident response platform for security teams in crisis. v1.0 (Ph
 - [x] **Phase 11: Multi-Type Playbooks + Forms** — Phishing/DDoS/Data Loss playbooks + inline validation + helper text (completed 2026-04-07)
 - [x] **Phase 12: Testing + Security** — Integration tests + load tests + security audit + 80%+ coverage (completed 2026-04-07)
 - [x] **Phase 13: Deployment + Polish** — Vercel + Neon + CI/CD + performance tuning + UAT sign-off (completed 2026-04-08)
+
+### v1.2: Data Integrity & API Robustness (In Progress)
+
+- [x] **Phase 14: API Data Integrity** — Fix IncidentService data loss, consolidate Zod schemas, fix soft-delete [COMPLETE 2026-04-14]
+- [x] **Phase 15: PDF Export App Router Route** — Create App Router PDF route, wire export buttons [COMPLETE 2026-04-14]
+- [x] **Phase 16: Playbook + Migration Cleanup** — Fix getPlaybook data_loss case, clean dead code, fix API_KEY [COMPLETE 2026-04-15]
+- [x] **Phase 17: CI/CD + Swagger Polish** — Verify GitHub Actions CI gates, add App Router Swagger route [COMPLETE 2026-04-15]
+- [x] **Phase 18: API Data Layer Fixes** — JSON export App Router route (B5.1), description field persistence (B4.1), soft-delete guards (B4.3/B4.4) [GAP CLOSURE] (completed 2026-04-16)
+- [x] **Phase 19: Wizard Resume from API** — Extend WizardContext with incidentId param + API fetch on mount (W1.2) [GAP CLOSURE] (completed 2026-04-16)
+- [ ] **Phase 20: Swagger Annotation Fix** — Add @swagger JSDoc to App Router routes, fix PDF method mismatch (B6.1/B6.3) [GAP CLOSURE]
 
 ---
 
@@ -259,7 +269,6 @@ Plan breakdown:
 
 **UI Hint:** No
 
-
 ---
 
 ### Phase 13: Deployment + Polish
@@ -287,7 +296,223 @@ Plan breakdown:
 - [x] 13-03-PLAN.md — Backwards Compatibility & Migration
 - [x] 13-04-PLAN.md — UAT & Consultant Sign-off
 
-**Status:** ⏳ Planned (2026-04-07) — Ready for execution
+**Status:** ✅ Complete (2026-04-08)
+
+---
+
+### Phase 14: API Data Integrity
+
+**Goal:** Fix wizard data loss by consolidating conflicting Zod schemas and updating IncidentService to persist all wizard fields. Fix soft-delete no-op. Closes the root cause of the broken Wizard Save E2E flow.
+
+**Depends on:** Phase 13 (gap closure — runs against existing codebase)
+
+**Requirements:** B4.1–B4.5, B7.1–B7.4, W1.1–W1.5
+
+**Gap Closure:** Closes GAP-2 (IncidentService discards wizard payload) from v1.1 audit
+
+**Success Criteria** (what must be TRUE):
+  1. Single Zod schema at `src/api/schemas/incident.schema.ts` accepts all wizard fields: `erkennungszeitpunkt`, `erkannt_durch`, `erste_erkenntnisse`, `betroffene_systeme`, `playbook`, `regulatorische_meldungen`, `metadata`
+  2. Orphan schema `src/lib/schemas/incident.schema.ts` deleted
+  3. `IncidentService.createIncident()` passes all validated fields to Prisma — no fields dropped
+  4. `IncidentService.deleteIncident()` writes `deletedAt: new Date()` (soft-delete not a no-op)
+  5. Wizard save E2E flow complete: Step 6 → API → all fields persisted in DB
+
+**Plans:** 5/5 complete
+
+Plan breakdown:
+- [x] 14-01-PLAN.md — Consolidate Zod Schemas
+- [x] 14-02-PLAN.md — Fix IncidentService.createIncident() Field Persistence
+- [x] 14-03-PLAN.md — Fix Soft-Delete + Tests
+- [x] 14-04-PLAN.md — Verify E2E Wizard→API→DB Flow + Regression Testing
+- [x] 14-05-PLAN.md — Integration Tests + UAT Sign-off
+
+**Status:** ✅ Complete (2026-04-14)
+
+---
+
+### Phase 15: PDF Export App Router Route
+
+**Goal:** Create the missing App Router PDF export route and wire all export UI entry points to it. Fixes the broken PDF Export E2E flow.
+
+**Depends on:** Phase 14 (IncidentService must persist full data before PDF export is meaningful)
+
+**Requirements:** P1.1–P1.6, B5.1–B5.4
+
+**Gap Closure:** Closes GAP-1 (PDF export not wired in App Router) from v1.1 audit
+
+**Success Criteria** (what must be TRUE):
+  1. `src/app/api/incidents/[id]/export/pdf/route.ts` exists and calls existing Puppeteer/PDFService logic
+  2. `IncidentList.handleExportClick` calls `GET /api/incidents/:id/export/pdf` (not a `console.log` stub)
+  3. `Step6Dokumentation` export button uses API route (not `window.print()` fallback)
+  4. PDF response includes correct `Content-Type: application/pdf` and `Content-Disposition` headers
+  5. PDF contains title page, incident metadata, SIAG logo, headers/footers per P1.1–P1.6
+
+**Plans:** 3/3 complete
+
+Plan breakdown:
+- [x] 15-01-PLAN.md — Create App Router PDF Export Route
+- [x] 15-02-PLAN.md — Wire IncidentList Export Button
+- [x] 15-03-PLAN.md — Wire Step6 Export + Integration Tests
+
+**Status:** ✅ Complete (2026-04-14)
+
+---
+
+### Phase 16: Playbook + Migration Cleanup
+
+**Goal:** Fix silent wrong-playbook bug for data_loss incidents. Clean up dead MigrationService code. Fix API_KEY length. All three are small but high-correctness-impact fixes.
+
+**Depends on:** Phase 13 (gap closure — independent of phases 14/15)
+
+**Requirements:** M3.1–M3.5, M4.1–M4.4, DE5.1–DE5.4, DE1.1
+
+**Gap Closure:** Closes GAP-3 (MigrationService dead code), M3/M4 playbook routing gap, DE1.1 API_KEY gap from v1.1 audit
+
+**Success Criteria** (what must be TRUE):
+  1. `getPlaybook()` switch handles both wizard-internal strings (`'datenverlust'`) AND v1.1 API type strings (`'data_loss'`) — no silent fallback to ransomware default
+  2. Dead `src/lib/migrationService.ts` removed OR wired to `useMigration.ts`; `useMigration.ts` has a code comment identifying it as the active migration implementation
+  3. `API_KEY` dev value in `.env.local` and `.env.example` is ≥32 chars
+  4. No regression in existing playbook tests
+
+**Plans:** 2/2 complete
+
+Plan breakdown:
+- [x] 16-01-PLAN.md — Fix getPlaybook() Type String Mapping + Dead Code Cleanup
+- [x] 16-02-PLAN.md — Fix API_KEY Length + Env Docs
+
+**Status:** ✅ Complete (2026-04-15)
+
+---
+
+### Phase 17: CI/CD + Swagger Polish
+
+**Goal:** Verify GitHub Actions CI workflow gates merges with passing tests. Expose Swagger/OpenAPI via App Router so it's accessible in production.
+
+**Depends on:** Phase 14, 15, 16 (polish phase — runs after core gaps closed)
+
+**Requirements:** DE3.1–DE3.4, B6.1–B6.4
+
+**Gap Closure:** Closes DE3 CI/CD gap and B6 Swagger gap from v1.1 audit
+
+**Success Criteria** (what must be TRUE):
+  1. `.github/workflows/ci.yml` exists; runs `npm test` on pull requests; merge blocked if tests fail
+  2. `.github/workflows/deploy.yml` triggers Vercel deploy on push to `main`
+  3. `src/app/api/swagger/route.ts` exists and serves OpenAPI spec or Swagger UI
+  4. Swagger UI accessible at `/api/swagger` on production URL
+
+**Plans:** 2/2 complete
+
+Plan breakdown:
+- [x] 17-01-PLAN.md — GitHub Actions CI/CD Workflow
+- [x] 17-02-PLAN.md — App Router Swagger Endpoint
+
+**Status:** ✅ Complete (2026-04-15)
+
+---
+
+### Phase 18: API Data Layer Fixes
+
+**Goal:** Close the two remaining correctness gaps in the API data layer: create the missing JSON export App Router route (B5.1 — returns 404 in production), persist the `description` field through IncidentService (B4.1 — silently dropped), and add soft-delete guards to prevent returning/updating deleted records (B4.3/B4.4).
+
+**Depends on:** Phase 14, Phase 15 (App Router pattern established)
+
+**Requirements:** B5.1, B4.1, B4.3, B4.4
+
+**Gap Closure:** Closes B5.1 (unsatisfied) and B4.1/B4.3/B4.4 (partial) from v1.2 audit
+
+**Success Criteria** (what must be TRUE):
+  1. GET `/api/incidents/:id/export/json` returns `200` with `Content-Disposition: attachment; filename=incident-{id}.json`
+  2. `description` field written to DB on POST `/api/incidents` and returned in GET responses
+  3. GET `/api/incidents/:id` returns `404` for soft-deleted incidents
+  4. PATCH `/api/incidents/:id` returns `404` for soft-deleted incidents
+
+**Plans:** 2/2 plans complete
+
+Plan breakdown:
+- [x] 18-01-PLAN.md — JSON Export App Router Route + description field (B5.1, B4.1)
+- [x] 18-02-PLAN.md — Soft-Delete Guards in IncidentService (B4.3, B4.4)
+
+**Status:** 📋 Planned
+
+---
+
+### Phase 19: Wizard Resume from API
+
+**Goal:** Implement W1.2 — when the wizard is opened with an existing `incidentId`, fetch the incident from the API on mount so the user can resume editing from the last saved state rather than from localStorage only.
+
+**Depends on:** Phase 14 (useIncident hook), Phase 18 (description field persisted)
+
+**Requirements:** W1.2
+
+**Gap Closure:** Closes W1.2 (unsatisfied) from v1.2 audit
+
+**Success Criteria** (what must be TRUE):
+  1. `/wizard?incident=<uuid>` route reads the incident ID from the URL query parameter
+  2. WizardProvider calls `apiClient.get()` on mount when `incidentId` is present, dispatches HYDRATE with reverse-mapped data
+  3. Fetched incident data hydrates wizard steps (Erfassen, Klassifikation, Reaktion, Kommunikation) -- not just localStorage
+  4. IncidentList "Weiterbearbeiten" button opens wizard with the incident's `id` and wizard loads at Step 1
+
+**Plans:** 2/2 plans complete
+
+Plan breakdown:
+- [x] 19-01-PLAN.md — Reverse mapping functions + test file (Wave 0 + data layer)
+- [x] 19-02-PLAN.md — WizardProvider API fetch + /wizard route + WizardShell prop threading
+
+**Wave Structure:**
+- Wave 1: 19-01 (reverse mapping + tests)
+- Wave 2: 19-02 (integration: route + provider + shell) — depends on 19-01
+
+**Status:** 📋 Planned
+
+---
+
+### Phase 20: Swagger Annotation Fix
+
+**Goal:** Add `@swagger` JSDoc blocks to the App Router PDF export route so the generated spec documents the correct HTTP method (GET, not POST) and includes the App Router endpoint path. Closes B6.1/B6.3 partial gaps.
+
+**Depends on:** Phase 17 (Swagger glob fix already applied in 446df44)
+
+**Requirements:** B6.1, B6.3
+
+**Gap Closure:** Closes B6.1/B6.3 (partial) from v1.2 audit
+
+**Success Criteria** (what must be TRUE):
+  1. `src/app/api/incidents/[id]/export/pdf/route.ts` has `@swagger` JSDoc documenting GET method
+  2. Generated OpenAPI spec includes `/api/incidents/{id}/export/pdf` as a GET endpoint
+  3. No duplicate POST entry for PDF export in the spec (Express JSDoc removed or replaced)
+
+**Plans:** 0/1 planned
+
+Plan breakdown:
+- [ ] 20-01-PLAN.md — Swagger JSDoc for App Router Routes (B6.1, B6.3)
+
+**Status:** 📋 Planned
+
+---
+
+### Phase 21: Tech Debt — Swagger Annotations
+
+**Goal:** Add `@swagger` JSDoc blocks to App Router routes so the generated OpenAPI spec documents correct HTTP methods and includes all App Router endpoint paths. Completes v1.2 Swagger documentation gaps (B6.1/B6.3).
+
+**Depends on:** Phase 20 (GitHub Secrets & Branch Protection established)
+
+**Requirements:** B6.1, B6.3
+
+**Success Criteria** (what must be TRUE):
+  1. `src/app/api/incidents/[id]/export/pdf/route.ts` has `@swagger` JSDoc documenting GET method with 200/404 responses
+  2. `src/app/api/incidents/[id]/export/json/route.ts` has `@swagger` JSDoc documenting GET method
+  3. Generated OpenAPI spec at `src/lib/openapi.json` includes all App Router endpoint paths with correct methods
+  4. No duplicate POST/GET entries for PDF/JSON export in the spec
+  5. Swagger UI at `/api/swagger` displays all endpoints correctly
+
+**Plans:** 1/1 planned
+
+Plan breakdown:
+- [ ] 21-01-PLAN.md — @swagger JSDoc on App Router Export Routes (B6.1, B6.3)
+
+**Status:** 📋 Planned
+
+**UI Hint:** No
 
 ---
 
@@ -300,6 +525,13 @@ Plan breakdown:
 - **Phase 11** → Phase 10 (needs motion + form infrastructure)
 - **Phase 12** → Phase 11 (testing everything, all features in place)
 - **Phase 13** → Phase 12 (production deployment after testing)
+- **Phase 14** → Phase 13 (gap closure: fix IncidentService + schemas)
+- **Phase 15** → Phase 14 (PDF export needs full data persisted first)
+- **Phase 16** → Phase 13 (gap closure: independent of 14/15)
+- **Phase 17** → Phase 14 + Phase 15 + Phase 16 (polish after core gaps closed)
+- **Phase 18** → Phase 14 + Phase 15 (App Router pattern + IncidentService foundation)
+- **Phase 19** → Phase 14 + Phase 18 (useIncident hook + description field persisted)
+- **Phase 20** → Phase 17 (Swagger glob fix already applied)
 
 ---
 
@@ -307,15 +539,28 @@ Plan breakdown:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
+| 1. Design + Research | 1/1 | ✅ Complete | 2026-03-20 |
+| 2. Frontend Scaffold | 1/1 | ✅ Complete | 2026-03-22 |
+| 3. Core Wizard + Ransomware | 1/1 | ✅ Complete | 2026-03-24 |
+| 4. Swiss Compliance | 1/1 | ✅ Complete | 2026-03-26 |
+| 5. Screen 6 + Polish | 1/1 | ✅ Complete | 2026-04-02 |
+| 6. Deployment Review + Smoke Testing | 1/1 | ✅ Complete | 2026-04-06 |
 | 7. Backend Scaffold + Design System | 6/6 | ✅ Complete | 2026-04-07 |
 | 8. API Implementation | 4/4 | ✅ Complete | 2026-04-07 |
 | 9. Wizard ↔ Backend Integration | 3/3 | ✅ Complete | 2026-04-07 |
 | 10. Motion + PDF + Dark Mode | 3/3 | ✅ Complete | 2026-04-07 |
 | 11. Multi-Type Playbooks + Forms | 4/4 | ✅ Complete | 2026-04-07 |
 | 12. Testing + Security | 4/4 | ✅ Complete | 2026-04-07 |
-| 13. Deployment + Polish | 4/4 | Complete   | 2026-04-08 |
+| 13. Deployment + Polish | 4/4 | ✅ Complete | 2026-04-08 |
+| 14. API Data Integrity [GAP] | 5/5 | ✅ Complete | 2026-04-14 |
+| 15. PDF Export App Router Route [GAP] | 3/3 | ✅ Complete | 2026-04-14 |
+| 16. Playbook + Migration Cleanup [GAP] | 2/2 | ✅ Complete | 2026-04-15 |
+| 17. CI/CD + Swagger Polish [GAP] | 2/2 | ✅ Complete | 2026-04-15 |
+| 18. API Data Layer Fixes [GAP] | 2/2 | Complete    | 2026-04-16 |
+| 19. Wizard Resume from API [GAP] | 2/2 | Complete   | 2026-04-16 |
+| 20. Swagger Annotation Fix [GAP] | 0/1 | 📋 Planned | — |
 
-**Total:** 32/27 plans | **Completed:** 28/27 (104%); **Pending:** Phase 13 (4 plans) | **Estimate:** 1 week remaining (Phase 13 execution)
+**Total:** 51/56 plans | **Completed:** 51/56 (91%) | **v1.2 gaps open — run /gsd-execute-phase 19 next**
 
 ---
 
@@ -342,3 +587,64 @@ Plan breakdown:
 - 85+ KB comprehensive documentation
 - OWASP A-grade security assessment (90/100)
 - Production-ready API documentation
+
+---
+
+## Backlog
+
+### Phase 999.1: Design-Alignment SIAG App Design System (BACKLOG)
+
+**Goal:** App visuell auf das verbindliche SIAG App Design System alignieren — 7 identifizierte Abweichungen beheben.
+
+**Hintergrund:** App wurde vor dem siag-design Skill gebaut. Das Design weicht in allen zentralen Punkten vom App Design System ab.
+
+**Schulden-Posten (nach Prioritaet):**
+- [KRITISCH] Floating Red Pill Navbar fehlt — aktuell klassischer Navy-Header
+- [HOCH] Font: Source Sans 3 statt Inter (Source Sans = Marketing-Font, nicht App-Font)
+- [HOCH] Page Background: `#FFFFFF` statt `#f0f2f5`
+- [MITTEL] Card-Borders vorhanden — soll Shadow-only sein
+- [MITTEL] Buttons `rounded-lg` statt Pill-Form (`border-radius: 9999px`)
+- [NIEDRIG] Badge-System: Solid statt Pastell
+- [NIEDRIG] CSS Token-Namen nicht aligniert mit Skill-Variablen
+
+**Scope:**
+- `globals.css`: Font + Background + Token-Namen + Button border-radius + Card-Borders + Badge-System
+- `Header.tsx`: Kompletter Umbau zu Floating Red Pill Navbar
+- `layout.tsx`: Font-Import Inter statt Source Sans 3
+
+**Akzeptanzkriterien:**
+- Floating Red Pill Navbar auf allen Seiten sichtbar
+- Inter als primaerer App-Font geladen
+- Page Background `#f0f2f5`, Cards `#fff` mit Shadow-only
+- Alle Buttons Pill-Form
+- Badge-System mit Pastell-Hintergruenden + dunklem Text
+- siag-design Pre-Delivery Checklist zu 100% bestanden
+
+**Geschaetzter Aufwand:** 1 Phase, 2 Plaene
+**Requirements:** Keine Funktionsaenderungen — rein visuell
+**Plans:** 0 plans (promote with /gsd-review-backlog when ready)
+
+---
+
+## v1.3: Design Modernization & Tech Debt Cleanup (Planned)
+
+See `v1.3-ROADMAP.md` for full v1.3 milestone planning (Phases 20–28).
+
+**Status:** 📋 Planned (Phases 20–28)
+
+**Phases:**
+- [ ] **Phase 20: Tech Debt — GitHub Secrets & Branch Protection** — .env.example, GitHub Secrets, branch protection rules
+- [ ] **Phase 21: Tech Debt — Swagger Annotations** — @swagger JSDoc on App Router routes
+- [ ] **Phase 22: Design System Setup — CSS Tokens** — Design tokens, typography scale, color palette
+- [ ] **Phase 23: Dashboard Redesign** — Stat cards, charts, incident overview
+- [ ] **Phase 24: Incident Details & Slide-in Panel** — Slide-in UI, badges, status indicators
+- [ ] **Phase 25: Wizard Redesign** — Step-by-step improvements, modal report, toasts
+- [ ] **Phase 26: Settings & Navigation Overhaul** — Floating Red Pill Navbar, settings sidebar
+- [ ] **Phase 27: Mobile Responsiveness & Polish** — Viewport tests, touch-friendly UX
+- [ ] **Phase 28: Design System Validation & E2E QA** — WCAG AA audit, UAT, release
+
+**Dependency Chain:** 20,22 (parallel foundation) → 21,23 (depends 20,22) → 24,25,26 (depends 22,23,25) → 27 (depends all design phases) → 28 (final QA, depends all)
+
+**Estimated Duration:** 4–6 weeks
+
+---

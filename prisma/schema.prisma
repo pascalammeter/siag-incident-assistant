@@ -27,6 +27,7 @@ model Incident {
   q2            Int?     // Classification question 2 (0-1)
   q3            Int?     // Classification question 3 (0-1)
   severity      String?  @db.VarChar(20) // "critical" | "high" | "medium" | "low"
+  description   String?  @db.Text        // Free-text description of the incident
 
   // ========== Playbook & Progress (JSONB) ==========
   // Structure: { checkedSteps: [{ stepId: string, checked: boolean, timestamp: ISO8601 }], status: "in_progress"|"completed" }

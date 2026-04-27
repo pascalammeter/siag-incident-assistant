@@ -4,7 +4,9 @@
  * Handles schema mapping, validation, and error handling
  */
 
-import { CreateIncidentInput, IncidentType, Severity } from './incident-types';
+import { CreateIncidentInput, Incident, IncidentType, Severity } from './incident-types';
+import type { WizardState, ErfassenData, KlassifikationData, ReaktionData, KommunikationData } from './wizard-types';
+import type { IncidentType as WizardIncidentType } from './wizard-types';
 
 // ============================================================================
 // Type Definitions for v1.0 State
@@ -226,6 +228,109 @@ export function mapIncidentState(
   }
 
   return incident;
+}
+
+// ============================================================================
+// Reverse Mapping Functions: API Incident -> WizardState
+// ============================================================================
+
+/**
+ * Map API incident type back to wizard IncidentType
+ * Inverse of mapIncidentType(): 'data_loss' -> 'datenverlust', 'other' -> 'sonstiges'
+ */
+export function mapApiTypeToWizardType(apiType?: IncidentType | null): WizardIncidentType {
+  if (!apiType) return 'ransomware'
+  const reverseMap: Record<string, WizardIncidentType> = {
+    ransomware: 'ransomware',
+    phishing: 'phishing',
+    ddos: 'ddos',
+    data_loss: 'datenverlust',
+    other: 'sonstiges',
+  }
+  return reverseMap[apiType] ?? 'ransomware'
+}
+
+/**
+ * Map API severity back to wizard severity
+ * Inverse of mapSeverity(): 'critical' -> 'KRITISCH', 'low' -> 'MITTEL' (no LOW in wizard)
+ */
+export function mapApiSeverityToWizardSeverity(apiSeverity?: Severity | null): 'KRITISCH' | 'HOCH' | 'MITTEL' {
+  if (!apiSeverity) return 'MITTEL'
+  const reverseMap: Record<string, 'KRITISCH' | 'HOCH' | 'MITTEL'> = {
+    critical: 'KRITISCH',
+    high: 'HOCH',
+    medium: 'MITTEL',
+    low: 'MITTEL',
+  }
+  return reverseMap[apiSeverity] ?? 'MITTEL'
+}
+
+/**
+ * Map integer (0/1/null) back to 'ja'/'nein'.
+ * Inverse of mapYesNoToInt() for binary fields (q1, q2).
+ *
+ * NOTE: null/undefined are intentionally treated as 'nein' because the wizard's
+ * q1/q2 fields are strictly binary (no 'unbekannt' state). This is a lossy
+ * mapping — a null stored value will resume as an explicit 'nein' answer.
+ * Use mapIntToYesNoUnbekannt() for fields that support three states (e.g. q3).
+ */
+export function mapIntToYesNo(val?: number | null): 'ja' | 'nein' {
+  return val === 1 ? 'ja' : 'nein'
+}
+
+/**
+ * Map integer (0/1/null) back to 'ja'/'nein'/'unbekannt'
+ * Inverse of mapYesNoToInt() for ternary fields (q3)
+ */
+export function mapIntToYesNoUnbekannt(val?: number | null): 'ja' | 'nein' | 'unbekannt' {
+  if (val === 1) return 'ja'
+  if (val === 0) return 'nein'
+  return 'unbekannt'
+}
+
+/**
+ * Reverse mapping: API Incident -> partial WizardState
+ * Inverse of mapIncidentState(). Used to hydrate wizard from API data on resume.
+ * Does NOT set currentStep or noGoConfirmed -- caller (WizardProvider) handles those.
+ */
+export function mapIncidentToWizardState(incident: Incident): Partial<WizardState> {
+  const erfassen: ErfassenData = {
+    erkennungszeitpunkt: incident.erkennungszeitpunkt
+      ? new Date(incident.erkennungszeitpunkt as string).toISOString().slice(0, 16)
+      : '',
+    erkannt_durch: (incident.erkannt_durch as ErfassenData['erkannt_durch']) ?? 'sonstiges',
+    betroffene_systeme: incident.betroffene_systeme ?? [],
+    erste_auffaelligkeiten: incident.erste_erkenntnisse ?? '',
+    loesegeld_meldung: (incident.metadata?.custom_fields?.loesegeld_meldung as boolean) ?? false,
+  }
+
+  const klassifikation: KlassifikationData = {
+    incidentType: mapApiTypeToWizardType(incident.incident_type),
+    severity: mapApiSeverityToWizardSeverity(incident.severity),
+    q1SystemeBetroffen: mapIntToYesNo(incident.q1),
+    q2PdBetroffen: mapIntToYesNo(incident.q2),
+    q3AngreiferAktiv: mapIntToYesNoUnbekannt(incident.q3),
+  }
+
+  const reaktion: ReaktionData = {
+    completedSteps: incident.playbook?.checkedSteps
+      ?.filter(s => s.checked)
+      .map(s => s.stepId) ?? [],
+  }
+
+  const kommunikation: KommunikationData = {
+    kritischeInfrastruktur: (incident.metadata?.custom_fields?.kritischeInfrastruktur as 'ja' | 'nein' | null) ?? null,
+    personendatenBetroffen: (incident.metadata?.custom_fields?.personendatenBetroffen as 'ja' | 'nein' | null) ?? null,
+    reguliertesUnternehmen: (incident.metadata?.custom_fields?.reguliertesUnternehmen as 'ja' | 'nein' | null) ?? null,
+    kommChecklist: [],
+  }
+
+  return {
+    erfassen,
+    klassifikation,
+    reaktion,
+    kommunikation,
+  }
 }
 
 // ============================================================================

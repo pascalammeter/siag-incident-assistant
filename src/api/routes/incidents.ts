@@ -24,7 +24,40 @@ const router = Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/CreateIncidentRequest'
+ *             type: object
+ *             required:
+ *               - incident_type
+ *               - severity
+ *             properties:
+ *               incident_type:
+ *                 type: string
+ *                 enum: [ransomware, phishing, ddos, data_loss, other]
+ *               severity:
+ *                 type: string
+ *                 enum: [critical, high, medium, low]
+ *               erkennungszeitpunkt:
+ *                 type: string
+ *                 format: date-time
+ *               erkannt_durch:
+ *                 type: string
+ *               betroffene_systeme:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               erste_erkenntnisse:
+ *                 type: string
+ *               q1:
+ *                 type: integer
+ *               q2:
+ *                 type: integer
+ *               q3:
+ *                 type: integer
+ *               regulatorische_meldungen:
+ *                 type: object
+ *               metadata:
+ *                 type: object
+ *               playbook:
+ *                 type: object
  *           examples:
  *             ransomware:
  *               summary: Ransomware incident example
@@ -255,7 +288,7 @@ router.get(
  * @swagger
  * /api/incidents/{id}:
  *   patch:
- *     summary: Update incident (partial update)
+ *     summary: Update incident by ID
  *     description: Update one or more fields of an incident. All fields are optional.
  *     tags: [Incidents]
  *     parameters:
@@ -357,7 +390,7 @@ router.patch(
  * @swagger
  * /api/incidents/{id}:
  *   delete:
- *     summary: Delete incident (soft delete)
+ *     summary: Delete incident by ID (soft delete)
  *     description: Soft-delete an incident. The incident is marked as deleted (deletedAt set) but retained in database for audit purposes. Can be recovered.
  *     tags: [Incidents]
  *     parameters:

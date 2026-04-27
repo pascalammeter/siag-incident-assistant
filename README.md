@@ -96,6 +96,48 @@ CORS_ORIGIN=http://localhost:3000
 NODE_ENV=development
 ```
 
+### GitHub Secrets Configuration
+
+All CI/CD pipelines require GitHub Secrets to be configured in your repository. These are **separate from your local `.env.local`** and must be set up once per repository.
+
+#### Required GitHub Secrets
+
+| Secret Name | Purpose | Where to Get |
+|---|---|---|
+| `DATABASE_URL_CI` | CI/CD database connection (separate test DB) | [Neon console](https://console.neon.tech) — create a test database, copy Node.js connection string |
+| `API_KEY_CI` | Test API key for CI tests (sk_test_ prefix) | Generate: `openssl rand -hex 16` then prepend `sk_test_` |
+| `VERCEL_TOKEN` | Vercel API authentication token | [vercel.com/account/tokens](https://vercel.com/account/tokens) — create new token, copy value |
+| `VERCEL_ORG_ID` | Vercel organization ID | Your Vercel username or organization slug (visible in dashboard URL) |
+| `VERCEL_PROJECT_ID` | Vercel project ID for this app | [Project settings in Vercel](https://vercel.com) — visible in project settings or URL |
+
+#### Setting Up GitHub Secrets (Step by Step)
+
+1. **Go to your GitHub repository**
+   - https://github.com/pascalammeter/siag-incident-assistant
+
+2. **Navigate to Secrets configuration**
+   - Click **Settings** (top right)
+   - Scroll left sidebar: **Secrets and variables** → **Actions**
+
+3. **For each secret in the table above:**
+   - Click **New repository secret** (green button)
+   - Enter the **Secret name** (exactly as shown in table)
+   - Enter the **Value** (from the "Where to Get" column)
+   - Click **Add secret**
+
+4. **Verify all 5 secrets are listed**
+   - You should see all 5 secret names on the Secrets page (values are hidden for security)
+
+#### After Configuration
+
+Once all 5 secrets are configured:
+- GitHub Actions workflows (`ci.yml`, `deploy.yml`) will automatically use them
+- CI pipeline will run tests against `DATABASE_URL_CI`
+- Deployment will authenticate to Vercel using `VERCEL_TOKEN`
+- **Do not commit `.env` files to git** — GitHub Secrets are the secure way to manage credentials
+
+**Never commit actual `.env` files to version control.** Use only `.env.example` (template) and `.env.local` (git-ignored).
+
 ### Run Tests
 
 ```bash
@@ -163,6 +205,42 @@ v1.1.0-rc is currently in User Acceptance Testing with the SIAG consultant.
 - [ ] Written sign-off (see `SIGN-OFF.md`)
 - [ ] Git tag `v1.1.0`
 - [ ] Stakeholder announcement
+
+---
+
+## Usage
+
+### Wizard Flow (End Users)
+
+The primary interface is the step-by-step incident wizard at `/wizard`.
+
+1. Open the app at http://localhost:3000 (or the deployed URL).
+2. Click **Neuer Vorfall** on the landing page to launch the wizard.
+3. Select an incident type (Ransomware, Phishing, DDoS, or Data Loss).
+4. Progress through the 7 wizard screens: classification → impact assessment → playbook steps → compliance deadlines → communications → documentation → export.
+5. Export the finished incident as a PDF report or return to `/incidents` to review the full incident list.
+
+### API Examples (Integrations)
+
+All mutation endpoints require the `X-API-Key` header.
+
+```bash
+# Health check — no auth required
+curl https://siag-incident-assistant.vercel.app/api/health
+
+# List incidents
+curl -H "X-API-Key: sk_live_..." \
+  https://siag-incident-assistant.vercel.app/api/incidents
+
+# Create a new incident
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: sk_live_..." \
+  -d '{"type":"RANSOMWARE","title":"Ransomware Vorfall X","severity":"HIGH"}' \
+  https://siag-incident-assistant.vercel.app/api/incidents
+```
+
+Full request/response schemas are documented in [`docs/INTEGRATION_GUIDE.md`](docs/INTEGRATION_GUIDE.md) and in the live OpenAPI spec at `/api/swagger`.
 
 ---
 

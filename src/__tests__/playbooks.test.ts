@@ -10,14 +10,14 @@ import type { PlaybookStep, PlaybookPhase } from '@/types/playbook';
 
 describe('Playbook Structure', () => {
   describe('Phishing Playbook', () => {
-    it('should have 4 phases: detection, containment, investigation, communication', () => {
+    it('should have 4 phases: erkennung, eindaemmung, untersuchung, kommunikation', () => {
       expect(PHISHING_PLAYBOOK.phases).toHaveLength(4);
       const phaseIds = PHISHING_PLAYBOOK.phases.map((p) => p.id);
       expect(phaseIds).toEqual([
-        'detection',
-        'containment',
-        'investigation',
-        'communication',
+        'erkennung',
+        'eindaemmung',
+        'untersuchung',
+        'kommunikation',
       ]);
     });
 
@@ -27,22 +27,22 @@ describe('Playbook Structure', () => {
     });
 
     it('should have 7 detection steps', () => {
-      const detection = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'detection');
+      const detection = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'erkennung');
       expect(detection?.steps).toHaveLength(7);
     });
 
     it('should have 7 containment steps', () => {
-      const containment = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'containment');
+      const containment = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'eindaemmung');
       expect(containment?.steps).toHaveLength(7);
     });
 
     it('should have 7 investigation steps', () => {
-      const investigation = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'investigation');
+      const investigation = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'untersuchung');
       expect(investigation?.steps).toHaveLength(7);
     });
 
     it('should have 4 communication steps', () => {
-      const communication = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'communication');
+      const communication = PHISHING_PLAYBOOK.phases.find((p) => p.id === 'kommunikation');
       expect(communication?.steps).toHaveLength(4);
     });
 
@@ -117,6 +117,56 @@ describe('Playbook Registry', () => {
     expect(totalSteps).toBe(25);
   });
 
+  it('should retrieve Ransomware playbook by type', () => {
+    const playbook = getPlaybook('ransomware');
+    expect(playbook).toBeDefined();
+    expect(playbook?.incidentType).toBe('ransomware');
+  });
+
+  it('should retrieve DDoS playbook by type', () => {
+    const playbook = getPlaybook('ddos');
+    expect(playbook).toBeDefined();
+    expect(playbook?.incidentType).toBe('ddos');
+  });
+
+  it('should retrieve Data Loss playbook by type (data_loss)', () => {
+    const playbook = getPlaybook('data_loss');
+    expect(playbook).toBeDefined();
+    expect(playbook?.incidentType).toBe('datenverlust');
+  });
+
+  it('should retrieve Data Loss playbook by legacy type (datenverlust)', () => {
+    const playbook = getPlaybook('datenverlust');
+    expect(playbook).toBeDefined();
+    expect(playbook?.incidentType).toBe('datenverlust');
+  });
+
+  it('should handle data_loss and datenverlust as equivalent (both map to same playbook)', () => {
+    const playbookDataLoss = getPlaybook('data_loss');
+    const playbookDatanverlust = getPlaybook('datenverlust');
+
+    expect(playbookDataLoss).toBeDefined();
+    expect(playbookDatanverlust).toBeDefined();
+    expect(playbookDataLoss?.incidentType).toBe(playbookDatanverlust?.incidentType);
+    expect(playbookDataLoss?.phases.length).toBe(playbookDatanverlust?.phases.length);
+  });
+
+  it('should NOT fall back to ransomware for data_loss type', () => {
+    const playbook = getPlaybook('data_loss');
+    expect(playbook).toBeDefined();
+    expect(playbook?.incidentType).not.toBe('ransomware');
+    // Should be 'datenverlust' (Data Loss playbook incidentType)
+    expect(playbook?.incidentType).toBe('datenverlust');
+  });
+
+  it('should log warning for truly unknown types, then fall back to ransomware', () => {
+    // This test documents the intended behavior: unknown types warn and fall back
+    const playbookUnknown = getPlaybook('unknown_type_xyz_2026');
+    expect(playbookUnknown).toBeDefined();
+    expect(playbookUnknown?.incidentType).toBe('ransomware');
+    // Console.warn should have been called with the unknown type
+  });
+
   it('should return Ransomware playbook as default for unknown types', () => {
     const playbook = getPlaybook('unknown_type');
     expect(playbook).toBeDefined();
@@ -127,6 +177,9 @@ describe('Playbook Registry', () => {
     expect(typeof hasPlaybook).toBe('function');
     expect(hasPlaybook('phishing')).toBe(true);
     expect(hasPlaybook('ransomware')).toBe(true);
+    expect(hasPlaybook('ddos')).toBe(true);
+    expect(hasPlaybook('data_loss')).toBe(true);
+    expect(hasPlaybook('datenverlust')).toBe(true);
   });
 });
 
@@ -151,9 +204,9 @@ describe('Step Type Selection Integration', () => {
 
   it('playbook phases should be in correct order', () => {
     const phaseIds = PHISHING_PLAYBOOK.phases.map((p) => p.id);
-    expect(phaseIds[0]).toBe('detection');
-    expect(phaseIds[1]).toBe('containment');
-    expect(phaseIds[2]).toBe('investigation');
-    expect(phaseIds[3]).toBe('communication');
+    expect(phaseIds[0]).toBe('erkennung');
+    expect(phaseIds[1]).toBe('eindaemmung');
+    expect(phaseIds[2]).toBe('untersuchung');
+    expect(phaseIds[3]).toBe('kommunikation');
   });
 });

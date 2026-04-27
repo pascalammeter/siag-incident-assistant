@@ -1,5 +1,8 @@
 import { prisma } from '../config/prisma';
-import { CreateIncidentInput, UpdateIncidentInput } from '../schemas/incident.schema';
+import { CreateIncidentInput, UpdateIncidentInput, IncidentTypeSchema, SeveritySchema } from '../schemas/incident.schema';
+
+const VALID_INCIDENT_TYPES = new Set(IncidentTypeSchema.options);
+const VALID_SEVERITIES = new Set(SeveritySchema.options);
 
 export class IncidentService {
   // Create incident
@@ -8,7 +11,14 @@ export class IncidentService {
       data: {
         incident_type: input.incident_type,
         severity: input.severity,
-        betroffene_systeme: [],
+        description: input.description ?? null,
+        erkennungszeitpunkt: input.erkennungszeitpunkt ?? null,
+        erkannt_durch: input.erkannt_durch ?? null,
+        erste_erkenntnisse: input.erste_erkenntnisse ?? null,
+        betroffene_systeme: input.betroffene_systeme ?? [],
+        q1: input.q1 !== undefined ? input.q1 : null,
+        q2: input.q2 !== undefined ? input.q2 : null,
+        q3: input.q3 !== undefined ? input.q3 : null,
         playbook: (input.playbook || {}) as any,
         regulatorische_meldungen: (input.regulatorische_meldungen || {}) as any,
         metadata: (input.metadata || {}) as any,
@@ -22,6 +32,7 @@ export class IncidentService {
     const incident = await prisma.incident.findFirst({
       where: {
         id,
+        deletedAt: null,
       },
     });
     return incident;
@@ -29,36 +40,39 @@ export class IncidentService {
 
   // Update incident
   static async updateIncident(id: string, input: UpdateIncidentInput) {
-    const incident = await prisma.incident.findFirst({
-      where: {
-        id,
-      },
-    });
-
-    if (!incident) {
-      return null;
-    }
-
     const data: any = {};
     if (input.incident_type) data.incident_type = input.incident_type;
     if (input.severity) data.severity = input.severity;
+    if (input.description !== undefined) data.description = input.description;
+    if (input.erkennungszeitpunkt) data.erkennungszeitpunkt = input.erkennungszeitpunkt;
+    if (input.erkannt_durch) data.erkannt_durch = input.erkannt_durch;
+    if (input.erste_erkenntnisse) data.erste_erkenntnisse = input.erste_erkenntnisse;
+    if (input.betroffene_systeme) data.betroffene_systeme = input.betroffene_systeme;
+    if (input.q1 !== undefined) data.q1 = input.q1;
+    if (input.q2 !== undefined) data.q2 = input.q2;
+    if (input.q3 !== undefined) data.q3 = input.q3;
     if (input.playbook) data.playbook = input.playbook;
     if (input.regulatorische_meldungen) data.regulatorische_meldungen = input.regulatorische_meldungen;
     if (input.metadata) data.metadata = input.metadata;
 
-    const updated = await prisma.incident.update({
-      where: { id },
+    // Atomic update with soft-delete guard — eliminates the TOCTOU race window
+    const result = await prisma.incident.updateMany({
+      where: { id, deletedAt: null },
       data,
     });
 
-    return updated;
+    if (result.count === 0) return null;
+
+    // Fetch and return the updated record for the response body
+    return prisma.incident.findFirst({ where: { id } });
   }
 
-  // Soft delete incident (just mark with a flag - schema doesn't have deletedAt yet)
+  // Soft delete incident by setting deletedAt timestamp
   static async deleteIncident(id: string) {
     const incident = await prisma.incident.findFirst({
       where: {
         id,
+        deletedAt: null,
       },
     });
 
@@ -66,10 +80,15 @@ export class IncidentService {
       return null;
     }
 
-    // For now, we'll just verify the record exists
-    // The schema doesn't have a deletedAt field, so we're doing logical delete
-    // by returning true to indicate success
-    return true;
+    // Soft-delete by setting deletedAt timestamp
+    const deleted = await prisma.incident.update({
+      where: { id },
+      data: {
+        deletedAt: new Date(),
+      },
+    });
+
+    return deleted;
   }
 
   // Get list of incidents (exclude soft-deleted)
@@ -91,10 +110,10 @@ export class IncidentService {
       deletedAt: null,
     };
 
-    if (filters?.type) {
+    if (filters?.type && VALID_INCIDENT_TYPES.has(filters.type)) {
       where.incident_type = filters.type;
     }
-    if (filters?.severity) {
+    if (filters?.severity && VALID_SEVERITIES.has(filters.severity)) {
       where.severity = filters.severity;
     }
 

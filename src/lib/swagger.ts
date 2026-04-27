@@ -174,6 +174,70 @@ export const swaggerOptions = {
             },
           },
         },
+        CreateIncidentRequest: {
+          type: 'object',
+          required: ['incident_type', 'severity'],
+          properties: {
+            incident_type: {
+              type: 'string',
+              enum: ['ransomware', 'phishing', 'ddos', 'data_loss', 'other'],
+              description: 'Incident classification type',
+            },
+            severity: {
+              type: 'string',
+              enum: ['critical', 'high', 'medium', 'low'],
+              description: 'Incident severity level',
+            },
+            erkennungszeitpunkt: {
+              type: 'string',
+              format: 'date-time',
+              description: 'Time incident was discovered/detected',
+            },
+            erkannt_durch: {
+              type: 'string',
+              description: 'Who/what detected the incident',
+            },
+            betroffene_systeme: {
+              type: 'array',
+              items: { type: 'string' },
+              description: 'List of affected systems/services',
+            },
+            erste_erkenntnisse: {
+              type: 'string',
+              description: 'Initial findings/observations',
+            },
+            q1: {
+              type: 'integer',
+              minimum: 0,
+              maximum: 1,
+              description: 'Classification question 1',
+            },
+            q2: {
+              type: 'integer',
+              minimum: 0,
+              maximum: 1,
+              description: 'Classification question 2',
+            },
+            q3: {
+              type: 'integer',
+              minimum: 0,
+              maximum: 1,
+              description: 'Classification question 3',
+            },
+            regulatorische_meldungen: {
+              type: 'object',
+              description: 'Regulatory notification deadlines',
+            },
+            metadata: {
+              type: 'object',
+              description: 'Custom metadata and tags',
+            },
+            playbook: {
+              type: 'object',
+              description: 'Playbook progress tracking',
+            },
+          },
+        },
         ErrorResponse: {
           type: 'object',
           properties: {
@@ -204,7 +268,7 @@ export const swaggerOptions = {
       },
     ],
   },
-  apis: ['./src/api/**/*.ts'], // Scan for JSDoc @swagger blocks
+  apis: ['./src/api/**/*.ts', './src/app/api/**/*.ts'], // Scan Express + App Router routes
 };
 
 export const swaggerSpec = swaggerJsdoc(swaggerOptions);

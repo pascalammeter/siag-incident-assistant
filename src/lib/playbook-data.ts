@@ -196,9 +196,12 @@ export const getPlaybook = (type: string): Playbook => {
       return IMPORTED_PHISHING_PLAYBOOK
     case 'ddos':
       return DDOS_PLAYBOOK
+    case 'data_loss':
+      return DATA_LOSS_PLAYBOOK
     case 'datenverlust':
       return DATA_LOSS_PLAYBOOK
     default:
+      console.warn(`[getPlaybook] Unknown incident type "${type}", falling back to ransomware playbook`)
       return RANSOMWARE_PLAYBOOK
   }
 }

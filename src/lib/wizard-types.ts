@@ -71,7 +71,7 @@ export type WizardAction =
   | { type: 'CONFIRM_NO_GO' }
   | { type: 'UPDATE_STEP'; stepKey: StepKey; data: unknown }
   | { type: 'RESET' }
-  | { type: 'HYDRATE'; data: WizardState }
+  | { type: 'HYDRATE'; data: Partial<WizardState> }
 
 export const MAX_STEP = 6
 export const MIN_STEP = 0

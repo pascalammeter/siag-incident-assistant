@@ -13,12 +13,13 @@ import { Step5Kommunikation } from './steps/Step5Kommunikation'
 import { Step6Dokumentation } from './steps/Step6Dokumentation'
 
 interface WizardShellProps {
+  incidentId?: string
   onComplete?: (state: WizardState) => void
 }
 
-export function WizardShell({ onComplete }: WizardShellProps) {
+export function WizardShell({ incidentId, onComplete }: WizardShellProps) {
   return (
-    <WizardProvider>
+    <WizardProvider incidentId={incidentId}>
       <WizardShellInner onComplete={onComplete} />
     </WizardProvider>
   )

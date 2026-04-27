@@ -1,13 +1,15 @@
-<!-- gsd:generated -->
 # Getting Started
 
 ## Prerequisites
 
-- **Node.js** 18 or later
-- **npm** (bundled with Node.js)
-- **Git**
+Before you begin, ensure you have:
+- **Node.js** 18+ and npm 9+
+- **PostgreSQL database** — Neon (recommended) or local PostgreSQL 15+
+- **API Key** — for testing authenticated routes
 
-## Clone and Install
+## Installation and Environment Setup
+
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/pascalammeter/siag-incident-assistant.git
@@ -15,66 +17,87 @@ cd siag-incident-assistant
 npm install
 ```
 
-## Run the Development Server
+### 2. Set Up Environment Variables
+
+Copy the example and configure for your environment:
+
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local` with your values:
+
+```env
+# Database configuration (get from Neon console at https://console.neon.tech)
+DATABASE_URL=postgresql://user:password@ep-xxxxx.neon.tech/siag_db?sslmode=require
+DIRECT_URL=postgresql://user:password@ep-xxxxx.neon.tech/siag_db?sslmode=require
+
+# API authentication
+API_KEY=sk_test_your_secret_key_here
+CORS_ORIGIN=http://localhost:3000
+
+# Node environment
+NODE_ENV=development
+```
+
+### 3. Neon Database Setup (if using Neon)
+
+1. Go to https://console.neon.tech and create a project
+2. Create a PostgreSQL database (default `neondb`)
+3. Copy the **Node.js connection string** from the dashboard
+4. Paste into `DATABASE_URL` and `DIRECT_URL` in `.env.local`
+
+### 4. Database Migrations and Seeding
+
+Initialize the database schema and seed with sample data:
+
+```bash
+# Run Prisma migrations (creates tables in your database)
+npm run prisma:migrate
+
+# (Optional) Seed database with sample incidents and users
+npm run prisma:seed
+```
+
+### 5. Start Development Server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser. The page hot-reloads on file changes.
+The app will be available at **http://localhost:3000**
 
-## Run the Tests
+### 6. Verify API Health
 
-```bash
-npm test
-```
-
-Runs all 74 tests via Vitest in watch mode. To run once without watch:
+Test the backend API is running:
 
 ```bash
-npx vitest run
+curl http://localhost:3000/api/health
+# Expected response: { "status": "ok" }
 ```
 
-## Build a Static Export
+### 7. Create Your First Incident
 
-```bash
-npm run build
-```
+Navigate to http://localhost:3000 and:
+1. Click **"Shit Happens"** button
+2. Enter incident details (timestamp, affected systems, type)
+3. Answer classification questions (severity, data impact)
+4. Review the incident summary
+5. Export as PDF (if PDF generation is enabled)
 
-Generates a static site in the `out/` directory. This is what Vercel deploys. To preview the build locally:
+## Troubleshooting
 
-```bash
-npx serve out
-```
+| Issue | Solution |
+|-------|----------|
+| `DATABASE_URL not found` | Ensure `.env.local` exists and has `DATABASE_URL` set |
+| `Connection refused` | Verify Neon credentials, check database is running |
+| `Migration failed` | Ensure `DIRECT_URL` is set (used by Prisma migrate) |
+| `API /health returns 500` | Check server logs, verify env vars are set |
+| `npm install fails` | Delete `node_modules` and `package-lock.json`, try again with `npm install --legacy-peer-deps` |
 
-## Using the Wizard
+## Next Steps
 
-The application is a 7-screen incident-response wizard (Step 0 = No-Go interstitial, Steps 1–6 = wizard flow):
-
-| Step | Screen | Purpose |
-|------|--------|---------|
-| 0 | Vorbereitung | Confirm No-Go rules before starting |
-| 1 | Einstieg | Incident acknowledgement ("Shit Happens" button) |
-| 2 | Erfassen | Capture incident details: timestamp, affected systems, type |
-| 3 | Klassifikation | Answer 3 triage questions → automatic severity (KRITISCH / HOCH / MITTEL) |
-| 4 | Reaktion | Work through the ransomware response playbook |
-| 5 | Kommunikation | Answer notification obligation questions; generate communication templates |
-| 6 | Dokumentation | View complete incident summary; print/export as PDF |
-
-**Recommended walkthrough (ca. 5–8 minutes):** Answer all three classification questions with "Ja" to trigger the KRITISCH path and see the full Swiss legal deadline display.
-
-State is automatically saved to `localStorage` and survives page refreshes. To start fresh, clear site data in your browser's developer tools.
-
-## Project Structure at a Glance
-
-```
-src/
-├── app/           — Next.js App Router entry (layout, page, styles)
-├── components/
-│   └── wizard/    — All wizard components (shell, steps, context)
-└── lib/           — Shared logic (types, schemas, playbook data, templates)
-docs/              — Project documentation
-.planning/         — GSD workflow state (phases, plans, requirements)
-```
-
-See [`docs/ARCHITECTURE.md`](ARCHITECTURE.md) for a full component and data-flow breakdown.
+- Read [ARCHITECTURE.md](ARCHITECTURE.md) to understand the system design
+- Check [DEVELOPMENT.md](DEVELOPMENT.md) for contributing and local development
+- Review [TESTING.md](TESTING.md) for running the test suite
+- Explore [API.md](API.md) for API endpoint documentation

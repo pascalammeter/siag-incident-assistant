@@ -22,6 +22,7 @@ export function Step6Dokumentation() {
   const { state, dispatch } = useWizard()
   const { createIncident, isLoading: isSaving } = useIncident()
   const [saveSuccess, setSaveSuccess] = useState(false)
+  const [savedIncidentId, setSavedIncidentId] = useState<string | null>(null)
 
   const erfassen = state.erfassen
   const klassifikation = state.klassifikation
@@ -50,6 +51,47 @@ export function Step6Dokumentation() {
     }
   }
 
+  const handleExport = async () => {
+    // If incident not yet saved, fall back to print
+    if (!savedIncidentId) {
+      handlePrint()
+      return
+    }
+
+    try {
+      // Get API key (same pattern as IncidentList)
+      const apiKey = localStorage.getItem('api_key') || process.env.NEXT_PUBLIC_API_KEY || ''
+
+      // Call PDF export route
+      const response = await fetch(`/api/incidents/${savedIncidentId}/export/pdf`, {
+        method: 'GET',
+        headers: { 'X-API-Key': apiKey },
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        showErrorToast(errorData.error || 'Export fehlgeschlagen')
+        return
+      }
+
+      // Download PDF
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `incident-${savedIncidentId}.pdf`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+
+      showSuccessToast('PDF erfolgreich exportiert')
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Export fehlgeschlagen'
+      showErrorToast(errorMsg)
+    }
+  }
+
   const handleSave = async () => {
     // Map wizard state to API input using existing migration mapper
     const input = mapIncidentState(state as unknown as LegacyWizardState)
@@ -59,7 +101,8 @@ export function Step6Dokumentation() {
     }
 
     try {
-      await createIncident(input)
+      const savedIncident = await createIncident(input)
+      setSavedIncidentId(savedIncident.id)
       setSaveSuccess(true)
       showSuccessToast('Incident erfolgreich gespeichert!')
       // Brief delay so user sees the success toast, then reset
@@ -387,10 +430,18 @@ export function Step6Dokumentation() {
         </div>
         <button
           type="button"
-          onClick={handlePrint}
-          className="bg-white text-navy px-4 py-3 rounded-lg text-sm font-medium min-h-[44px] hover:bg-gray-100 transition-colors print:hidden w-full sm:w-auto"
+          onClick={handleExport}
+          disabled={isSaving}
+          className="bg-white text-navy px-4 py-3 rounded-lg text-sm font-medium min-h-[44px] hover:bg-gray-100 transition-colors print:hidden w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 justify-center"
         >
-          Bericht für GL/VR exportieren (PDF)
+          {isSaving ? (
+            <>
+              <span className="inline-block w-4 h-4 border-2 border-navy/30 border-t-navy rounded-full animate-spin" />
+              Wird exportiert...
+            </>
+          ) : (
+            'Bericht für GL/VR exportieren (PDF)'
+          )}
         </button>
         <p className="text-xs text-white/60">
           Bereitschaft: 24/7 — Antwortzeit: &lt; 1 Stunde bei kritischen Vorfällen

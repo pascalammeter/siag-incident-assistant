@@ -9,13 +9,13 @@ dotenv.config({ path: '.env.local' })
 export default defineConfig({
   plugins: [react()],
   test: {
-    environment: 'jsdom',
+    environment: 'node', // Default to node to avoid jsdom/node Event class conflicts
     globals: true,
     testTimeout: 30000, // Increase timeout for Puppeteer PDF generation
+    hookTimeout: 60000, // Increase hook timeout for database operations
     exclude: ['**/node_modules/**', '**/.claude/worktrees/**'],
     environmentMatchGlobs: [
-      ['**/api/**', 'node'], // Use node environment for API tests
-      ['**/__tests__/**', 'jsdom'], // Use jsdom for UI tests
+      ['**/__tests__/**', 'jsdom'], // Use jsdom ONLY for UI component tests
     ],
     coverage: {
       provider: 'v8',

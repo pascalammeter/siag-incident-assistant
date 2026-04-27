@@ -13,6 +13,7 @@ import { FilterBar } from './FilterBar';
 import { IncidentTable } from './IncidentTable';
 import { EmptyState } from './EmptyState';
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner';
+import { showSuccessToast, showErrorToast } from '@/components/Toast';
 
 export function IncidentList() {
   const router = useRouter();
@@ -33,6 +34,7 @@ export function IncidentList() {
   const [sortBy, setSortBy] = useState<'date' | 'type' | 'severity'>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [localError, setLocalError] = useState<string | null>(null);
+  const [exportingId, setExportingId] = useState<string | null>(null);
 
   // Fetch incidents on filter/sort change
   useEffect(() => {
@@ -94,9 +96,46 @@ export function IncidentList() {
     router.push(`/wizard?incident=${id}`);
   };
 
-  const handleExportClick = (id: string) => {
-    // Phase 10 feature - stub for now
-    console.log('Export not yet implemented:', id);
+  const handleExportClick = async (id: string) => {
+    try {
+      setExportingId(id);
+
+      // Get API key from localStorage (same pattern as useIncident hook)
+      const apiKey = localStorage.getItem('api_key') || process.env.NEXT_PUBLIC_API_KEY || '';
+
+      // Call PDF export API endpoint
+      const response = await fetch(`/api/incidents/${id}/export/pdf`, {
+        method: 'GET',
+        headers: {
+          'X-API-Key': apiKey,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error((errorData as any).error || `HTTP ${response.status}`);
+      }
+
+      // Get PDF blob
+      const blob = await response.blob();
+
+      // Create download link and trigger download
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `incident-${id}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      showSuccessToast('PDF erfolgreich exportiert');
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to export PDF';
+      showErrorToast(`Export fehlgeschlagen: ${errorMsg}`);
+    } finally {
+      setExportingId(null);
+    }
   };
 
   const handleDeleteClick = async (id: string) => {
@@ -160,6 +199,7 @@ export function IncidentList() {
           </div>
           <IncidentTable
             incidents={incidents}
+            isExportingId={exportingId}
             onViewClick={handleViewClick}
             onExportClick={handleExportClick}
             onDeleteClick={handleDeleteClick}
