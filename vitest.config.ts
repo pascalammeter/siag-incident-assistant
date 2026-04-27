@@ -15,7 +15,9 @@ export default defineConfig({
     hookTimeout: 60000, // Increase hook timeout for database operations
     exclude: ['**/node_modules/**', '**/.claude/worktrees/**'],
     environmentMatchGlobs: [
-      ['**/__tests__/**', 'jsdom'], // Use jsdom ONLY for UI component tests
+      ['**/__tests__/**', 'jsdom'],
+      ['tests/components/**', 'jsdom'],
+      ['tests/hooks/**', 'jsdom'],
     ],
     coverage: {
       provider: 'v8',
