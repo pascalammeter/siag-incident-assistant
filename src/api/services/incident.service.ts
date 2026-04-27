@@ -110,10 +110,10 @@ export class IncidentService {
       deletedAt: null,
     };
 
-    if (filters?.type && VALID_INCIDENT_TYPES.has(filters.type)) {
+    if (filters?.type && (VALID_INCIDENT_TYPES as Set<string>).has(filters.type)) {
       where.incident_type = filters.type;
     }
-    if (filters?.severity && VALID_SEVERITIES.has(filters.severity)) {
+    if (filters?.severity && (VALID_SEVERITIES as Set<string>).has(filters.severity)) {
       where.severity = filters.severity;
     }
 
