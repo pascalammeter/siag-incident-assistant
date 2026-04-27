@@ -109,12 +109,12 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         return errorResponse('Failed to render incident data as PDF', 500);
       }
 
-      let pdfBuffer: Buffer;
+      let pdfBuffer: Uint8Array<ArrayBuffer>;
       try {
-        pdfBuffer = await page.pdf({
+        pdfBuffer = new Uint8Array(await page.pdf({
           format: 'A4',
           margin: { top: 20, right: 20, bottom: 20, left: 20 },
-        });
+        }));
       } catch (pdfError) {
         console.error('[PDF generation] Puppeteer PDF creation failed:', pdfError);
         return errorResponse('Failed to generate PDF document', 500);
@@ -127,7 +127,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       const contentDisposition = `attachment; filename="incident-${id}-${createdDate}.pdf"`;
 
       // Return binary PDF response with correct headers
-      return new Response(pdfBuffer, {
+      return new Response(new Blob([pdfBuffer], { type: 'application/pdf' }), {
         status: 200,
         headers: {
           'Content-Type': 'application/pdf',
